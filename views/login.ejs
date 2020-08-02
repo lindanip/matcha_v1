@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/javascripts/login1.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/stylesheets/login1.css">
+</head>
+<body>
+    <div class="form">
+        <h1 id="pagetitle">Login</h1>
+        <form method="POST" action="/login">
+            <label for="username">Enter Username</label>
+            <input type="text" name="username" required>
+
+            <label for="Password">Enter Password</label>
+            <input type="password" name="Password" required>
+            
+            <input type="text" name="socketid" id="socketid" style="display: none;">
+            
+            <button type="submit">Login</button>
+        </form>
+        <a href="/forgot" tabindex="4" id="forgot_link">Forgot Password?</a>
+        <a href="/register"><button id="register_link" tabindex="5">No Account? Click here</button></a>
+    </div>
+</body>
+</html>

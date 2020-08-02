@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/match_full_info.css">
+        <meta charset="UTF-8">
+        <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    </head>
+    <body>
+        <div class="header">
+            <a href="#default" class="logo"><img id="profile_pic" src=<%=user.profile_pic%>></a>
+            <div class="header-right">
+              <a  href="/">Home</a>
+              <a href="/My_pictures">My Pictures</a>
+              <a href="/connection_requests">Connection Requests</a>
+              <a class="active" href="/search_match">Find Your Match</a>
+              <a href="/settings">Settings</a>
+              <a href="/logout">Log out</a>
+            </div>
+        </div>
+        <div class="main">
+        <%
+            if (user.complete == 0)
+            {
+            %>
+                <h1 id="not_complete">Your Profile is incomplete, most features will be locked. Got to the settings page to complete your profile. When you reach the settings page,<br>
+                    1. Complete the form where it says additional information</h1>
+                    <br>
+                <a href="/settings"><button style="height: 30px; width: 300px; font-size: 20px; text-align: center; border-radius: 10px 10px; border: 3px solid gold;">Click Here to go to settings</button></a>
+            <%
+            }
+            else
+            {
+            %>
+            <h1 id="pagetitle">Potential match profile</h2>
+                <div class="show_info">
+                    <img src=<%=match_info.profile_pic%> width="300px" height="300px">
+                    <%
+                        if (match_info.pic == 0)
+                        {
+                        %>
+                            <h2>Upload and set a profile picture to like this user</h2>
+                        <%
+                        }
+                        if (connected == 0 && match_info.pic != 0) 
+                        {
+                        %>
+                            <form action="/add_connection" method="POST">
+                                <input type="hidden" name="match_username" value=<%=match_info.username%>>
+                                <button type="submit" name="btnAddLike" style="color: green;">Send connection request</button>
+                            </form>
+                            <br>
+                        <%
+                        }
+                        else if (connected == 1)
+                        {
+                        %>
+                            <form action="/delete_connection" method="POST">
+                                <input type="hidden" name="match_username" value=<%=match_info.username%>>
+                                <button type="submit" name="btnDeleteLike" style="color: red;">Remove Connection</button>
+                            </form>
+                            <br>
+                        <%
+                        }
+                    %>
+                    <%
+                        if (blocked == 0) 
+                        {
+                        %>
+                            <form action="/block_user" method="POST">
+                                <input type="hidden" name="match_username" value=<%=match_info.username%>>
+                                <button type="submit" name="btnAddLike" style="color: green;">Request to block user</button>
+                            </form>
+                        <%
+                        }
+                        else if (blocked == 1)
+                        {
+                        %>
+                            
+                        <%
+                        }
+                    %>
+                    <h2 id="label_names"><%=match_info.firstname%> <%=match_info.lastname%></h2>
+                    <h2 id="label_fame_rating">Fame Rating: <%=match_info.fame_rating%></h2>
+                    <h2 id="label_age"><%=match_info.age%> Years old</h2>
+                    <h2 id="label_gender">Gender: <%=match_info.gender%></h2>
+                    <h2 id="label_orientation">Sexual Preference: <%=match_info.orientation%></h2>
+                    <h2 id="label_interests">Interests are <br><%=match_info.hobby1%> <br><%=match_info.hobby2%> <br><%=match_info.hobby3%> <br><%=match_info.hobby4%> <br><%=match_info.hobby5%> </h2>
+                    <h2 id="label_distance">Distance from me: <%=match_info.distance%></h2>
+                    <h2 id="label_bio">Biography <br><%=match_info.bio%></h2>
+                    <h2 id="label_bio">Last seen: <%=match_info.last_seen%></h2>
+                </div>
+                <%
+                    if (connected == 1)
+                    {
+                    %>
+                        <div class="chat_div">
+                            <h1>Chat to <%=match_info.username%></h1>
+                            <form action="/chat" method="POST">
+                                <input type="hidden" name="match_username" value=<%=match_info.username%>>
+                                <button type="submit">Go to chat page</button>
+                            </form>
+                        </div>
+                    <%
+                    }
+                    else
+                    {
+                    %>
+                        <div class="chat_div">
+                            <h1>You are not connected to <%=match_info.username%> <br>Connect in order to access the chat system</h1>
+                        </div>
+                    <%
+                    }
+            }
+        %>
+        </div>
+    </body>
+</html>

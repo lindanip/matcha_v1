@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/register.css">
+</head>
+<body>
+    <div class="form">
+        <h1 id="pagetitle">Register</h1>
+        <form method="POST" action="/register" autocomplete="off">
+            <% 
+                if (error != 'non'){
+            %>
+                <span id="error"><%=error%></span>
+            <% } %>
+            <label for="username">Enter Username</label>
+            <input type="text" name="username" required>
+
+            <label for="firstname">Enter Firstname</label>
+            <input type="text" name="firstname" required>
+            
+            <label for="lastname">Enter Lastname</label>
+            <input type="text" name="lastname" required>
+
+            <label for="age">Enter Age</label>
+            <input type="number" name="age" required>
+
+            <label for="email">Enter Email</label>
+            <input type="email" name="email" required>
+
+            <label for="password">Enter Password</label>
+            <input type="password" name="password" required autocomplete="new-password">
+
+            <label for="vPassword">Verify Password</label>
+            <input type="password" name="vPassword" required>
+
+            <button type="submit">Login</button>
+        </form>
+        <a href="/forgot" tabindex="4" id="forgot_link">Forgot Password?</a>
+    </div>
+</body>
+</html>
+
+
+<!-- <head>
+    <script src="/javascript/register.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/register.css">
+</head>
+<body>
+    <br>
+    <div class="bg-image"></div>
+    <div class="main">
+        <h2 id="pagetitle">Register Page</h2>
+        <div class="form">
+            <form method="POST" action="/register">
+                <label id="label_username" for="username">Enter Username</label>
+                <input id="username" type="text" placeholder="Enter your username" name="username" tabindex="1" required>
+                <br>
+                <label id="label_firstname" for="Firstname">Enter Firstname</label>
+                <input id="Firstname" type="text" placeholder="Enter firstname" name="Firstname" required tabindex="2">
+                <br>
+                <label id="label_lastname" for="Lastname">Enter Lastname</label>
+                <input id="Lastname" type="text" placeholder="Enter Lastname" name="Lastname" required tabindex="3">
+                <br>
+                <label id="label_age" for="Age">Enter Age</label>
+                <input id="Age" type="number" placeholder="Enter Age" name="Age" required tabindex="4">
+                <br>
+                <label id="label_email" for="Email">Enter Email</label>
+                <input id="Email" type="email" placeholder="Enter Email" name="Email" required tabindex="5">
+                <br>
+                <label id="label_password" for="Password">Enter Password</label>
+                <input id="Password" type="password" placeholder="Enter your password" name="Password" tabindex="6" required>
+                <br>
+                <label id="label_vpassword" for="vPassword">Enter Password</label>
+                <input id="vPassword" type="password" placeholder="Confirm password" name="vPassword" tabindex="7" required>
+                <br>
+                <button type="submit" id="btnSubmit" tabindex="8">Register</button>
+            </form>
+        </div>
+    </div>
+</body> -->

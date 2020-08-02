@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="/javascripts/settings.js"></script>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/settings.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+        <meta charset="UTF-8">
+        <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    </head>
+    <body>
+        <div class="bg-image"></div>
+        <div class="header">
+            <a href="#default" class="logo"><img id="profile_pic" src=<%= user.profile_pic%>></a>
+            <div class="header-right">
+              <a  href="/">Home</a>
+              <a href="/My_pictures">My Pictures</a>
+              <a href="/chats">Chats</a>
+              <a href="/connection_requests">Connection Requests</a>
+              <a href="/search_match">Find Your Match</a>
+              <a class="active" href="/settings">Settings</a>
+              <a href="/logout">Log out</a>
+            </div>
+        </div>
+        <div class="main">
+            <h2 id="pagetitle">Update your details</h2>
+            <form class="info_class" method="POST" action="/settings">
+                <div class="div_username">
+                    <label id="label_username" for="username">Enter Username</label>
+                    <input id="username" type="text" placeholder="Enter your username" name="username" value= '<%=user.username %>' tabindex="1" minlength="3" maxlength="15" required>
+                </div>
+                <div class="div_firstname">
+                    <label id="label_firstname" for="Firstname">Enter Firstname</label>
+                    <input id="Firstname" type="text" placeholder="Enter firstname" name="Firstname" value= '<%=user.Firstname %>' required minlength="3" maxlength="15" tabindex="2">
+                </div>
+                <div class="div_lastname">
+                    <label id="label_lastname" for="Lastname">Enter Lastname</label>
+                    <input id="Lastname" type="text" placeholder="Enter Lastname" name="Lastname" value= '<%=user.Lastname %>' required minlength="3" maxlength="15" tabindex="3">
+                </div>
+                <div class="div_email">
+                    <label id="label_email" for="Email">Enter Email</label>
+                    <input id="Email" type="email" placeholder="Enter Email" name="Email" value= '<%=user.Email %>' required tabindex="4">
+                </div>
+                <br>
+                <button type="submit" id="btnSubmit" tabindex="5">Update details</button>
+            </form>
+            <form class="pass_class" method="POST" action="/settings">
+                <h3 id="reset">Change your password</h3>
+                <div class="div_password">
+                    <label id="label_Password" for="Password">Enter password</label>
+                    <input id="Password" type="password" placeholder="Enter new password" name="Password" tabindex="6" required minlength="5" maxlength="20" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 5 or more characters">
+                </div>
+                <div class="div_vpassword">
+                    <label id="label_vPassword" for="vPassword">Confirm Password</label>
+                    <input id="vPassword" type="password" placeholder="Confirm password" name="vPassword" tabindex="7" required minlength="5" maxlength="20" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 5 or more characters">
+                </div>
+                <button type="submit" id="btnSubmit" tabindex="8">Update password</button>
+            </form>
+            
+            <form class="update_interests" method="POST" action="/settings">
+                <div class="hobby1_div">
+                    <label for="hobby1" id="hobby1_label" tabindex="1">Choose 1st Hobby</label>
+                    <input type="text" name="hobby1" tabindex="2" placeholder="None" value="None">
+              
+                </div>
+        
+                <div class="hobby2_div">
+                    <label for="hobby2" id="hobby2_label" tabindex="3">Choose 2nd Hobby</label>
+                    <input type="text" name="hobby2" tabindex="2" placeholder="None" value="None">
+                 
+                </div>
+    
+                <div class="hobby3_div">
+                    <label for="hobby3" id="hobby3_label" tabindex="5">Choose 3rd Hobby</label>
+                    <input type="text" name="hobby3" tabindex="2" placeholder="None" value="None">
+                 
+                </div>
+                <br>
+    
+                <div class="hobby4_div">
+                    <label for="hobby4" id="hobby4_label" tabindex="7">Choose 4th Hobby</label>
+                    <input type="text" name="hobby4" tabindex="2" placeholder="None" value="None">
+                   
+                </div>
+                
+    
+                <div class="hobby5_div">
+                    <label for="hobby5" id="hobby5_label" tabindex="9">Choose 5th Hobby</label>
+                    <input type="text" name="hobby5" tabindex="2" placeholder="None" value="None">
+                   
+                </div>
+    
+                <div class="button_hobby">
+                    <button type="submit" id="hobby_submit" tabindex="11">Update interests</button>
+                </div>
+            </form>
+            <div class="div_location">
+                <!-- <button id="btnLocation" onclick="getLocation()">Get current Location</button>
+                <p id="demo">Display results here -->
+                </p>
+                <form class="location_result" method="POST" action="/settings">
+                    <input type="hidden" name="Longitude" id="Longitude" value="20">
+                    <input type="hidden" name="Latitude" id="Latitude" value="20">
+                    <button id="btnSubmit" type="submit">Update Location</button>
+                </form>
+            </div>
+            <br>
+            <div class="additional_class">
+                <form class="additional_bio" method="POST" action="/settings">
+                    <h3 id="heading_additional">Enter additional information</h3>
+                    <div class="div_gender">
+                        <label id="label_gender" for="gender">Enter gender(first letter uppercase)</label>
+                        <input id="gender" type="text" placeholder="lower_case" name="Gender" required tabindex="4">
+                    </div>
+                    <div class="div_orientation">
+                        <label id="label_orientation" for="Orientation">Sexual preference?</label>
+                        <br>
+                        <input type="radio" id="male" name="Orientation" value="male" tabindex="9" required>
+                        <label for="male">Male</label><br>
+                        <input type="radio" id="female" name="Orientation" value="female" tabindex="10" required>
+                        <label for="female">Female</label><br>
+                        <input type="radio" id="lesbian" name="Orientation" value="lesbian" tabindex="11" required>
+                        <label for="lesbian">Lesbian</label><br>
+                        <input type="radio" id="Gay" name="Orientation" value="gay" tabindex="12" required>
+                        <label for="gay">Gay</label>
+                        <br>
+                    </div>
+                    <label id="label_bio" for="Bio">Tell us a little about yourself</label>
+                    <br>
+                    <textarea id="Bio" name="Bio" placeholder="Tell us about yourself" tabindex="13" required></textarea>
+                    <br>
+                    <button type="submit" id="btnOrientation" tabindex="14">Add additional info</button>
+                </form>
+            </div>
+        </div>
+        <%
+            if (complete == 1)
+            {
+            %>
+                <script>
+                    alert("You have completed your profile. WELCOME TO MATCHA (^_^)/");
+                </script>
+            <%
+            }
+        %>
+    </body>
+</html>

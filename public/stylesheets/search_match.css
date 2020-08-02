@@ -1,0 +1,27 @@
+.main {
+    background-color: rgb(94, 100, 4);
+    background-color: rgba(80, 79, 4, 0.6);
+    color: black;
+    border: 8px solid gold;
+    margin-top: 210px;
+    border-radius: 15px 15px;
+    width: 90%;
+    /* height: 100%; */
+    /* top: 50%;
+    left: 50%;
+    transform: translate(-50%,-13%); */
+    padding: 20px;
+    position: absolute;
+    color: white;
+    text-align: center;
+}
+
+.result_div {
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: 8px solid gold;
+    border-radius: 15px 15px;
+    margin: auto;
+    width: 90%;
+}

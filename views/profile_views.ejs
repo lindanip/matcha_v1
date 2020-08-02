@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/profile_views.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+        <meta charset="UTF-8">
+        <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    </head>
+    <body>
+      <div class="bg-image"></div>
+      <div class="header">
+        <a href="#default" class="logo"><img id="profile_pic" src=<%= user.profile_pic%>></a>
+        <div class="header-right">
+          <a class="active" href="/">Home</a>
+          <a href="/My_pictures">My Pictures</a>
+          <a href="/view_requests">Connection Requests</a>
+          <a href="/search_match">Find Your Match</a>
+          <a href="/settings">Settings</a>
+          <a href="/logout">Log out</a>
+        </div>
+      </div>
+      <div class="main">
+            <%
+                if (views == "none")
+                {
+                %>
+                    <h1>No one has viewed your profile yet.</h1>
+                <%
+                }
+                else
+                {
+                    var x = 0;
+                    while (views[x])
+                    {
+                        let view_username = views[x].visitor;
+                        let view_fame_rating = views[x].fame_rating;
+                        let view_profile_pic = views[x].profile_pic;
+                        let view_firstname = views[x].Firstname;
+                        let view_lastname = views[x].Lastname;
+                        let view_age = views[x].Age;
+                        let view_hobby1 = views[x].Hobby1;
+                        let view_hobby2 = views[x].Hobby2;
+                        let view_hobby3 = views[x].Hobby3;
+                        let view_hobby4 = views[x].Hobby4;
+                        let view_hobby5 = views[x].Hobby5;
+                        let view_orientation = views[x].Orientation;
+                        let view_bio = views[x].Bio
+                        %>
+                        <div class="show_div">
+                            <img src=<%=view_profile_pic%> width="100px" height="100px">
+                            <h3 id="label_view_names"><%=view_firstname%> <%=view_lastname%></h3>
+                            <h3>Age: <%=view_age%></h3>
+                            <h3>Orientation: <%=view_orientation%></h3>
+                            <h3>Interests Are:<br> <%=view_hobby1%> <br> <%=view_hobby2%> <br> <%=view_hobby3%> <br> <%=view_hobby4%> <br> <%=view_hobby5%></h3>
+                            <h3>Biography: <br> <%=view_bio%></h3>
+                            <form action="/match_full_info" method="POST">
+                                <input type="hidden" name="match_profilepic" value=<%=view_profile_pic%>>
+                                <input type="hidden" name="match_fame_rating" value=<%=view_fame_rating%>>
+                                <input type="hidden" name="match_firstname" value=<%=view_firstname%>>
+                                <input type="hidden" name="match_lastname" value=<%=view_lastname%>>
+                                <input type="hidden" name="match_username" value=<%=view_username%>>
+                                <input type="hidden" name="match_age" value=<%=view_age%>>
+                                <input type="hidden" name="match_orientation" value=<%=view_orientation%>>
+                                <input type="hidden" name="match_hobby1" value=<%=view_hobby1%>>
+                                <input type="hidden" name="match_hobby2" value=<%=view_hobby2%>>
+                                <input type="hidden" name="match_hobby3" value=<%=view_hobby3%>>
+                                <input type="hidden" name="match_hobby4" value=<%=view_hobby4%>>
+                                <input type="hidden" name="match_hobby5" value=<%=view_hobby5%>>
+                                <input type="hidden" name="match_bio" value=<%=view_bio%>>
+                                <button type="submit" id="profile_choose">View Profile</button>
+                            </form>
+                        </div>
+                        <%
+                        x++;
+                    }
+                }
+            %>
+      </div>
+    </body> 
+</html>

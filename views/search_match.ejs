@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/search_match.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+        <meta charset="UTF-8">
+        <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    </head>
+    <body>
+        <div class="header">
+            <a href="#default" class="logo"><img id="profile_pic" src=<%=user.profile_pic%>></a>
+            <div class="header-right">
+              <a  href="/">Home</a>
+              <a href="/My_pictures">My Pictures</a>
+              <a href="/chats">Chats</a>
+              <a href="/connection_requests">Connection Requests</a>
+              <a class="active" href="/search_match">Find Your Match</a>
+              <a href="/settings">Settings</a>
+              <a href="/logout">Log out</a>
+            </div>
+        </div>
+        <div class="main">
+        
+            <h1 id="pagetitle">Find your match</h2>
+            <form class="add_filters" method="POST" action="/search_match">
+                <div class="filter1_div">
+                    <label for="filter1" id="filter1_label" tabindex="1">Filter by Age</label>
+                    <select id="filter1" name="filter1" tabindex="2" aria-placeholder=<%=filters.filter1%>>
+                        <option value="None">None</option>
+                        <option value="18-19">18 to 19</option>
+                        <option value="20-25">20 to 25</option>
+                        <option value="25-30">25 to 30</option>
+                        <option value="30-35">30 to 35</option>
+                        <option value="35-40">35 to 40</option>
+                        <option value="40-45">40 to 45</option>
+                        <option value="45-50">45 to 50</option>
+                        <option value="50-older">50 and older</option>
+                    </select>
+                </div>
+                <div class="filter2_div">
+                    <label for="filter2" id="filter2_label" tabindex="3">Filter by Orientation</label>
+                    <select id="filter2" name="filter2" tabindex="4" aria-placeholder=<%=filters.filter2%>>
+                        <option value="None">None</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Gay">Gay</option>
+                        <option value="Lesbian">Lesbian</option>
+                    </select>
+                </div>
+
+                <div class="filter3_div">
+                    <label for="filter3" id="filter3_label" tabindex="5">Filter by hobby</label>
+                    <input type="text" name="filter3" tabindex="2" placeholder="None" value="None">
+                </div>
+
+                <div class="button_filter">
+                    <button type="submit" id="filter_submit" tabindex="11">Search with filters</button>
+                </div>
+            </form>
+            <br>
+            <br>
+            <%
+                var x = 0;
+                while (results[x]) {
+                    let match_username = results[x].username;
+                    let match_fame_rating = results[x].fame_rating;
+                    let match_firstname = results[x].Firstname;
+                    let match_lastname = results[x].Lastname;
+                    let match_age = results[x].Age;
+                    let match_orientation = results[x].Orientation;
+                    let match_gender = results[x].Gender;
+                    let match_bio = results[x].Bio;
+                    let match_profilepic = results[x].profile_pic;
+                    let match_hobby1 = results[x].Hobby1;
+                    let match_hobby2 = results[x].Hobby2;
+                    let match_hobby3 = results[x].Hobby3;
+                    let match_hobby4 = results[x].Hobby4;
+                    let match_hobby5 = results[x].Hobby5;
+                    let match_distance = distance[x];
+                    let match_last_seen = results[x].last_seen;
+                %>
+                    <div class="result_div">
+                        <form action="/match_full_info" method="POST">
+                            <img src=<%=match_profilepic%> width="300px" height="300px">
+                            <input type="hidden" name="match_profilepic" value=<%=match_profilepic%>>
+                            <input type="hidden" name="match_firstname" value=<%=match_firstname%>>
+                            <input type="hidden" name="match_lastname" value=<%=match_lastname%>>
+                            <br>
+                            <h2 id="label_username">Username: <%=match_username%></h2>
+                            <input type="hidden" name="match_username" value=<%=match_username%>>
+                            <h2 id="label_fame_rating">Fame rating: <%=match_fame_rating%></h2>
+                            <input type="hidden" name="match_fame_rating" value=<%=match_fame_rating%>>
+                            <input type="hidden" name="match_last_seen" value=<%=match_last_seen%>>                        
+                            <h2 id="label_age">Age: <%=match_age%></h2>
+                            <input type="hidden" name="match_age" value=<%=match_age%>>
+                
+                            <h2 id="label_orientation">Sexual Preference: <%=match_orientation%></h2>
+                            <input type="hidden" name="match_orientation" value=<%=match_orientation%>>
+                            <input type="hidden" name="match_gender" value=<%=match_gender%>>
+
+                            <h2 id="label_hobby1">Hobbies: <br><%=match_hobby1%>, <%=match_hobby2%>, <%=match_hobby3%>, <%=match_hobby4%>, <%=match_hobby5%></h2>
+                            <input type="hidden" name="match_hobby1" value=<%=match_hobby1%>>
+                            <input type="hidden" name="match_hobby2" value=<%=match_hobby2%>>
+                            <input type="hidden" name="match_hobby3" value=<%=match_hobby3%>>
+                            <input type="hidden" name="match_hobby4" value=<%=match_hobby4%>>
+                            <input type="hidden" name="match_hobby5" value=<%=match_hobby5%>>
+
+                            <h2 id="label_distance">Distance from me: <%=match_distance%></h2>
+                            <input type="hidden" name="match_distance" value=<%=match_distance%>>
+                            
+                            <h2 id="label_bio">Biography: <br> <%=match_bio%></h2>
+                            <input type="hidden" name="match_bio" value=<%=match_bio%>>
+                            <button type="submit" id="profile_choose">View Profile</button>
+                        </form>
+                    </div>
+                <%
+                    x++;
+                }
+            %>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/all_users.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+        <meta charset="UTF-8">
+        <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    </head>
+    <body>
+        <div class="bg-image"></div>
+        <div class="header">
+            <a href="#default" class="logo"><img id="profile_pic" src=<%= user.profile_pic%>></a>
+        <div class="header-right">
+          <a href="/admin_index">Home</a>
+          <a class="active" href="/all_users">All users</a>
+          <a href="/block_requests">block Requests</a>
+          <a href="/logout">Log out</a>
+        </div>
+        </div>
+        <div class="main">
+            <div class="div_users">
+            <%
+                if (result == "none")
+                {
+                %>
+                    <h3>No users ...</h3>
+                <%
+                }
+                else
+                {
+                    var x = 0;
+                    while (result[x])
+                    {
+                        let result_username = result[x].connected_to;
+                        let result_profile_pic = result[x].profile_pic;
+                        let result_firstname = result[x].Firstname;
+                        let result_lastname = result[x].Lastname;
+                        let result_age = result[x].Age;
+                        let result_hobby1 = result[x].Hobby1;
+                        let result_hobby2 = result[x].Hobby2;
+                        let result_hobby3 = result[x].Hobby3;
+                        let result_hobby4 = result[x].Hobby4;
+                        let result_hobby5 = result[x].Hobby5;
+                        let result_orientation = result[x].Orientation;
+                        let result_bio = result[x].Bio
+                        %>
+                        <div class="single">
+                            <img src=<%=result_profile_pic%> width="100px" height="100px">
+                            <h3 id="label_result_names"><%=result_firstname%> <%=result_lastname%></h3>
+                            <h3 id="label_result_age">Age: <%=result_age%></h3>
+                            <h3 id="label_result_orientation">Orientation: <%=result_orientation%></h3>
+                            <form action="/user_full_info" method="POST">
+                                <input type="hidden" name="user_profilepic" value=<%=result_profile_pic%>>
+                                <input type="hidden" name="user_firstname" value=<%=result_firstname%>>
+                                <input type="hidden" name="user_lastname" value=<%=result_lastname%>>
+                                <input type="hidden" name="user_username" value=<%=result_username%>>
+                                <input type="hidden" name="user_age" value=<%=result_age%>>
+                                <input type="hidden" name="user_orientation" value=<%=result_orientation%>>
+                                <input type="hidden" name="user_hobby1" value=<%=result_hobby1%>>
+                                <input type="hidden" name="user_hobby2" value=<%=result_hobby2%>>
+                                <input type="hidden" name="user_hobby3" value=<%=result_hobby3%>>
+                                <input type="hidden" name="user_hobby4" value=<%=result_hobby4%>>
+                                <input type="hidden" name="user_hobby5" value=<%=result_hobby5%>>
+                                <input type="hidden" name="user_bio" value=<%=result_bio%>>
+                                <button type="submit" id="profile_choose">View Profile</button>
+                            </form>
+                        </div>
+                        <%
+                        x++;
+                    }
+                }
+            %>
+            </div>
+        </div>
+    </body>
+</html>

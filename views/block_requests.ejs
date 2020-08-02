@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/block_requests.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+        <meta charset="UTF-8">
+        <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    </head>
+    <body>
+        <div class="bg-image"></div>
+        <div class="header">
+            <a href="#default" class="logo"><img id="profile_pic" src=<%= user.profile_pic%>></a>
+        <div class="header-right">
+            <a href="/admin_index">Home</a>
+            <a href="/all_users">All users</a>
+            <a class="active" href="/block_requests">block Requests</a>
+            <a href="/logout">Log out</a>
+        </div>
+        </div>
+        <div class="main">
+            <h1 id="pagetitle">User block requests</h2>
+                <%
+                if (blocker == "none" && blockee == "none")
+                {
+                %>
+                    <h2>There are no block requests ...</h2>
+                <%
+                }
+                else
+                {
+                    var x = 0;
+                    while (blocker[x])
+                    {
+                        let block_reason = blocker[x].reason;
+                        let blocker_username = blocker[x].username;
+                        let blocker_firstname = blocker[x].Firstname;
+                        let blocker_lastname = blocker[x].Lastname;
+                        let blocker_profile_pic = blocker[x].profile_pic;
+                        let blocker_age = blocker[x].Age;
+                        let blocker_orientation = blocker[x].Orientation;
+                        let blocker_bio = blocker[x].Bio
+                        let blockee_username = blockee[x].username;
+                        let blockee_firstname = blockee[x].Firstname;
+                        let blockee_lastname = blockee[x].Lastname;
+                        let blockee_profile_pic = blockee[x].profile_pic;
+                        let blockee_age = blockee[x].Age;
+                        let blockee_orientation = blockee[x].Orientation;
+                        let blockee_bio = blockee[x].Bio
+                        %>
+                        <div class="block_div">
+                            <img src=<%=blocker_profile_pic%> width="100px" height="100px">
+                            <h3 id="label_blocker_names"><%=blocker_firstname%> <%=blocker_lastname%></h3>
+                            <h1 class="label">Wishes to block</h1>
+                            <img src=<%=blockee_profile_pic%> width="100px" height="100px">
+                            <h3 id="label_blockee_names"><%=blockee_firstname%> <%=blockee_lastname%></h3>
+                            <h1 class="label">Reason for blocking</h1>       
+                            <h3><%=block_reason%></h3>
+                            <form action="/accept_block" method="POST">
+                                <input type="hidden" name="blocker_username" value=<%=blocker_username%>>
+                                <input type="hidden" name="blockee_username" value=<%=blockee_username%>>
+                                <button type="submit" id="profile_choose" style="color: green;">Accept Block request</button>
+                            </form>
+                            <form action="/decline_block" method="POST">
+                                <input type="hidden" name="blocker_username" value=<%=blocker_username%>>
+                                <input type="hidden" name="blockee_username" value=<%=blockee_username%>>
+                                <button type="submit" id="profile_choose" style="color: red;">Refuse Block request</button>
+                            </form>
+                        </div>
+                        <%
+                        x++;
+                    }
+                }
+            %>
+        </div>
+    </body>
+</html>

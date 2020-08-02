@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/admin_index.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+        <meta charset="UTF-8">
+        <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    </head>
+    <body>
+        <div class="bg-image"></div>
+        <div class="header">
+            <a href="#default" class="logo"><img id="profile_pic" src=<%= user.profile_pic%>></a>
+        <div class="header-right">
+          <a class="active" href="/admin_index">Home</a>
+          <a href="/all_users">All users</a>
+          <a href="/block_requests">block Requests</a>
+          <a href="/logout">Log out</a>
+        </div>
+        </div>
+        <div class="main">
+            <div class="goto_allUsers">
+                <h1 id="users_title"> View all users</h1>
+                <a href="/all_users"><button class="btn_allUsers">View Users</button></a>
+            </div>
+            <div class="goto_blockRequests">
+                <h1 id="users_title"> View Block Requests</h1>
+                <a href="/block_requests"><button class="btn_blockRequests">View Block Requests</button></a>
+            </div>
+        </div>
+    </body>
+</html>

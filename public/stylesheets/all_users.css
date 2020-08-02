@@ -1,0 +1,29 @@
+.main {
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: black;
+    border: 8px solid gold;
+    border-radius: 15px 15px;
+    margin-top: 210px;
+    width: 90%;
+    /* height: 670px; */
+    /* top: 50%;
+    left: 50%; */
+    /* transform: translate(-50%,-13%); */
+    padding: 20px;
+    position: absolute;
+    color: white;
+    text-align: center;
+}
+.single {
+    width: 300px;
+    height: 300px;
+    border: 10px solid gold;
+}
+
+.div_users {
+    display: flex;
+    flex-wrap: wrap;
+    border: 10px solid white;
+    text-align: center;
+}

@@ -1,0 +1,507 @@
+.main {
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: black;
+    border: 8px solid gold;
+    border-radius: 15px 15px;
+    width: 800px;
+    height: 670px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-13%);
+    padding: 20px;
+    position: absolute;
+    color: white;
+}
+
+.bg-image
+{
+    background-image: url('/images/beach.jpg');
+    width: 100%;
+    height: 900px;
+    filter: blur(3px);
+    -webkit-filter: blur(3px);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#pagetitle {
+    text-align: left;
+}
+
+.additional_class {
+    float: right;
+    border: 2px solid gold;
+    text-align: center;
+    margin-top: 1px;
+    width: 50%;
+    height: 510px;
+}
+.info_class {
+    float: left;
+    border: 2px solid gold;
+    width: 48%;
+    height: 180px;
+    padding-top: 20px;
+}
+.pass_class {
+    float: left;
+    border: 2px solid gold;
+    width: 46%;
+    position: absolute;
+    margin-top: 230px;
+    height: 180px;
+}
+.div_location {
+    float: right;
+    border: 2px solid gold;
+    width: 46%;
+    /* position: absolute; */
+    height: 120px;
+    /* margin-top: -27px; */
+    text-align: center;
+}
+#demo {
+    margin-top: -2px;
+}
+
+/* .div_location {
+    margin-top: -30px;
+    float: right;
+} */
+#label_location {
+    font-size: 28px;
+}
+#btnLocation {
+    margin-top: 10px;
+    height: 30px;
+    width: 300px;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 10px 10px;
+    border: 3px solid gold;
+}
+#heading_additional {
+    font-size: 28px;
+}
+
+#label_orientation {
+    font-size: 20px;
+}
+.div_orientation {
+    margin-bottom: 20px;
+}
+#male {
+    margin-bottom: 10px;
+}
+#female {
+    margin-bottom: 10px;
+}
+#lesbian {
+    margin-bottom: 10px;
+}
+#gay {
+    margin-bottom: 10px;
+}
+#bio {
+    width: 90%;
+    height: 200px;
+}
+#btnOrientation {
+    margin-top: 20px;
+    height: 30px;
+    width: 300px;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 10px 10px;
+    border: 3px solid gold;
+}
+
+#reset {
+    text-align: center;
+}
+
+#label_username {
+    font-size: 20px;
+}
+#username {
+    float: right;
+    width: 240px;
+}
+#label_firstname {
+    font-size: 20px;
+}
+#Firstname {
+    float: right;
+    width: 240px;
+}
+#label_lastname {
+    font-size: 20px;
+    margin-bottom: -2opx;
+}
+#Lastname {
+    float: right;
+    width: 240px;
+}
+#label_email {
+    font-size: 20px;
+}
+#Email {
+    float: right;
+    width: 240px;
+}
+#label_Password {
+    font-size: 20px;
+}
+#Password {
+    float: right;
+    width: 240px;
+}
+#label_vPassword {
+    font-size: 18px;
+}
+#vPassword {
+    float: right;
+    width: 240px;
+}
+
+#btnSubmit {
+    margin-top: 15px;
+    margin-left: 60px;
+    height: 30px;
+    width: 300px;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 10px 10px;
+    border: 3px solid gold;
+}
+.div_username {
+    margin-bottom: 5px;
+    margin-top: -10px;
+}
+.div_firstname {
+    margin-bottom: 5px;
+}
+.div_lastname {
+    margin-bottom: 5px;
+}
+.div_email {
+    margin-bottom: 5px;
+}
+.div_password {
+    margin-bottom: 5px;
+}
+.div_vpassword {
+    margin-bottom: 5px;
+}
+
+.update_interests {
+    float: left;
+    border: 2px solid gold;
+    width: 46%;
+    position: absolute;
+    margin-top: 420px;
+    height: 180px;
+}
+
+.hobby1_div {
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+#hobby1 {
+    float: right;
+}
+#hobby1_label {
+    float: left;
+}
+
+.hobby2_div {
+    margin-top: 5px;
+    margin-left: 10px;
+}
+.hobby3_div {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+.hobby4_div {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+.hobby5_div {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+#hobby2 {
+    float: right;
+}
+#hobby2_label {
+    float: left;
+}
+
+#hobby3 {
+    float: right;
+}
+#hobby3_label {
+    float: left;
+}
+
+#hobby4 {
+    float: right;
+}
+#hobby4_label {
+    float: left;
+}
+
+#hobby5 {
+    float: right;
+}
+#hobby5_label {
+    float: left;
+}
+
+.button_hobby {
+    text-align: center;
+    margin-top: 10px;
+}
+
+/*-------------------------------------------------------*/
+@media screen and (max-width: 880px) {
+    .main {
+        width: 700px;
+    }
+    #label_username {
+        font-size: 15px;
+    }
+    #username {
+        float: right;
+        width: 180px;
+    }
+    #label_firstname {
+        font-size: 15px;
+    }
+    #Firstname {
+        float: right;
+        width: 180px;
+    }
+    #label_lastname {
+        font-size: 15px;
+        margin-bottom: -2opx;
+    }
+    #Lastname {
+        float: right;
+        width: 180px;
+    }
+    #label_email {
+        font-size: 15px;
+    }
+    #Email {
+        float: right;
+        width: 180px;
+    }
+    #label_Password {
+        font-size: 15px;
+    }
+    #Password {
+        float: right;
+        width: 180px;
+    }
+    #label_vPassword {
+        font-size: 15px;
+    }
+    #vPassword {
+        float: right;
+        width: 180px;
+    }
+    
+    #btnSubmit {
+        margin-top: 15px;
+        margin-left: 60px;
+        height: 30px;
+        width: 150px;
+        font-size: 20px;
+        text-align: center;
+        border-radius: 10px 10px;
+        border: 3px solid gold;
+    }
+    .additional_class {
+        margin-top: 2px;
+        height: 510px;
+    }
+}
+/*----------------------------------------------------*/
+@media screen and (max-width: 770px) {
+    .main {
+        width: 620px;
+    }
+    #label_username {
+        font-size: 14px;
+    }
+    #username {
+        float: right;
+        width: 130px;
+        font-size: 10px;
+    }
+    #label_firstname {
+        font-size: 14px;
+    }
+    #Firstname {
+        float: right;
+        width: 130px;
+        font-size: 10px;
+    }
+    #label_lastname {
+        font-size: 14px;
+        margin-bottom: -2opx;
+    }
+    #Lastname {
+        float: right;
+        width: 130px;
+        font-size: 10px;
+    }
+    #label_email {
+        font-size: 14px;
+    }
+    #Email {
+        float: right;
+        width: 130px;
+        font-size: 10px;
+    }
+    #label_Password {
+        font-size: 14px;
+    }
+    #Password {
+        float: right;
+        width: 130px;
+        font-size: 10px;
+    }
+    #label_vPassword {
+        font-size: 14px;
+    }
+    #vPassword {
+        float: right;
+        width: 130px;
+        font-size: 10px;
+    }
+    
+    #btnSubmit {
+        margin-top: 15px;
+        margin-left: 60px;
+        height: 30px;
+        width: 110px;
+        font-size: 10px;
+        text-align: center;
+        border-radius: 10px 10px;
+        border: 3px solid gold;
+    }
+    .additional_class {
+        margin-top: 2px;
+        height: 510px;
+    }
+    .div_location {
+        margin-top: -50px;
+    }
+}
+/*-----------------------------------------------------------*/
+@media screen and (max-width: 700px) {
+    .info_class {
+        width: 100%;
+    }
+    .pass_class {
+        width: 90%;
+    }
+    .location_class {
+        margin-top: 430px;
+        width: 90%;
+    }
+    #label_username {
+        font-size: 18px;
+    }
+    #username {
+        float: right;
+        width: 300px;
+        font-size: 18px;
+    }
+    .div_username {
+        margin-bottom: 15px;
+    }
+    #label_firstname {
+        font-size: 18px;
+    }
+    #Firstname {
+        float: right;
+        width: 300px;
+        font-size: 18px;
+    }
+    .div_firstname {
+        margin-bottom: 15px;
+    }
+    #label_lastname {
+        font-size: 18px;
+        margin-bottom: -2opx;
+    }
+    #Lastname {
+        float: right;
+        width: 300px;
+        font-size: 18px;
+    }
+    .div_lastname {
+        margin-bottom: 15px;
+    }
+    #label_email {
+        font-size: 18px;
+    }
+    #Email {
+        float: right;
+        width: 300px;
+        font-size: 18px;
+    }
+    #label_Password {
+        font-size: 18px;
+    }
+    #Password {
+        float: right;
+        width: 300px;
+        font-size: 18px;
+    }
+    .div_password {
+        margin-bottom: 20px;
+    }
+    #label_vPassword {
+        font-size: 18px;
+    }
+    #vPassword {
+        float: right;
+        width: 300px;
+        font-size: 18px;
+    }
+    .div_vpassword {
+        margin-bottom: 15px;
+    }
+    #btnSubmit {
+        margin-top: 0px;
+        margin-left: 60px;
+        height: 30px;
+        width: 300px;
+        font-size: 25px;
+        text-align: center;
+        border-radius: 10px 10px;
+        border: 3px solid gold;
+    }
+    .additional_class {
+        margin-top: 2px;
+        width: 100%;
+        height: 510px;
+    }
+    .div_location {
+        float: right;
+        border: 2px solid gold;
+        width: 90%;
+        /* position: absolute; */
+        height: 120px;
+        margin-top: 389px;
+        text-align: center;
+    }
+}
