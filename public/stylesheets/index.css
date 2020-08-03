@@ -1,73 +1,58 @@
-.main {
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.6);
-    color: black;
-    border: 8px solid gold;
-    border-radius: 15px 15px;
-    margin-top: 210px;
-    width: 90%;
-    /* height: 670px; */
-    /* top: 50%;
-    left: 50%; */
-    /* transform: translate(-50%,-13%); */
-    padding: 20px;
-    position: absolute;
-    color: white;
+body{
+    padding: 0;
+    margin: 0;
+    border: none;
 }
-
-
-.suggested_connections {
-    float: right;
+#profile_pic{
+    width: 38px;
+    border-radius: 50%;
 }
-
-.my_connections {
-    float: left;
-}
-
-@media screen and (max-width: 1240px) {
-    .main {
-        width: 1000px;
-    }
-}
-
-@media screen and (max-width: 1110px) {
-    .main {
-        width: 930px;
-    }
-}
-
-@media screen and (max-width: 1025px) {
-    .main {
-        width: 870px;
-    }
-}
-
-@media screen and (max-width: 940px) {
-    .main {
-        width: 740px;
-    }
-}
-@media screen and (max-width: 820px) {
-    .main {
-        width: 600;
-    }
-}
-
-#title_index {
-    color: wheat;
-    font-size: 30px;
-    text-align: center;
-}
-
-.a_visits {
-    text-align: center;
-}
-
-.btn_views {
-    height: 30px;
+.top_nav{
     width: 300px;
-    font-size: 20px;
+    height: 10vh;
+    padding: 10px;
+    background-color: aqua;
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+}
+.bottom_nav{
+    position: absolute;
+    width: 300px;
+    padding: 10px;
+    height: 10vh;
+    padding: 10px;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: aqua;
+    display: flex;
+    justify-content: space-around;
+}
+main{
+    width: 300px;
+    height: 80vh;
+    margin: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.not_complete{
+    margin: auto;
+    padding: 10px;
+    width: 280px;
     text-align: center;
-    border-radius: 10px 10px;
-    border: 3px solid gold;
+}
+#not_complete_heading{
+    width: 270px;
+    padding: 5px;
+    border-bottom: 1px solid white;
+}
+.not_complete p{
+    border: 1px solid black;
+    padding: 10px;
+}
+.not_complete a{
+    margin: 5px;
+    padding: 5px;
+    text-decoration: none;
+    background-color: gold;
 }

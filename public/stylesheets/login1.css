@@ -11,7 +11,7 @@ body{
 }
 .form{
     width: 300px;
-    height: 400px;
+    height: 440px;
     background-color: rgba(0, 0, 0, 0.8);
     margin: auto;
     margin-top: 150px;
@@ -38,3 +38,5 @@ button{
 a{
     display: block;
 }
+#error{ color: red; }
+#msg {color: red}

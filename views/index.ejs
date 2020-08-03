@@ -1,4 +1,53 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+
+  <link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
+</head>
+<body>
+  <nav>
+    <div class="top_nav">
+      <a href="/">
+        <img id="profile_pic" src=<%= user.profile_pic%>
+      </a>
+      <a href="/">home</a>
+      <a href="/chats">chats</a>
+      <a href="/logout">logout</a>
+    </div>
+    <div class="bottom_nav">
+      <a href="/My_pictures">my pics</a>
+      <a href="/connection_requests">requests</a>
+      <a href="/search_match">search</a>
+      <a href="/settings">settings</a>
+    </div>
+  </nav>
+  <main>
+    <%
+    if (user.complete == 0)
+    { %>
+      <div class="not_complete">
+        <span id="not_complete_heading">incomplete profile</span>
+        <p>most features will be locked<br>
+          go to the settings page to complete your profile.<br>
+          Complete the form where it says additional information
+        </p>
+
+        <a href="/settings"> complete profile </a>
+      </div>
+      
+    <%
+    } %>
+  </main>
+  <footer>
+
+  </footer>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
@@ -163,4 +212,4 @@
         
       </div>
   </body>
-</html>
+</html> -->

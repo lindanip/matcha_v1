@@ -15,11 +15,16 @@
     <div class="form">
         <h1 id="pagetitle">Login</h1>
         <form method="POST" action="/login">
+            <% if (error != 'none'){ %>
+                <span id="error"><%=error%></span>
+            <% }else if (msg != 'none'){ %>
+                <span id="msg"><%=msg%></span>
+            <% } %>
             <label for="username">Enter Username</label>
             <input type="text" name="username" required>
 
-            <label for="Password">Enter Password</label>
-            <input type="password" name="Password" required>
+            <label for="password">Enter Password</label>
+            <input type="password" name="password" required>
             
             <input type="text" name="socketid" id="socketid" style="display: none;">
             
