@@ -7,21 +7,28 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/settings.css">
 </head>
 <body>
-    <% let user1 = user %>
-    <div class="top_nav">
-        <a href="/">
-            <img id="profile_pic" src="">
-        </a>
-        <a href="/">home</a>
-        <a href="/chats">chats</a>
-        <a href="/logout">logout</a>
-    </div>
-    <main>
-    
-        <form class="info_class" method="POST" action="/settings/personal">
-            <span class="inner_h">personal details</span>
+    <nav>
+        <div id="main_menu">
+            <a href="/">home</a>
+            <a href="/chats">chats</a>
+            <a href="/connection_requests">requests</a>
+            <a href="/search_match">search</a>
+            <a href="javascript:void(0);" onclick="userSubMenu()">
+                <img id="profile_pic" src=<%=session.profile_pic %>>
+            </a>
+        </div>
 
-            <% 
+        <div id="user_sub_menu">
+            <a href="javascript:void(0);" onclick="userSubMenu()">
+                <img id="profile_pic" src=<%=session.profile_pic %>>
+            </a>
+            <a href="/My_pictures">my pics</a>
+            <a href="/settings">settings</a>
+            <a href="/logout">logout</a>
+        </div>
+    </nav>
+    <main>
+        <% 
                 if (error != 'none'){
             %>
                 <span id="error"><%=error%></span>
@@ -31,34 +38,27 @@
             %>
                 <span id="msg"><%=msg%></span>
             <% } %>
+        <button class="toggle" id="personal_btn" onclick="togglePersonalForm()">personal details</button>
+        <form style="display: none;" class="info_class" id="personal_form" method="POST" action="/settings/personal">
+            
 
             <label for="username">enter Username</label>
-            <input type="text" name="username" value="" required>
+            <input type="text" name="username" value=<%=session.user %> required>
         
             <label for="Firstname">enter Firstname</label>
-            <input type="text" name="Firstname" value="" required>
+            <input type="text" name="Firstname" value=<%=session.Firstname %> required>
 
             <label for="Lastname">enter Lastname</label>
-            <input ype="text" name="Lastname" value="" required>
+            <input ype="text" name="Lastname" value=<%=session.Lastname %> required>
 
             <label for="Email">enter Email</label>
-            <input type="email" name="Email" value="" required>
+            <input type="email" name="Email" value=<%=session.Email %> required>
 
             <button type="submit" id="btnSubmit" tabindex="5">update details</button>
         </form>
 
-        <form method="POST" action="/settings/password">
-
-            <% 
-                if (error != 'none'){
-            %>
-                <span id="error"><%=error%></span>
-            <% } %>
-            <% 
-                if (msg != 'none'){
-            %>
-                <span id="msg"><%=msg%></span>
-            <% } %>
+        <button class="toggle" id="password_btn" onclick="togglePasswordForm()">change password</button>
+        <form style="display: none;" id="password_form" method="POST" action="/settings/password">
 
             <span class="inner_h">Change your password</span>
             
@@ -71,7 +71,8 @@
             <button type="submit">Update password</button>
         </form>
         
-        <form method="POST" action="/settings">
+        <button class="toggle" id="hobbies_btn" onclick="toggleHobbiesForm()">change hobbies</button>
+        <form style="display: none;" id="hobbies_form" method="POST" action="/settings/hobbies">
             <span class="inner_h">Change your password</span>
             
             <label for="hobby1">Choose 1st Hobby</label>
@@ -92,47 +93,47 @@
             <button type="submit">Update interests</button>
         </form>
 
-        <div id="location_form">
-            <button id="location_btn" onclick="getLocation()">get current Location</button>
-            <span id="demo">Display results here</span>
-            <form method="POST" action="/settings">
-                <input type="hidden" name="Longitude" id="Longitude">
-                <input type="hidden" name="Latitude" id="Latitude">
+        <button class="toggle" id="loaction_btn" onclick="toggleLocationForm()">location</button>
+        <div style="display: none;" id="location_form">
+            <form method="POST" action="/settings/location">
                 <button type="submit">update location</button>
             </form>
         </div>
         
-        <form class="additional_bio" method="POST" action="/settings">
-            <span class="inner_h">additional info</span>
+        <button class="toggle" id="additional_btn" onclick="toggleAdditionalForm()">additional info</button>
+        <form style="display: none;" id="additional_form" class="additional_bio" method="POST" action="/settings/orientation">
             <div class="div_gender">
                 <label for="gender">Enter gender(first letter uppercase)</label>
                 <input type="text" name="Gender" required>
             </div>
-            <div class="div_orientation">
-                <label for="Orientation">sexual preference</label>
-                <input type="radio" name="Orientation" value="male" required>
-                <label for="male">male</label><br>
-                <input type="radio" name="Orientation" value="female" required>
-                <label for="female">female</label><br>
-                <input type="radio" name="Orientation" value="lesbian" required>
-                <label for="lesbian">lesbian</label><br>
-                <input type="radio" name="Orientation" value="gay" required>
-                <label for="gay">gay</label>
-            </div>
+            <span>sexaul preference</span>
+            <ul class="orientation_list">
+                <li>
+                    <label for="male">male</label><br>
+                    <input type="radio" name="Orientation" value="female" required>
+                </li>
+                <li>
+                    <label for="female">female</label><br>
+                    <input type="radio" name="Orientation" value="lesbian" required>    
+                </li>
+                <li>
+                    <label for="lesbian">lesbian</label><br>
+                    <input type="radio" name="Orientation" value="gay" required>
+                </li>
+                <li>
+                    <label for="gay">gay</label>
+                    <input type="radio" name="Orientation" value="gay" required>
+                </li>
+            </ul>
             <label for="Bio">Tell us a little about yourself</label>
             <textarea id="Bio" name="Bio" required></textarea>
             <button type="submit">Add additional info</button>
         </form>
 
     </main>
-    <div class="bottom_nav">
-        <a href="/My_pictures">my pics</a>
-        <a href="/connection_requests">requests</a>
-        <a href="/search_match">search</a>
-        <a href="/settings">settings</a>
-    </div>
     <footer>
-
+        <a href="#">matcha dating app</a>
     </footer>
+    <script src="javascripts/settings.js"></script>
 </body>
 </html>

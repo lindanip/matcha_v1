@@ -9,207 +9,50 @@
 </head>
 <body>
   <nav>
-    <div class="top_nav">
-      <a href="/">
-        <img id="profile_pic" src=<%= user.profile_pic%>
-      </a>
-      <a href="/">home</a>
-      <a href="/chats">chats</a>
-      <a href="/logout">logout</a>
+    <div id="main_menu">
+        <a href="/">home</a>
+        <a href="/chats">chats</a>
+        <a href="/connection_requests">requests</a>
+        <a href="/search_match">search</a>
+        <a href="javascript:void(0);" onclick="userSubMenu()">
+            <img id="profile_pic" src=<%=session.profile_pic %>>
+        </a>
     </div>
-    <div class="bottom_nav">
-      <a href="/My_pictures">my pics</a>
-      <a href="/connection_requests">requests</a>
-      <a href="/search_match">search</a>
-      <a href="/settings">settings</a>
+
+    <div id="user_sub_menu">
+        <a href="javascript:void(0);" onclick="userSubMenu()">
+            <img id="profile_pic" src=<%=session.profile_pic %>>
+        </a>
+        <a href="/My_pictures">my pics</a>
+        <a href="/settings">settings</a>
+        <a href="/logout">logout</a>
     </div>
   </nav>
   <main>
     <%
-    if (user.complete == 0)
+    if (session.complete == 0)
     { %>
       <div class="not_complete">
         <span id="not_complete_heading">incomplete profile</span>
         <p>most features will be locked<br>
           go to the settings page to complete your profile.<br>
-          Complete the form where it says additional information
+          and fill in your additional information, and you will set to go.
         </p>
 
         <a href="/settings"> complete profile </a>
       </div>
       
     <%
-    } %>
+    }
+    else{ %>
+        <div class="complete">
+          <span>your profile is complete</span>
+        </div>
+    <% } %>
   </main>
   <footer>
-
+    <a href="#">matcha dataing web application</a>
   </footer>
+  <script src="javascripts/nav.js"></script>
 </body>
 </html>
-
-<!-- <!DOCTYPE html>
-<html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-    <meta charset="UTF-8">
-    <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0">
-</head>
-<body>
-  <div class="bg-image"></div>
-  <div class="header">
-    <a href="#default" class="logo"><img id="profile_pic" src=<%= user.profile_pic%>></a>
-    <div class="header-right">
-      <a class="active" href="/">Home</a>
-      <a href="/My_pictures">My Pictures</a>
-      <a href="/chats">Chats</a>
-      <a href="/connection_requests">Connection Requests</a>
-      <a href="/search_match">Find Your Match</a>
-      <a href="/settings">Settings</a>
-      <a href="/logout">Log out</a>
-    </div>
-  </div>
-  <div class="main">
-    <%
-        if (user.complete == 0)
-        {
-        %>
-            <h1 id="not_complete">Your Profile is incomplete, most features will be locked. Got to the settings page to complete your profile. When you reach the settings page,<br>
-            1. Complete the form where it says additional information</h1>
-            <br>
-        <a href="/settings"><button style="height: 30px; width: 300px; font-size: 20px; text-align: center; border-radius: 10px 10px; border: 3px solid gold;">Click Here to go to settings</button></a>
-        <%
-        }
-        else
-        {
-        %>
-            <h1 id="title_index">Welcome <%= user.username %></h1>
-            <div class="a_visits">
-                <a href="/profile_views"><button class="btn_views">View My Profile Visits</button></a>
-            </div>
-            
-            <div class="my_connections">
-              <h2>My connections</h2>
-              <%
-                  if (connections == "none")
-                  {
-                  %>
-                      <h3>No connections ...</h3>
-                  <%
-                  }
-                  else
-                  {
-                      var x = 0;
-                      while (connections[x])
-                      {
-                          let connection_username = connections[x].connected_to;
-                          let connection_fame_rating = connections[x].fame_rating;
-                          let connection_profile_pic = connections[x].profile_pic;
-                          let connection_firstname = connections[x].Firstname;
-                          let connection_lastname = connections[x].Lastname;
-                          let connection_age = connections[x].Age;
-                          let connection_hobby1 = connections[x].Hobby1;
-                          let connection_hobby2 = connections[x].Hobby2;
-                          let connection_hobby3 = connections[x].Hobby3;
-                          let connection_hobby4 = connections[x].Hobby4;
-                          let connection_hobby5 = connections[x].Hobby5;
-                          let connection_orientation = connections[x].Orientation;
-                          let connection_gender = connections[x].Gender;
-                          let connection_bio = connections[x].Bio
-                          let connection_last_seen = connections[x].last_seen;
-                          %>
-                          <img src=<%=connection_profile_pic%> width="100px" height="100px">
-                          <h3 id="label_connection_names"><%=connection_firstname%> <%=connection_lastname%></h3>
-                          <form action="/match_full_info" method="POST">
-                              <input type="hidden" name="match_profilepic" value=<%=connection_profile_pic%>>
-                              <input type="hidden" name="match_fame_rating" value=<%=connection_fame_rating%>>
-                              <input type="hidden" name="match_firstname" value=<%=connection_firstname%>>
-                              <input type="hidden" name="match_lastname" value=<%=connection_lastname%>>
-                              <input type="hidden" name="match_username" value=<%=connection_username%>>
-                              <input type="hidden" name="match_last_seen" value=<%=connection_last_seen%>>
-                              <input type="hidden" name="match_age" value=<%=connection_age%>>
-                              <input type="hidden" name="match_orientation" value=<%=connection_orientation%>>
-                              <input type="hidden" name="match_gender" value=<%=connection_gender%>>
-                              <input type="hidden" name="match_hobby1" value=<%=connection_hobby1%>>
-                              <input type="hidden" name="match_hobby2" value=<%=connection_hobby2%>>
-                              <input type="hidden" name="match_hobby3" value=<%=connection_hobby3%>>
-                              <input type="hidden" name="match_hobby4" value=<%=connection_hobby4%>>
-                              <input type="hidden" name="match_hobby5" value=<%=connection_hobby5%>>
-                              <input type="hidden" name="match_bio" value=<%=connection_bio%>>
-                              <button type="submit" id="profile_choose">View Profile</button>
-                          </form>
-                          <%
-                          x++;
-                      }
-                  }
-              %>
-            </div>
-            <div class="suggested_connections">
-                <h2>suggested connections</h2>
-                <%
-                  if (suggestions == "none")
-                  {
-                  %>
-                      <h3 id="label_suggestion_nothing">No suggestions ...Go to settings to update your location or insert hobbies</h3>
-                  <%
-                  }
-                  else
-                  {
-                    var x = 0;
-                    while (suggestions[x])
-                    {
-                        let suggestion_username = suggestions[x].username;
-                        let suggestion_fame_rating = suggestions[x].fame_rating;
-                        let suggestion_firstname = suggestions[x].Firstname;
-                        let suggestion_lastname = suggestions[x].Lastname;
-                        let suggestion_age = suggestions[x].Age;
-                        let suggestion_hobby1 = suggestions[x].Hobby1;
-                        let suggestion_hobby2 = suggestions[x].Hobby2;
-                        let suggestion_hobby3 = suggestions[x].Hobby3;
-                        let suggestion_hobby4 = suggestions[x].Hobby4;
-                        let suggestion_hobby5 = suggestions[x].Hobby5;
-                        let suggestion_orientation = suggestions[x].Orientation;
-                        let suggestion_gender = suggestions[x].Gender
-                        let suggestion_bio = suggestions[x].Bio;
-                        let suggestion_last_seen = suggestions[x].last_seen;
-                        let suggestion_profile_pic = suggestions[x].profile_pic;
-                        %>
-                        <div class="div_sugg">
-                          <img src=<%=suggestion_profile_pic%> width="100px" height="100px">
-                          <h3 id="label_suggestion_names"><%=suggestion_firstname%> <%=suggestion_lastname%></h3>
-                          <h3>Age: <%=suggestion_age%></h3>
-                          <h3>Gender: <%=suggestion_gender%></h3>
-                          <h3>Sexual Prefence: <%=suggestion_orientation%></h3>
-                          <h3>Fame Rating: <%=suggestion_fame_rating%></h3>
-                          <form action="/match_full_info" method="POST">
-                            <input type="hidden" name="match_profilepic" value=<%=suggestion_profile_pic%>>
-                                <input type="hidden" name="match_firstname" value=<%=suggestion_firstname%>>
-                                <input type="hidden" name="match_last_seen" value=<%=suggestion_last_seen%>>
-                                <input type="hidden" name="match_fame_rating" value=<%=suggestion_fame_rating%>>
-                                <input type="hidden" name="match_lastname" value=<%=suggestion_lastname%>>
-                                <input type="hidden" name="match_username" value=<%=suggestion_username%>>
-                                <input type="hidden" name="match_age" value=<%=suggestion_age%>>
-                                <input type="hidden" name="match_orientation" value=<%=suggestion_orientation%>>
-                                <input type="hidden" name="match_gender" value=<%=suggestion_gender%>>
-                                <input type="hidden" name="match_hobby1" value=<%=suggestion_hobby1%>>
-                                <input type="hidden" name="match_hobby2" value=<%=suggestion_hobby2%>>
-                                <input type="hidden" name="match_hobby3" value=<%=suggestion_hobby3%>>
-                                <input type="hidden" name="match_hobby4" value=<%=suggestion_hobby4%>>
-                                <input type="hidden" name="match_hobby5" value=<%=suggestion_hobby5%>>
-                                <input type="hidden" name="match_bio" value=<%=suggestion_bio%>>
-                                <button type="submit" id="profile_choose">View Profile</button>
-                              </form>
-                        </div>
-                            <%
-                            x++;
-                        }
-                      }
-                  %>
-                </div>
-            <%
-            }
-        %>
-        
-      </div>
-  </body>
-</html> -->

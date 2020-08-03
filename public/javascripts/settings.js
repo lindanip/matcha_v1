@@ -1,20 +1,48 @@
-console.log("Connected");
+function userSubMenu(){
+    let main_menu = document.getElementById('main_menu');
+    let userSubMenu = document.getElementById('user_sub_menu');
 
-function getLocation() {
-    var x = document.getElementById("demo");
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
+    if (userSubMenu.style.display == 'grid')
+        userSubMenu.style.display = 'none';
+    else
+        userSubMenu.style.display = 'grid';
 }
 
-function showPosition(position) {
-    var x = document.getElementById("demo");
-    document.getElementById("Longitude").value = position.coords.longitude;
-    document.getElementById("Latitude").value = position.coords.latitude;
-    x.innerHTML = "Latitude: " + position.coords.latitude +
-    "<br>Longitude: " + position.coords.longitude;
-    console.log(position.coords.latitude);
-    console.log(position.coords.longitude);
+function togglePersonalForm(){
+    let personalForm = document.getElementById('personal_form');
+    if (personalForm.style.display != 'none')
+        personalForm.style.display = 'none';
+    else
+        personalForm.style.display = 'block';
+}
+
+function togglePasswordForm(){
+    let personalForm = document.getElementById('password_form');
+    if (personalForm.style.display != 'none')
+        personalForm.style.display = 'none';
+    else
+        personalForm.style.display = 'block';
+}
+
+function toggleHobbiesForm(){
+    let personalForm = document.getElementById('hobbies_form');
+    if (personalForm.style.display != 'none')
+        personalForm.style.display = 'none';
+    else
+        personalForm.style.display = 'block';
+}
+function toggleLocationForm(){
+    let personalForm = document.getElementById('location_form');
+    if (personalForm.style.display != 'none')
+        personalForm.style.display = 'none';
+    else
+        personalForm.style.display = 'block';
+}
+
+function toggleAdditionalForm(){
+    let personalForm = document.getElementById('additional_form');
+    if (personalForm.style.display != 'none')
+        personalForm.style.display = 'none';
+    else
+        personalForm.style.display = 'block';
 }
