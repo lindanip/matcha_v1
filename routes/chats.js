@@ -2,20 +2,19 @@ const connection = require('../config/db');
 const express = require('express');
 const router = express.Router();
 
+
 router.get('/', (req, res) =>{
-    if (!req.session && !req.session.user)
+    if (!req.session.user)
         res.redirect('/login');
     else{
-        const user = req.session.user;
+        let session = req.session;
         var query = "SELECT * FROM connections WHERE username = ? AND accepted = 1";
-        connection.query(query, [user], (err, row) => {
+        connection.query(query, [session.user], (err, row) => {
             if (err){
-                console.log("database error");
                 res.status(400).send("database error");
             }else{
                 if (!row){
-                    console.log("somthing went wrong");
-                    res.render('chats', {result: "empty"});
+                    res.render('chats', {session, msg:'none', error:'none', result: "empty"});
                 }else{
                     var iter = (row) => {
                         var i = 0;
@@ -25,9 +24,11 @@ router.get('/', (req, res) =>{
                     }
                     var num = iter(row);
                     if (num > 0)
-                        res.render('chats', {result: 'found', no: num, contact: row});
+                        res.render('chats', {session, msg:'none', error:'none',
+                                            result: 'found', no: num, contact: row});
                     else
-                        res.render('chats', {result: 'non', no: num, contact: row});
+                        res.render('chats', {session, msg:'none', error:'none', 
+                                            result: 'non', no: num, contact: row});
                 }
             }
         })

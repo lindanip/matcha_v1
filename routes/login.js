@@ -43,6 +43,12 @@ router.post('/', (req, res) => {
                 req.session.city = rows[0].City;
                 req.session.profile_pic = rows[0].profile_pic;
                 req.session.complete = rows[0].Complete;
+                req.session.filters2 = {
+                    age: 'none',
+                    orientation: 'none',
+                    hobby: 'none',
+                    city: 'none'
+                };
                 
                 sql = 'UPDATE users SET Online = 1, last_seen = ? WHERE username = ?';
                 connection.query(sql, [get_date(), rows[0].username], (err) => {

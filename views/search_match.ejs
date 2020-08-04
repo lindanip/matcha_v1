@@ -1,64 +1,67 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="/stylesheets/search_match.css">
-        <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-        <meta charset="UTF-8">
-        <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0">
-    </head>
-    <body>
-        <div class="header">
-            <a href="#default" class="logo"><img id="profile_pic" src=<%=user.profile_pic%>></a>
-            <div class="header-right">
-              <a  href="/">Home</a>
-              <a href="/My_pictures">My Pictures</a>
-              <a href="/chats">Chats</a>
-              <a href="/connection_requests">Connection Requests</a>
-              <a class="active" href="/search_match">Find Your Match</a>
-              <a href="/settings">Settings</a>
-              <a href="/logout">Log out</a>
-            </div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/search_match.css">
+</head>
+<body>
+    <nav>
+        <div id="main_menu">
+            <a href="/">home</a>
+            <a href="/chats">chats</a>
+            <a href="/connection_requests">requests</a>
+            <a href="/search_match">search</a>
+            <a href="javascript:void(0);" onclick="userSubMenu()">
+                <img id="profile_pic" src="">
+            </a>
         </div>
-        <div class="main">
+        <div id="user_sub_menu">
+            <a href="javascript:void(0);" onclick="userSubMenu()">
+                <img id="profile_pic" src="">
+            </a>
+            <a href="/My_pictures">my pics</a>
+            <a href="/settings">settings</a>
+            <a href="/logout">logout</a>
+        </div>
+      </nav>
+      <main>
+        <h1>find your match</h2>
+        <form id="filter_form" method="POST" action="/search_match">
+            <div class="filters">
+                <label for="filter1">filter by Age</label>
+                <select name="filter1" class="filter_inputs" >
+                    <option value="None">None</option>
+                    <option value="18-19">18 to 19</option>
+                    <option value="20-25">20 to 25</option>
+                    <option value="25-30">25 to 30</option>
+                    <option value="30-35">30 to 35</option>
+                    <option value="35-40">35 to 40</option>
+                    <option value="40-45">40 to 45</option>
+                    <option value="45-50">45 to 50</option>
+                    <option value="50-older">50 and older</option>
+                </select>
+            </div>
+            <div class="filters">
+                <label for="filter2">filter by Orientation</label>
+                <select name="filter2" class="filter_inputs">
+                    <option value="None">None</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Gay">Gay</option>
+                    <option value="Lesbian">Lesbian</option>
+                </select>
+            </div>
+            <div class="filters">
+                <label for="filter3">filter by hobby</label>
+                <input class="filter_inputs" type="text" name="filter3" value="None">
+            </div>
+            <button type="submit" id="filter_submit" tabindex="11">search with filters</button>
+        </form>
         
-            <h1 id="pagetitle">Find your match</h2>
-            <form class="add_filters" method="POST" action="/search_match">
-                <div class="filter1_div">
-                    <label for="filter1" id="filter1_label" tabindex="1">Filter by Age</label>
-                    <select id="filter1" name="filter1" tabindex="2" aria-placeholder=<%=filters.filter1%>>
-                        <option value="None">None</option>
-                        <option value="18-19">18 to 19</option>
-                        <option value="20-25">20 to 25</option>
-                        <option value="25-30">25 to 30</option>
-                        <option value="30-35">30 to 35</option>
-                        <option value="35-40">35 to 40</option>
-                        <option value="40-45">40 to 45</option>
-                        <option value="45-50">45 to 50</option>
-                        <option value="50-older">50 and older</option>
-                    </select>
-                </div>
-                <div class="filter2_div">
-                    <label for="filter2" id="filter2_label" tabindex="3">Filter by Orientation</label>
-                    <select id="filter2" name="filter2" tabindex="4" aria-placeholder=<%=filters.filter2%>>
-                        <option value="None">None</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Gay">Gay</option>
-                        <option value="Lesbian">Lesbian</option>
-                    </select>
-                </div>
-
-                <div class="filter3_div">
-                    <label for="filter3" id="filter3_label" tabindex="5">Filter by hobby</label>
-                    <input type="text" name="filter3" tabindex="2" placeholder="None" value="None">
-                </div>
-
-                <div class="button_filter">
-                    <button type="submit" id="filter_submit" tabindex="11">Search with filters</button>
-                </div>
-            </form>
-            <br>
-            <br>
+        <div class="all_results">
             <%
                 var x = 0;
                 while (results[x]) {
@@ -78,45 +81,41 @@
                     let match_hobby5 = results[x].Hobby5;
                     let match_distance = distance[x];
                     let match_last_seen = results[x].last_seen;
-                %>
-                    <div class="result_div">
-                        <form action="/match_full_info" method="POST">
-                            <img src=<%=match_profilepic%> width="300px" height="300px">
-                            <input type="hidden" name="match_profilepic" value=<%=match_profilepic%>>
-                            <input type="hidden" name="match_firstname" value=<%=match_firstname%>>
-                            <input type="hidden" name="match_lastname" value=<%=match_lastname%>>
-                            <br>
-                            <h2 id="label_username">Username: <%=match_username%></h2>
-                            <input type="hidden" name="match_username" value=<%=match_username%>>
-                            <h2 id="label_fame_rating">Fame rating: <%=match_fame_rating%></h2>
-                            <input type="hidden" name="match_fame_rating" value=<%=match_fame_rating%>>
-                            <input type="hidden" name="match_last_seen" value=<%=match_last_seen%>>                        
-                            <h2 id="label_age">Age: <%=match_age%></h2>
-                            <input type="hidden" name="match_age" value=<%=match_age%>>
-                
-                            <h2 id="label_orientation">Sexual Preference: <%=match_orientation%></h2>
-                            <input type="hidden" name="match_orientation" value=<%=match_orientation%>>
-                            <input type="hidden" name="match_gender" value=<%=match_gender%>>
-
-                            <h2 id="label_hobby1">Hobbies: <br><%=match_hobby1%>, <%=match_hobby2%>, <%=match_hobby3%>, <%=match_hobby4%>, <%=match_hobby5%></h2>
-                            <input type="hidden" name="match_hobby1" value=<%=match_hobby1%>>
-                            <input type="hidden" name="match_hobby2" value=<%=match_hobby2%>>
-                            <input type="hidden" name="match_hobby3" value=<%=match_hobby3%>>
-                            <input type="hidden" name="match_hobby4" value=<%=match_hobby4%>>
-                            <input type="hidden" name="match_hobby5" value=<%=match_hobby5%>>
-
-                            <h2 id="label_distance">Distance from me: <%=match_distance%></h2>
-                            <input type="hidden" name="match_distance" value=<%=match_distance%>>
-                            
-                            <h2 id="label_bio">Biography: <br> <%=match_bio%></h2>
-                            <input type="hidden" name="match_bio" value=<%=match_bio%>>
-                            <button type="submit" id="profile_choose">View Profile</button>
-                        </form>
-                    </div>
-                <%
-                    x++;
-                }
             %>
+            <div class="result_div">
+                <img class="match_pic" src=<%=match_profilepic%>>
+                <div class="match_details">
+                    <span class="match">username: <%=match_username%></span>
+                    <span class="match_rating">fame rating { not working yet}</span>
+                    <span class="match_age">age: <%=match_age%></span>
+                    <span class="match_orientation">sexual preference: <%=match_orientation%></span>
+                    <span class="label_bio">biography: <%=match_bio%></span>
+                    <ul class="match_hobbies">
+                        <li class="hobby"><%=match_hobby1%></li>
+                        <li class="hobby"><%=match_hobby2%></li>
+                        <li class="hobby"><%=match_hobby3%></li>
+                        <li class="hobby"><%=match_hobby4%></li>
+                        <li class="hobby"><%=match_hobby5%></li>
+                    </ul>
+                    <span class="match_distance">distance from me {no yet working}</span>
+                </div> 
+
+                <form action="/match_full_info" method="POST">
+                    <input type="hidden" name="match_orientation" value=<%=match_orientation%>>
+                    <input type="hidden" name="match_gender" value=<%=match_gender%>>
+                    <input type="hidden" name="match_distance" value=<%=match_distance%>>
+                    <button type="submit" id="profile_choose">View Profile</button>
+                </form>
+            </div>
+
+            <%      x++;
+                } %>
         </div>
-    </body>
+      </main>
+
+      <footer>
+          <a href="#">matcha dating web application</a>
+      </footer>
+      <script src="nav.js"></script>
+</body>
 </html>

@@ -1,51 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>chats</title>
   <script src="/socket.io/socket.io.js"></script>
-  <script src="/javascripts/chats1.js"></script>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
   <link rel="stylesheet" type="text/css" href="/stylesheets/chats.css">
 </head>
 <body>
-<div class="header">
-    <a id ="user" href="#default" class="logo">
-      <img id="user-pic" src="/index_images/red watercolour background 1412.jpg" alt="">
-    </a>
-    <a href="/">Home</a>
-    <a href="/settings">Settings</a>
-    <a href="/logout">Log out</a>
-  </div>
-</div>
-<main id="contacts">
-    <h1>Connections</h1>
-    <div class="connections">
-      <%
-        
-        let result1 = result;
-
-        if (result1 != 'found'){
-      %>
-          <div class="contact">You have no connections</div>
-      <%}else{
-          let i = no - 1;
-      %>
-      <%
-        while (i >= 0){
-          let username = contact[i].connected_to;
-           %>
-          <div class="contact">
-            <img class="dp" src="/index_images/red watercolour background 1412.jpg" alt="big">
-            <div class="contact-name"><%= username%></div>
-            <form method="POST" action="/messages">
-              <input type="text" name="username" value="<%= username%>" style="display: none;">
-              <button class="view-chats">view chats</button>
-            </form>
-          </div>
-      <% i-- } }%>
+  <nav>
+    <div id="main_menu">
+        <a href="/">home</a>
+        <a href="/chats">chats</a>
+        <a href="/connection_requests">requests</a>
+        <a href="/search_match">search</a>
+        <a href="javascript:void(0);" onclick="userSubMenu()">
+            <img id="profile_pic" src=<%=session.profile_pic %>>
+        </a>
     </div>
-</main>
-<div class="header-bottom">
-    <a href="/My_pictures">My Pictures</a>
-    <a href="/connection_requests">Connection Requests</a>
-    <a href="/chats">chats</a>
-    <a href="/search_match">Find Your Match</a>
-</div>
-</body>
 
+    <div id="user_sub_menu">
+        <a href="javascript:void(0);" onclick="userSubMenu()">
+            <img id="profile_pic" src=<%=session.profile_pic %>>
+        </a>
+        <a href="/My_pictures">my pics</a>
+        <a href="/settings">settings</a>
+        <a href="/logout">logout</a>
+    </div>
+  </nav>
+  <main id="contacts">
+      <h1>Connections</h1>
+      <div class="connections">
+        <%
+          
+          let result1 = result;
+
+          if (result1 != 'found'){
+        %>
+            <div class="contact">You have no connections</div>
+        <%}else{
+            let i = no - 1;
+        %>
+        <%
+          while (i >= 0){
+            let username = contact[i].connected_to;
+            %>
+            <div class="contact">
+              <img class="dp" src="/index_images/red watercolour background 1412.jpg" alt="big">
+              <div class="contact-name"><%= username%></div>
+              <form method="POST" action="/messages">
+                <input type="text" name="username" value="<%= username%>" style="display: none;">
+                <button class="view-chats">view chats</button>
+              </form>
+            </div>
+        <% i-- } }%>
+      </div>
+  </main>
+  <footer>
+    <a href="#">matcha dating app</a>
+  </footer>
+  <script src="javascripts/nav.js"></script>
+</body>
+</html>

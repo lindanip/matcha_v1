@@ -29,7 +29,7 @@ router.post('/personal', (req, res) => {
     if (!req.session.user)
         res.redirect('/login');
     else{
-        const session = req.session;
+        let session = req.session;
 
         if (!req.body.username || !req.body.Firstname || !req.body.Lastname || !req.body.Email)
             res.render('settings', {session, msg: 'none', error: 'please complete the fields'});
@@ -53,7 +53,7 @@ router.post('/personal', (req, res) => {
             };
 
             //needs to check if admin    &&& needs more debbugging
-            var sql = 'SELECT * FROM users WHERE username = ?';
+            let sql = 'SELECT * FROM users WHERE username = ?';
             connection.query(sql, [username], (err, rows, result) => {
                 if (err) dbErrorMsg(err);
                 else if (rows[0] && rows[0]['username'])
@@ -150,7 +150,7 @@ router.post('/location', (req, res) => {
     else{
         let session = req.session;
 
-        var apiCall = unirest('GET', 'https://get.geojs.io/v1/ip');
+        let apiCall = unirest('GET', 'https://get.geojs.io/v1/ip');
         apiCall.end((response) => {
             ip_loc.getDomainOrIPDetails(response.body, 'json', (err, data) => {
                 if (err)
@@ -194,7 +194,7 @@ router.post('/orientation', (req, res) => {
         if (!req.body || !req.body.Orientation || !req.body.Bio)
             res.render('settings', {session, msg: 'none', error: 'please complete form fields'});
         else{
-            var sql = 'UPDATE users SET Orientation = ?, Bio = ? WHERE username = ?';
+            let sql = 'UPDATE users SET Orientation = ?, Bio = ? WHERE username = ?';
             connection.query(sql, [req.body.Orientation, req.body.Bio, session.user], (err) => {
                 if (err)
                     res.render('settings', {session, msg: 'none', error: 'database connection error, please try again'});
@@ -224,7 +224,7 @@ router.post('/hobbies', (req, res) => {
             || !req.body.hobby3 || !req.body.hobby4  || !req.body.hobby5)
             res.render('settings', {session, msg: 'none', error: 'please complete form fields'});
         else{
-            hobby1 = `#${req.body.hobby1}`;
+            session.hobby1 = `#${req.body.hobby1}`;
             hobby2 = `#${req.body.hobby2}`;
             hobby3 = `#${req.body.hobby3}`;
             hobby4 = `#${req.body.hobby4}`;
