@@ -1,92 +1,82 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/My_pictures.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
     <meta charset="UTF-8">
-    <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
   </head>
   <body>
-    <div class="bg-image"></div>
-    <div class="header">
-      <a href="#default" class="logo"><img id="profile_pic" src=<%= user.profile_pic%>></a>
-      <div class="header-right">
-        <a href="/">Home</a>
-        <a class="active" href="/My_pictures">My Pictures</a>
-        <a href="/chats">Chats</a>
-        <a href="/connection_requests">Connection Requests</a>
-        <a href="/search_match">Find Your Match</a>
-        <a href="/settings">Settings</a>
-        <a href="/logout">Log out</a>
+    <nav>
+      <div id="main_menu">
+          <a href="/">home</a>
+          <a href="/chats">chats</a>
+          <a href="/connection_requests">requests</a>
+          <a href="/search_match">search</a>
+          <a href="javascript:void(0);" onclick="userSubMenu()">
+              <img id="profile_pic" src="">>
+          </a>
       </div>
-    </div>
-    <div class="main">
+
+      <div id="user_sub_menu">
+          <a href="javascript:void(0);" onclick="userSubMenu()">
+              <img id="profile_pic" src="">
+          </a>
+          <a href="/My_pictures">my pics</a>
+          <a href="/settings">settings</a>
+          <a href="/logout">logout</a>
+      </div>
+    </nav>
+
+    <main>
       <%
-          if (user.complete == 0)
-          {
-          %>
-            <h1 id="not_complete">Your Profile is incomplete, most features will be locked. Got to the settings page to complete your profile. When you reach the settings page,<br>
-              1. Complete the form where it says additional information</h1>
-              <br>
-          <a href="/settings"><button style="height: 30px; width: 300px; font-size: 20px; text-align: center; border-radius: 10px 10px; border: 3px solid gold;">Click Here to go to settings</button></a>
+        if (user.complete == 0){ %>
+          <span>incomplete profile</span>
+          <a href="/settings">Click Here to go to settings</a>
+        <% }
+        else{ %>
+          <h1 id="pagetitle">My pictures</h1>
+          <p>Choose an image(min: 1, max: <%= image_upload_limit %>)</p>
+          
           <%
-          }
-          else
-          {
-          %>
-            <h1 id="pagetitle">My pictures</h1>
-            <div class="result_div">
-              <form action="/My_pictures" method="POST" enctype="multipart/form-data">
-                  <p>Choose an image(min: 1, max: <%= image_upload_limit %>)</p>
-                  <input type="file" name="photos" multiple>
-                  <input style="background-color: dodgerblue; border: dodgerblue; color: white; border-radius: 5px;" type="submit" name="submit" value="upload">
-              </form>
-              <%
-                  if (amount == "Too much images")
-                  {
-                  %>
-                      <script>
-                          alert("You uploaded more than <%=image_upload_limit%> images");
-                      </script>
-                  <%
-                  }
-                  else if (uploaded_images == "yes")
-                  {
-                  %>
-                      <script>
-                          alert("Your images were successfully uploaded!");
-                      </script>
-                  <%
-                  }
-              %>
-              <div>
-                <%
-                  var x = 0;
-                  while (images[x])
-                  {
-                      let image = images[x].image;
-                  %>
-                  <form action="/My_pictures/change_profile_pic" method="POST">
-                    <img src=<%=image%> width="400px" height="300px">
-                    <input type="hidden" name="set_this_pic" value=<%=image%>>
-                    <br />
-                    <input type="submit" name="submit" value="Set As profile pic">
-                    <br />
-                    
-                  </form>
-                  <form action="/remove_image" method="POST">
-                    <input type="hidden" name="remove" value=<%=image%>>
-                    <input type="submit" name="submit" value="Remove Picture">
-                  </form>
-                  
-                  <%
-                    x++;
-                  }
-                %>
-              </div>
-            </div>
+            if (amount == "Too much images"){ %>
+                <span>you have reach your upload limit</span>
+            <% }else if (uploaded_images == "yes"){ %>
+                <span>Your images were successfully uploaded!</span>
             <%
-            }
-        %>
+            } 
+          %>
+          <form id="upload_form" action="/My_pictures" method="POST" enctype="multipart/form-data">
+            <input type="file" name="photos" multiple>
+            <button type="submit">upload</button>
+          </form>
+
+          <div class="result_div">
+              <%
+                var x = 0;
+                while (images[x]){
+                    let image = images[x].image; %>
+                <form action="/My_pictures/change_profile_pic" method="POST">
+                  <img class="my_image"src=<%=image%>>
+                  <input type="hidden" name="set_this_pic" value=<%=image%>>
+                  <button type="submit">set as profile pic</button>
+                </form>
+
+                <form action="/remove_image" method="POST">
+                  <input type="hidden" name="remove" value=<%=image%>>
+                  <button type="submit">delete</button>
+                </form>
+                
+                <% x++;
+                } %>
+          </div>
+      <%
+      } %>
+        </main>
+      <footer>
+          <a href="#">matcha dating app</a>
+      </footer>
+      <script src="javascripts/settings.js"></script>
   </body>
 </html>
