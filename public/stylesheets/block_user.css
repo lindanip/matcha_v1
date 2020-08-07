@@ -1,0 +1,17 @@
+main{
+    width: 300px;
+    height: 80vh;
+    padding: 10px;
+    margin: auto;
+    background-color: rgb(255, 255, 255);
+}
+h1{
+    font-size: 25px;
+    text-align: center;
+}
+textarea{
+    width: 250px;
+    height: 200px;
+    margin: 0px 25px;
+}
+button{width: 255px; margin: 0px 25px; height: 30px;}

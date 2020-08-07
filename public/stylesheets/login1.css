@@ -38,5 +38,5 @@ button{
 a{
     display: block;
 }
-#error{ color: red; }
-#msg {color: red}
+#error{ color: #ff0000; }
+#msg {color: green}

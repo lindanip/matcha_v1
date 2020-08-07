@@ -10,46 +10,37 @@ router.use(session({
     saveUninitialized: false
 }));
 
-
 router.post('/', (req, res) => {
-    if (req.body.match_username) {
-        connection.query('UPDATE connections SET accepted = 1 WHERE username = ? AND connected_to = ?', [req.body.match_username, req.session.user], (err) => {
+    if (!req.session.user)
+        res.redirect('/login');
+    else if (!req.body.match_username)
+        res.redirect('/login');
+    else{
+        let { session } = req;
+        
+        let sql = 'UPDATE connections SET accepted = 1 WHERE username = ? AND connected_to = ?';
+        connection.query(sql, [req.body.match_username, session.user], (err) => {
             if (err) console.log(err)
-            else
-            {
-                console.log(req.body.match_room_id);
-                console.log('Updated connections');
-                req.session.message = "Connection succesfuly accepted";
-                connection.query('INSERT INTO connections  (`username`, `connected_to`, `accepted`, `room_id`) VALUES (?, ?, 1, ?)', [req.session.user, req.body.match_username, req.body.match_room_id], (err1) => {
-                    if (err1) console.log(err1)
-                    else
-                    {
-                        console.log('Inserted into connections');
-                        req.session.message = "User added to connections";
-                        connection.query('SELECT COUNT(*) AS likes FROM connections WHERE connected_to = ? AND accepted = 1', [req.session.user], (err, result) => {
+            else{
+                sql = 'SELECT COUNT(*) AS likes FROM connections WHERE connected_to = ? AND accepted = 1';
+                connection.query(sql, [session.user], (err, result) => {
+                    if (err) console.log(err)
+                    else{
+                        sql = 'UPDATE users SET fame_rating = ? WHERE username = ?';
+                        connection.query(sql, [result[0].likes, session.user], (err) => {
                             if (err) console.log(err)
-                            else
-                            {
-                                connection.query('UPDATE users SET fame_rating = ? WHERE username = ?', [result[0].likes, req.session.user], (err) => {
-                                    if (err) console.log(err)
-                                    else
-                                        console.log("fame_rating updated");
-                                })
-                                connection.query('UPDATE users SET fame_rating = ? WHERE username = ?', [result[0].likes, req.body.match_username], (err) => {
-                                    if (err) console.log(err)
-                                    else
-                                        console.log("match fame_rating updated");
-                                })
-                            }
+                        });
+
+                        sql = 'UPDATE users SET fame_rating = ? WHERE username = ?';
+                        connection.query(sql, [result[0].likes, req.body.match_username], (err) => {
+                            if (err) console.log(err)
+                            else  res.redirect('/connection_requests');
                         })
-                        
-                        res.redirect('/connection_requests');
                     }
-                })  
+                })
             }
-        })  
+        });
     }
-    else
-        res.redirect('/connection_requests')
-})
+});
+
 module.exports = router;

@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
-var connection = require('../config/db')
-var session = require('express-session')
-var nodemailer = require('nodemailer')
-var secretString = Math.floor((Math.random() * 10000) + 1);
+const express = require('express');
+const router = express.Router();
+const connection = require('../config/db');
+const session = require('express-session');
+//const nodemailer = require('nodemailer');
+const secretString = Math.floor((Math.random() * 10000) + 1);
 
 router.use(session({
     secret: secretString.toString(),
@@ -11,22 +11,14 @@ router.use(session({
     saveUninitialized: false
 }));
 
-
 router.post('/', (req, res) => {
+    if (!req.body.reason)
+        res.redirect('/match_full_info')
     if (req.body.reason) {
         connection.query('INSERT INTO blocks  (`username`, `block_who`,`reason`,`accepted`) VALUES (?, ?, ?, 0)', [req.session.user, req.body.blocked_user, req.body.reason], (err) => {
             if (err) console.log(err)
-            else
-            {
-                console.log("Entered block user loop");
-                console.log('Inserted into blocked users');
-                req.session.message = "Block request sent";
-                
-                res.redirect('/');
-            }
-        })  
-    }
-    else
-        res.redirect('/match_full_info')
-})
+            else res.redirect('/');
+        });  
+    }   
+});
 module.exports = router;

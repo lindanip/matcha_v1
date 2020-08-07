@@ -15,12 +15,12 @@
             <a href="/connection_requests">requests</a>
             <a href="/search_match">search</a>
             <a href="javascript:void(0);" onclick="userSubMenu()">
-                <img id="profile_pic" src="">
+                <img id="profile_pic" src="" alt="sub_menu">
             </a>
         </div>
         <div id="user_sub_menu">
             <a href="javascript:void(0);" onclick="userSubMenu()">
-                <img id="profile_pic" src="">
+                <img id="profile_pic" src="" alt="sub_menu">
             </a>
             <a href="/My_pictures">my pics</a>
             <a href="/settings">settings</a>
@@ -101,8 +101,21 @@
                 </div> 
 
                 <form action="/match_full_info" method="POST">
+                    <input type="hidden" name="match_username" value=<%=match_username%>>
+                    <input type="hidden" name="match_fame_rating" value=<%=match_fame_rating%>>
+                    <input type="hidden" name="match_firstname" value=<%=match_firstname%>>
+                    <input type="hidden" name="match_lastname" value=<%=match_lastname%>>
+                    <input type="hidden" name="match_age" value=<%=match_age%>>
                     <input type="hidden" name="match_orientation" value=<%=match_orientation%>>
                     <input type="hidden" name="match_gender" value=<%=match_gender%>>
+                    <input type="hidden" name="match_bio" value=<%=match_bio%>>
+                    <input type="hidden" name="match_profilepic" value=<%=match_profilepic%>>
+                    <input type="hidden" name="match_hobby1" value=<%=match_hobby1%>>
+                    <input type="hidden" name="match_hobby2" value=<%=match_hobby2%>>
+                    <input type="hidden" name="match_hobby3" value=<%=match_hobby3%>>
+                    <input type="hidden" name="match_hobby4" value=<%=match_hobby4%>>
+                    <input type="hidden" name="match_hobby5" value=<%=match_hobby5%>>
+                    <input type="hidden" name="match_last_seen" value=<%=match_last_seen%>>
                     <input type="hidden" name="match_distance" value=<%=match_distance%>>
                     <button type="submit" id="profile_choose">View Profile</button>
                 </form>
@@ -116,6 +129,6 @@
       <footer>
           <a href="#">matcha dating web application</a>
       </footer>
-      <script src="nav.js"></script>
+      <script src="javascripts/nav.js"></script>
 </body>
 </html>

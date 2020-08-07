@@ -131,10 +131,8 @@ router.get('/', (req, res) => {
 
                 if (rows1[0].Age == "None" && rows1[0].Orientation == "None" && rows1[0].Hobby == "None") {
                     connection.query("SELECT `users`.`username`,`users`.`last_seen`,`users`.`Gender`,`users`.`Firstname`,`users`.`fame_rating`, `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`, `users`.`Bio`, `users`.`profile_pic`,`users`.`Latitude`, `users`.`Longitude`, `user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `users` INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE `users`.`username` != ? ORDER BY `users`.`fame_rating` DESC", [req.session.user], (err, users) => {
-                        if (err) {
+                        if (err)
                             console.log(err);
-                            console.log("Couldn't fetch usersA");
-                        }
                         else {
                             req.session.search_results_backup = users;
                             
@@ -214,15 +212,12 @@ router.get('/', (req, res) => {
                     }
                     
                     connection.query("SELECT `users`.`username`,`users`.`last_seen`,`users`.`Gender`,`users`.`Firstname`,`users`.`fame_rating`, `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`, `users`.`Bio`, `users`.`profile_pic`, `user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `users` INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE `users`.`username` != ? AND `users`.`Age` >= ? AND `users`.`Age` <= ? ORDER BY `users`.`fame_rating` DESC", [req.session.user, age_min, age_max], (err, users) => {
-                        if (err) {
+                        if (err)
                             console.log(err);
-                            console.log("Couldn't fetch usersB");
-                        }
                         else {
                             req.session.search_results_backup = users;
                             var x = 0;
                             while (users[x]) {
-                                let match_username = users[x].username;
                                 let latt = users[x].Latitude;
                                 let longg = users[x].Longitude;
                                 let mylatt = req.session.Latitude;

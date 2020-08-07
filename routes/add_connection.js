@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
-var connection = require('../config/db')
-var session = require('express-session')
-var nodemailer = require('nodemailer')
-var secretString = Math.floor((Math.random() * 10000) + 1);
+const express = require('express');
+const router = express.Router();
+const connection = require('../config/db');
+const session = require('express-session');
+//const nodemailer = require('nodemailer');
+const secretString = Math.floor((Math.random() * 10000) + 1);
 
 router.use(session({
     secret: secretString.toString(),
@@ -11,22 +11,18 @@ router.use(session({
     saveUninitialized: false
 }));
 
-
 router.post('/', (req, res) => {
-    if (req.body.match_username) {
-        var room_id = Math.floor((Math.random() * 10000) + 1);
-        connection.query('INSERT INTO connections  (`username`, `connected_to`, `room_id`) VALUES (?, ?, ?)', [req.session.user, req.body.match_username, room_id], (err) => {
+    if (!req.session.user)
+        res.redirect('/login');
+    else if  (!req.body.match_username)
+        res.redirect('/match_full_info');
+    else{
+        let sql = 'INSERT INTO connections  (`username`, `connected_to`, `accepted`) VALUES (?, ?, ?)';
+        connection.query(sql, [req.session.user, req.body.match_username, 0], (err) => {
             if (err) console.log(err)
-            else
-            {
-                console.log('Inserted into connections');
-                req.session.message = "User added to connections";
-                
-                res.redirect('/match_full_info');
-            }
-        })  
+            else res.redirect('/match_full_info');
+        });  
     }
-    else
-        res.redirect('/match_full_info')
 })
+
 module.exports = router;

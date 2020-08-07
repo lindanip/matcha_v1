@@ -25,42 +25,12 @@ router.get('/', (req, res) => {
             if (err)
                 res.render('index', {session, msg: 'none', 
                     error: 'could not connect to database, please try again'});
-            // else if (!row[0].Firstname)
-            //     res.render('index', {session, msg: 'none', 
-            //         error: 'could not connect to database, please try again'});
             else {
                 connectionsRow = row[0];
                 console.log(connectionsRow);
-                console.log(session);
             }
         });
-        res.render('index', {session, msg: 'none', error: "none"});
-
-        // sql = 'SELECT `user_hobbies`.`username`, `users`.`Age`, `users`.`profile_pic`,`user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `user_hobbies` INNER JOIN `users` ON `user_hobbies`.`username` = `users`.`username` WHERE `user_hobbies`.`username` = ?';
-        // connection.query(sql, [session.user], (err, row) => {
-        //     if (err)
-        //         res.render('index', {session, msg: 'none', 
-        //             error: 'could not connect to database, please try again'});
-        //     else if (!row[0].Firstname)
-        //         res.render('index', {session, msg: 'none', 
-        //             error: 'could not connect to database, please try again'});
-        //     else {
-        //         hobbiesRow = row;
-        //     }
-        // });
-
-        // sql = 'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`Firstname`, `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`,  `users`.`profile_pic`, `user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `users` INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE `users`.`username` != ? AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR `user_hobbies`.`Hobby3` = ? OR `user_hobbies`.`Hobby4` = ? OR `user_hobbies`.`Hobby5` = ?) ORDER BY RAND() LIMIT 5';
-        // connection.query(sql, [session.user, row1[0].Hobby1, row1[0].Hobby1, row1[0].Hobby1, row1[0].Hobby1, row1[0].Hobby1], (err, result) => {
-        //     if (err)
-        //     res.render('index', {session, msg: 'none', 
-        //         error: 'could not connect to database, please try again'});
-        //     else if (!row[0].Firstname)
-        //         res.render('index', {session, msg: 'none', 
-        //             error: 'could not connect to database, please try again'});
-        //     else {
-        //         tempRow1 = row;
-        //     }
-        // });
+        res.render('index', {connections: 'none', session, msg: 'none', error: "none"});
     }
 });
 

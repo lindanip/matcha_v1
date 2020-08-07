@@ -38,7 +38,6 @@
           go to the settings page to complete your profile.<br>
           and fill in your additional information, and you will set to go.
         </p>
-
         <a href="/settings"> complete profile </a>
       </div>
       
@@ -46,7 +45,31 @@
     }
     else{ %>
         <div class="complete">
-          <span>your profile is complete</span>
+          <h1>welcome <%=session.user %></h1>
+          <span>
+            <a href="/profile_views">view my profile visits</a>
+          </span>
+          <div id="my_connections">
+              <h2>my connections</h2>
+              <div class="connection">
+                <% if (connections == 'none') {%>
+                      <span id="no_connections">you have no connections</span>
+                <% } else {
+                      let i = 0;
+                      while (connections[i]){
+                %>  
+                        <img src=<%=session.profile_picture %> alt="connection profile picture">
+                        <span class="connection_name"><%=session.user %></span>
+                        <form action="/match_full_info" method="get">
+                          <input type="hidden" name="matchUserName" value="**************">
+                          <button type="submit"></button>
+                        </form> 
+                <%      i++;
+                      }
+                  }
+                %>
+              </div>
+          </div>
         </div>
     <% } %>
   </main>
