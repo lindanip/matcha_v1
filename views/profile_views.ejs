@@ -1,80 +1,97 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="/stylesheets/profile_views.css">
-        <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-        <meta charset="UTF-8">
-        <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0">
-    </head>
-    <body>
-      <div class="bg-image"></div>
-      <div class="header">
-        <a href="#default" class="logo"><img id="profile_pic" src=<%= user.profile_pic%>></a>
-        <div class="header-right">
-          <a class="active" href="/">Home</a>
-          <a href="/My_pictures">My Pictures</a>
-          <a href="/view_requests">Connection Requests</a>
-          <a href="/search_match">Find Your Match</a>
-          <a href="/settings">Settings</a>
-          <a href="/logout">Log out</a>
+<head lang="en">
+    
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    
+    <title>profile views</title>
+
+    <link rel="stylesheet" href="/stylesheets/nav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/profile_views.css">
+</head>
+<body>
+    <nav>
+        <div id="main_menu">
+            <a href="/">home</a>
+            <a href="/chats">chats</a>
+            <a href="/connection_requests">requests</a>
+            <a href="/search_match">search</a>
+            <a href="javascript:void(0);" onclick="userSubMenu()">
+                <img id="profile_pic" src="" alt="profilepic">
+            </a>
         </div>
-      </div>
-      <div class="main">
-            <%
-                if (views == "none")
-                {
-                %>
-                    <h1>No one has viewed your profile yet.</h1>
-                <%
+    
+        <div id="user_sub_menu">
+            <a href="javascript:void(0);" onclick="userSubMenu()">
+                <img id="profile_pic" src="" alt="profile pic">
+            </a>
+            <a href="/profile_views">view my profile visits</a>
+            <a href="/My_pictures">my pics</a>
+            <a href="/settings">settings</a>
+            <a href="/logout">logout</a>
+        </div>
+    </nav>
+    <main>
+        <% if (views == "none"){ %>
+            <span>no one has viewed your profile yet.</span>
+        <% } else {
+                let x = 0;
+                while (views[x]) {
+                    let view_username = views[x].visitor;
+                    let view_fame_rating = views[x].fame_rating;
+                    let view_profile_pic = views[x].profile_pic;
+                    let view_firstname = views[x].Firstname;
+                    let view_lastname = views[x].Lastname;
+                    let view_age = views[x].Age;
+                    let view_hobby1 = views[x].Hobby1;
+                    let view_hobby2 = views[x].Hobby2;
+                    let view_hobby3 = views[x].Hobby3;
+                    let view_hobby4 = views[x].Hobby4;
+                    let view_hobby5 = views[x].Hobby5;
+                    let view_orientation = views[x].Orientation;
+                    let view_bio = views[x].Bio
+        %>
+                    <div class="viewer_">
+                        <img src=<%=view_profile_pic%> alt="viewer profile pic">
+                        <span id="label_view_names"><%=view_firstname%> <%=view_lastname%></span>
+                        <span>age: <%=view_age%></span>
+                        <span>orientation: <%=view_orientation%></span>
+                        <span>hobbies</span>
+                        <ul>
+                            <li><%=view_hobby1%></li>
+                            <li><%=view_hobby2%></li>
+                            <li><%=view_hobby3%></li>
+                            <li><%=view_hobby4%></li>
+                            <li><%=view_hobby5%></li>
+                        </ul>
+                        <span>biography: <%=view_bio%></span>
+                        <form action="/match_full_info" method="POST">
+                            <input type="hidden" name="match_profilepic" value=<%=view_profile_pic%>>
+                            <input type="hidden" name="match_fame_rating" value=<%=view_fame_rating%>>
+                            <input type="hidden" name="match_firstname" value=<%=view_firstname%>>
+                            <input type="hidden" name="match_lastname" value=<%=view_lastname%>>
+                            <input type="hidden" name="match_username" value=<%=view_username%>>
+                            <input type="hidden" name="match_age" value=<%=view_age%>>
+                            <input type="hidden" name="match_orientation" value=<%=view_orientation%>>
+                            <input type="hidden" name="match_hobby1" value=<%=view_hobby1%>>
+                            <input type="hidden" name="match_hobby2" value=<%=view_hobby2%>>
+                            <input type="hidden" name="match_hobby3" value=<%=view_hobby3%>>
+                            <input type="hidden" name="match_hobby4" value=<%=view_hobby4%>>
+                            <input type="hidden" name="match_hobby5" value=<%=view_hobby5%>>
+                            <input type="hidden" name="match_bio" value=<%=view_bio%>>
+                            <button type="submit" id="profile_choose">View Profile</button>
+                        </form>
+                    </div>
+                    <%
+                    x++;
                 }
-                else
-                {
-                    var x = 0;
-                    while (views[x])
-                    {
-                        let view_username = views[x].visitor;
-                        let view_fame_rating = views[x].fame_rating;
-                        let view_profile_pic = views[x].profile_pic;
-                        let view_firstname = views[x].Firstname;
-                        let view_lastname = views[x].Lastname;
-                        let view_age = views[x].Age;
-                        let view_hobby1 = views[x].Hobby1;
-                        let view_hobby2 = views[x].Hobby2;
-                        let view_hobby3 = views[x].Hobby3;
-                        let view_hobby4 = views[x].Hobby4;
-                        let view_hobby5 = views[x].Hobby5;
-                        let view_orientation = views[x].Orientation;
-                        let view_bio = views[x].Bio
-                        %>
-                        <div class="show_div">
-                            <img src=<%=view_profile_pic%> width="100px" height="100px">
-                            <h3 id="label_view_names"><%=view_firstname%> <%=view_lastname%></h3>
-                            <h3>Age: <%=view_age%></h3>
-                            <h3>Orientation: <%=view_orientation%></h3>
-                            <h3>Interests Are:<br> <%=view_hobby1%> <br> <%=view_hobby2%> <br> <%=view_hobby3%> <br> <%=view_hobby4%> <br> <%=view_hobby5%></h3>
-                            <h3>Biography: <br> <%=view_bio%></h3>
-                            <form action="/match_full_info" method="POST">
-                                <input type="hidden" name="match_profilepic" value=<%=view_profile_pic%>>
-                                <input type="hidden" name="match_fame_rating" value=<%=view_fame_rating%>>
-                                <input type="hidden" name="match_firstname" value=<%=view_firstname%>>
-                                <input type="hidden" name="match_lastname" value=<%=view_lastname%>>
-                                <input type="hidden" name="match_username" value=<%=view_username%>>
-                                <input type="hidden" name="match_age" value=<%=view_age%>>
-                                <input type="hidden" name="match_orientation" value=<%=view_orientation%>>
-                                <input type="hidden" name="match_hobby1" value=<%=view_hobby1%>>
-                                <input type="hidden" name="match_hobby2" value=<%=view_hobby2%>>
-                                <input type="hidden" name="match_hobby3" value=<%=view_hobby3%>>
-                                <input type="hidden" name="match_hobby4" value=<%=view_hobby4%>>
-                                <input type="hidden" name="match_hobby5" value=<%=view_hobby5%>>
-                                <input type="hidden" name="match_bio" value=<%=view_bio%>>
-                                <button type="submit" id="profile_choose">View Profile</button>
-                            </form>
-                        </div>
-                        <%
-                        x++;
-                    }
-                }
-            %>
-      </div>
-    </body> 
+            }
+        %>
+        </main>
+    <script src="javascripts/nav.js"></script>
+    <footer>
+        <a href="#">matcha dataing web application</a>
+    </footer>
+</body>
 </html>

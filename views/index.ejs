@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home</title>
 
+  <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
   <link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
+
 </head>
 <body>
   <nav>
@@ -23,15 +25,15 @@
         <a href="javascript:void(0);" onclick="userSubMenu()">
             <img id="profile_pic" src=<%=session.profile_pic %>>
         </a>
+        <a href="/profile_views">view my profile visits</a>
         <a href="/My_pictures">my pics</a>
         <a href="/settings">settings</a>
         <a href="/logout">logout</a>
     </div>
   </nav>
   <main>
-    <%
-    if (session.complete == 0)
-    { %>
+    <span>!!!project under construction!!!<br> the connections part is just a placehoder information used here form the suggestions object, even the images here are from the logged in user, this is bcoz they require the internet to load and i work offline, you may see thi image occurance in 2 or 3 more pages, user admin has not yet been touched, the styyling will also be tampered with later on, the search by age i think its not working im not sure cozz on the setupjs the value of pre entered users is set to 30 or more or less, but ill check the age when i wake up at 3pm, oh yea yea i knw also the routing in settings, but that was just test to see if i can spit the code but will be fixed,<br> please report futher bugs</span>
+    <% if (session.complete == 0) { %>
       <div class="not_complete">
         <span id="not_complete_heading">incomplete profile</span>
         <p>most features will be locked<br>
@@ -40,42 +42,116 @@
         </p>
         <a href="/settings"> complete profile </a>
       </div>
-      
-    <%
-    }
-    else{ %>
-        <div class="complete">
-          <h1>welcome <%=session.user %></h1>
-          <span>
-            <a href="/profile_views">view my profile visits</a>
-          </span>
-          <div id="my_connections">
-              <h2>my connections</h2>
-              <div class="connection">
-                <% if (connections == 'none') {%>
-                      <span id="no_connections">you have no connections</span>
-                <% } else {
-                      let i = 0;
-                      while (connections[i]){
-                %>  
-                        <img src=<%=session.profile_picture %> alt="connection profile picture">
-                        <span class="connection_name"><%=session.user %></span>
-                        <form action="/match_full_info" method="get">
-                          <input type="hidden" name="matchUserName" value="**************">
-                          <button type="submit"></button>
-                        </form> 
-                <%      i++;
-                      }
+
+    <% } else{ %>
+      <div class="complete">
+        <h1>welcome <%=session.user %></h1>
+        <a  id="visited_btn" href="/profile_views">view my profile visits</a>
+        
+        <div id="home_nav">
+          <a href="javascript:void(0);" onclick="connections()"> my connections</a>
+          <a href="javascript:void(0);" onclick="suggestions()"> my suggestions</a>
+        </div>
+
+
+        <div id="connections">
+            <h2>connections</h2>
+            <div class="connection">
+              <% if (connections == 'none') {%>
+                    <span id="no_connections">you have no connections</span>
+              <% } else {
+                    let i = 0;
+                    while (connections[i]){
+                      let { username, Firstname, Lastname, Age } = connections[i];
+                      let { Orientation, Gender, Bio } = connections[i];
+                      let { Hobby1, Hobby2, Hobby3, Hobby4, Hobby5 } = connections[i];
+                      let { fame_rating, profile_pic, last_seen} = connections[i];
+              %>  
+                      <img src=<%=session.profile_pic %> alt="connection profile picture">
+                      <span class="connection_name"><%=username %></span>
+                      <form action="/match_full_info" method="get">
+                        
+                        <input type="hidden" name="match_username" value=<%=username %>>
+                        <input type="hidden" name="match_firstname" value=<%=Firstname %>>
+                        <input type="hidden" name="match_lastname" value=<%=Lastname %>>
+                        <input type="hidden" name="match_age" value=<%=Age %>>
+
+                        <input type="hidden" name="match_orientation" value=<%=Orientation %>>
+                        <input type="hidden" name="match_gender" value=<%=Gender %>>
+                        <input type="hidden" name="match_bio" value=<%=Bio %>>
+
+                        <input type="hidden" name="match_hobby1" value=<%=Hobby1 %>>
+                        <input type="hidden" name="match_hobby2" value=<%=Hobby2 %>>
+                        <input type="hidden" name="match_hobby3" value=<%=Hobby3 %>>
+                        <input type="hidden" name="match_hobby4" value=<%=Hobby4 %>>
+                        <input type="hidden" name="match_hobby5" value=<%=Hobby5 %>>
+
+                        <input type="hidden" name="match_fame_rating" value=<%=fame_rating %>>
+                        <input type="hidden" name="match_profilepic" value=<%=profile_pic %>>
+                        <input type="hidden" name="match_last_seen" value=<%=last_seen %>>
+
+
+                        <button type="submit">view profile</button>
+                      </form> 
+              <%      i++;
+                    }
+                }
+              %>
+            </div>
+        </div>
+        <div id="suggestions">
+          <h2>suggestions</h2>
+          <div class="connection">
+            <% if (connections == 'none') {%>
+                  <span id="no_connections">you have no connections</span>
+            <% } else {
+                  let i = 0;
+                  while (suggestions[i]){
+                    let { username, Firstname, Lastname, Age } = suggestions[i];
+                    let { Orientation, Gender, Bio } = suggestions[i];
+                    let { Hobby1, Hobby2, Hobby3, Hobby4, Hobby5 } = suggestions[i];
+                    let { fame_rating, profile_pic, last_seen} = suggestions[i];
+            %>  
+                    <img src=<%=session.profile_pic %> alt="connection profile picture">
+                    <span class="connection_name"><%=username %></span>
+                    <form action="/match_full_info" method="get">
+                      
+                      <input type="hidden" name="match_username" value=<%=username %>>
+                      <input type="hidden" name="match_firstname" value=<%=Firstname %>>
+                      <input type="hidden" name="match_lastname" value=<%=Lastname %>>
+                      <input type="hidden" name="match_age" value=<%=Age %>>
+
+                      <input type="hidden" name="match_orientation" value=<%=Orientation %>>
+                      <input type="hidden" name="match_gender" value=<%=Gender %>>
+                      <input type="hidden" name="match_bio" value=<%=Bio %>>
+
+                      <input type="hidden" name="match_hobby1" value=<%=Hobby1 %>>
+                      <input type="hidden" name="match_hobby2" value=<%=Hobby2 %>>
+                      <input type="hidden" name="match_hobby3" value=<%=Hobby3 %>>
+                      <input type="hidden" name="match_hobby4" value=<%=Hobby4 %>>
+                      <input type="hidden" name="match_hobby5" value=<%=Hobby5 %>>
+
+                      <input type="hidden" name="match_fame_rating" value=<%=fame_rating %>>
+                      <input type="hidden" name="match_profilepic" value=<%=profile_pic %>>
+                      <input type="hidden" name="match_last_seen" value=<%=last_seen %>>
+
+
+                      <button type="submit">view profile</button>
+                    </form> 
+            <%      i++;
                   }
-                %>
-              </div>
+              }
+            %>
           </div>
         </div>
+
+      </div>
     <% } %>
   </main>
   <footer>
     <a href="#">matcha dataing web application</a>
   </footer>
   <script src="javascripts/nav.js"></script>
+  <script src="javascripts/index.js"></script>
 </body>
 </html>

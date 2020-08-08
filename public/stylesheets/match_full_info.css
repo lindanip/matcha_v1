@@ -1,9 +1,5 @@
-main{
-    width: 300px;
-    height: 80vh;
-    padding: 10px;
-    margin: auto;
-    background-color: rgb(255, 255, 255);
+body{  
+    background-color: black;
 }
 .not_complete{
     margin: auto;
@@ -33,11 +29,8 @@ main{
 
 main{
     width: 300px;
-    height: 80vh;
     padding: 10px;
     margin: auto;
-    background-color: rgb(95, 0, 0);
-    overflow-y: scroll;
 }
 h1{ margin: 10px; font-size: 25px; text-align: center; }
 
