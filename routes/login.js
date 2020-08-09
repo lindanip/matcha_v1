@@ -37,18 +37,11 @@ router.post('/', (req, res) => {
                         res.render('login', {msg: 'none', error: 'could not connect to database, please try again'});
                 });
 
-                sql = 'INSERT INTO `socketid` (`username`, `soc_id`) VALUES (?, ?)';
-                connection.query(sql, [username, req.body.socketid], (err) => {
-                    if (err)
-                        res.render('login', {msg: 'none', error: 'could not connect to database, please try again'});
-                });
-
                 sql = 'SELECT * FROM user_filters WHERE username = ? LIMIT 1';
                 connection.query(sql, [username], (err, filters) => {
                     if (err)
                         res.render('login', {msg: 'none', error: 'could not connect to database, please try again'});
                     else{
-                        req.session.socketid = req.body.socketid;
                         req.session.user = req.body.username;
                         req.session.Firstname = rows[0].Firstname;
                         req.session.Lastname = rows[0].Lastname;

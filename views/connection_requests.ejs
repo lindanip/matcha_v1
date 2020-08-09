@@ -14,12 +14,12 @@
         <a href="/connection_requests">requests</a>
         <a href="/search_match">search</a>
         <a href="javascript:void(0);" onclick="userSubMenu()">
-            <img id="profile_pic" src="" alt="menu">
+            <img id="profile_pic" src=<%=session.profile_pic %> alt="menu">
         </a>
     </div>
     <div id="user_sub_menu">
         <a href="javascript:void(0);" onclick="userSubMenu()">
-            <img id="profile_pic" src="" alt="menu">
+            <img id="profile_pic" src=<%=session.profile_pic %> alt="menu">
         </a>
         <a href="/My_pictures">my pics</a>
         <a href="/settings">settings</a>
@@ -57,23 +57,23 @@
                 <span>age: <%=connection_age%></span>
                 <span>gender: <%=connection_gender%></span>
                 <span>sexual Preference: <%=connection_orientation%></span>
+                <hr>
                 <span>biography <br><%=connection_bio%></span>
+                <hr>
                 <span>hobbies</span>
-                <ul>
-                  <li><%=connection_hobby1%></li>
-                  <li><%=connection_hobby2 %></li>
-                  <li><%=connection_hobby3 %></li>
-                  <li><%=connection_hobby4 %></li>
-                  <li><%=connection_hobby5 %></li>
-                </ul>
+                <hr>
+                <span>
+                    <%=connection_hobby1%>, <%=connection_hobby2%>, <%=connection_hobby3%>,
+                    <%=connection_hobby4%>, <%=connection_hobby5%>
+                </span>
                 <form action="/accept_connection" method="POST">
                     <input type="hidden" name="match_username" value=<%=connection_username %>>
                     <input type="hidden" name="match_room_id" value=<%=connection_room_id %>>
-                    <button type="submit">accept connection</button>
+                    <button id="accept_"type="submit">accept connection</button>
                 </form>
                 <form action="/decline_connection" method="POST">
                     <input type="hidden" name="match_username" value=<%=connection_username %>>
-                    <button type="submit">refuse connection</button>
+                    <button id="refuse_" type="submit">refuse connection</button>
                 </form>
               </div>
       <%    x++;

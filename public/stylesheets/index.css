@@ -7,15 +7,45 @@ main{
     text-align: center;
     min-height: 85vh;
 }
+
 h1{ font-size: 25px; }
-#visited_btn{ text-decoration: none;}
-#home_nav{ display: flex; justify-content: space-around; padding: 10px; }
-#home_nav a{  text-decoration: none; padding: 5px;}
+#visited_btn{ text-decoration: none; background-color: lightgrey; padding:15px; }
+#home_nav{
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+    background-color: gold;
+    margin-top: 20px;
+}
+#home_nav a{  text-decoration: none; padding: 5px; }
 
-.connection img{ width: 70%; margin: 0 15%;}
-#connections{ display: none; background-color: red;}
-#suggestions{ display: none; background-color: blue;}
 
+#connections{ display: none;}
+#suggestions{ display: none;}
+
+.connection{
+    border: 1px solid black;
+    margin: 10px 0px;
+    padding: 10px;
+}
+.suggestion{
+    border: 1px solid black;
+    margin: 10px 0px;
+    padding: 10px;
+}
+.connection button{
+    width: 100%;
+    height: 30px;
+    background-color: gold;
+}
+.suggestion button{
+    width: 100%;
+    height: 30px;
+    background-color: gold;
+}
+
+.connection img{ width: 90%; margin: 0 5%; }
+.suggestion img{ width: 90%; margin: 0 5%; }
 
 
 .not_complete{

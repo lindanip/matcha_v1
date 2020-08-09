@@ -22,12 +22,13 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    if (!req.session && !req.session.user)
+    if (!req.session.user)
         res.redirect('/login');
     else{
+        let { session } = req;
         const to = req.session.user;
         const from = req.body.username;
-        var query = "SELECT * FROM messages WHERE sentby = ? AND sentto = ?";
+        let query = "SELECT * FROM messages WHERE sentby = ? AND sentto = ?";
         connection.query(query, [from, to], (err, them) => {
             if (err){
                 console.log("database error");
@@ -47,7 +48,7 @@ router.post('/', (req, res) => {
                         }
                         var themNum = iter(them);
                         var meNum = iter(me);
-                        res.render('messages', { meName: to ,themName: from,themNum: themNum, meNum: meNum, themMsg: them, meMsg : me });
+                        res.render('messages', {session, meName: to ,themName: from,themNum: themNum, meNum: meNum, themMsg: them, meMsg : me });
                     }
                 });
             }

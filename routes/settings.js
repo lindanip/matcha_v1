@@ -224,7 +224,7 @@ router.post('/hobbies', (req, res) => {
             || !req.body.hobby3 || !req.body.hobby4  || !req.body.hobby5)
             res.render('settings', {session, msg: 'none', error: 'please complete form fields'});
         else{
-            session.hobby1 = `#${req.body.hobby1}`;
+            hobby1 = `#${req.body.hobby1}`;
             hobby2 = `#${req.body.hobby2}`;
             hobby3 = `#${req.body.hobby3}`;
             hobby4 = `#${req.body.hobby4}`;

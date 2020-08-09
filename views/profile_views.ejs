@@ -18,13 +18,13 @@
             <a href="/connection_requests">requests</a>
             <a href="/search_match">search</a>
             <a href="javascript:void(0);" onclick="userSubMenu()">
-                <img id="profile_pic" src="" alt="profilepic">
+                <img id="profile_pic" src=<%=session.profile_pic %> alt="profilepic">
             </a>
         </div>
     
         <div id="user_sub_menu">
             <a href="javascript:void(0);" onclick="userSubMenu()">
-                <img id="profile_pic" src="" alt="profile pic">
+                <img id="profile_pic" src=<%=session.profile_pic %> alt="profile pic">
             </a>
             <a href="/profile_views">view my profile visits</a>
             <a href="/My_pictures">my pics</a>
@@ -57,15 +57,16 @@
                         <span id="label_view_names"><%=view_firstname%> <%=view_lastname%></span>
                         <span>age: <%=view_age%></span>
                         <span>orientation: <%=view_orientation%></span>
+                        <hr>
                         <span>hobbies</span>
-                        <ul>
-                            <li><%=view_hobby1%></li>
-                            <li><%=view_hobby2%></li>
-                            <li><%=view_hobby3%></li>
-                            <li><%=view_hobby4%></li>
-                            <li><%=view_hobby5%></li>
-                        </ul>
+                        <hr>
+                        <span>
+                            <%=view_hobby1%>, <%=view_hobby2%>, <%=view_hobby3%>
+                            <%=view_hobby4%>, <%=view_hobby5%>
+                        </span>
+                        <hr>
                         <span>biography: <%=view_bio%></span>
+                        <hr>
                         <form action="/match_full_info" method="POST">
                             <input type="hidden" name="match_profilepic" value=<%=view_profile_pic%>>
                             <input type="hidden" name="match_fame_rating" value=<%=view_fame_rating%>>

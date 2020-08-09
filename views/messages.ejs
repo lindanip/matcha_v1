@@ -1,67 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>messages</title>
+
   <script src="/socket.io/socket.io.js"></script>
   <script src="/javascripts/messages.js"></script>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
   <link rel="stylesheet" type="text/css" href="/stylesheets/messages.css">
 </head>
 <body>
-<div class="header">
-    <a id ="user" href="#default" class="logo">
-      <img id="user-pic" src="/index_images/red watercolour background 1412.jpg" alt="">
-    </a>
-    <a href="/">Home</a>
-    <a href="/settings">Settings</a>
-    <a href="/logout">Log out</a>
-  </div>
-</div>
-<!-- var obj = { themNum: themNum, meNum: meNum, themMsg: them, meMsg : me } -->
-<main id="chats">
-  <div id="messages">
-    <%
-      let themNum1 = themNum - 1;
-      let i = 4;
-      while (themNum1 >= 0){
-        let msg = themMsg[themNum1].message; 
-        let name = themName;
-        let time = themMsg[themNum1].date_time
-    %>
-        <div class="message-them">
-          <p><%= name%></p>
-          <p><%= msg%></p>
-          <p><%= time%></p>
-        </div>  
-    <%
-      themNum1--;
-      }
-    %>
-    <%
-      let meNum1 = meNum - 1;
-      i = 4;
-      while (meNum1 >= 0){
-        msg = meMsg[meNum1].message; 
-        name = meName;
-        time = meMsg[meNum1].date_time
-    %>
-        <div class="message-me">
-          <p><%= name%> (me)</p>
-          <p><%= msg%></p>
-          <p><%= time%></p>
-        </div>  
-    <%
-      meNum1--;
-      }
-    %>
-  </div>
-  <div id="msg-area">
-      <input type="text" name="them" id="them" value="<%= themName%>" style="display: none;">
-      <input type="text" name="me" id="me" value="<%= meName%>" style="display: none;">
-      <input type="text" name="msg" id="msg">
-      <button type="submit" onclick="sendBtn()" >send</button>
-  </div>
-</main>
-<div class="header-bottom">
-    <a href="/My_pictures">My Pictures</a>
-    <a href="/connection_requests">Connection Requests</a>
-    <a href="/chats">chats</a>
-    <a href="/search_match">Find Your Match</a>
-</div>
+  <nav>
+    <div id="main_menu">
+        <a href="/">home</a>
+        <a href="/chats">chats</a>
+        <a href="/connection_requests">requests</a>
+        <a href="/search_match">search</a>
+        <a href="javascript:void(0);" onclick="userSubMenu()">
+            <img id="profile_pic" src=<%=session.profile_pic %> alt="menu">
+        </a>
+    </div>
+    <div id="user_sub_menu">
+        <a href="javascript:void(0);" onclick="userSubMenu()">
+            <img id="profile_pic" src=<%=session.profile_pic %> alt="menu">
+        </a>
+        <a href="/profile_views">my profile views</a>
+        <a href="/My_pictures">my pics</a>
+        <a href="/settings">settings</a>
+        <a href="/logout">logout</a>
+    </div>
+  </nav>
+  <main >
+    <div id="messages">
+      <%
+        let themNum1 = themNum - 1;
+        let i = 4;
+        while (themNum1 >= 0){
+          let msg = themMsg[themNum1].message; 
+          let name = themName;
+          let time = themMsg[themNum1].date_time
+      %>
+          <div class="message-them">
+            <p><%= name%></p>
+            <p><%= msg%></p>
+            <p><%= time%></p>
+          </div>  
+      <%
+        themNum1--;
+        }
+      %>
+      <%
+        let meNum1 = meNum - 1;
+        i = 4;
+        while (meNum1 >= 0){
+          msg = meMsg[meNum1].message; 
+          name = meName;
+          time = meMsg[meNum1].date_time
+      %>
+          <div class="message-me">
+            <p><%= name%> (me)</p>
+            <p><%= msg%></p>
+            <p><%= time%></p>
+          </div>  
+      <%
+        meNum1--;
+        }
+      %>
+    </div>
+    <div id="msg-area">
+        <input type="text" name="them" id="them" value="<%= themName%>" style="display: none;">
+        <input type="text" name="me" id="me" value="<%= meName%>" style="display: none;">
+        <input type="text" name="msg" id="msg">
+        <button  onclick="sendBtn()" >send</button>
+    </div>
+  </main>
+
+
+
+  <footer>
+    <a href="#">match dating web application</a>
+  </footer>
 </body>
+</html>

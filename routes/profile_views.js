@@ -12,8 +12,12 @@ router.use(session({
 }));
 
 router.get('/', function(req, res) {
-    if (req.session.user) {
-        var user_info = {
+    if (!req.session.user)
+        res.redirect('/login');
+    else
+    {
+        let { session } = req;
+        let user_info = {
             'username' : req.session.user,
             'Email' : req.session.Email,
             'Firstname' : req.session.Firstname,
@@ -23,22 +27,22 @@ router.get('/', function(req, res) {
             'latitude' : req.session.Latitude,
             'complete' : req.session.complete
         }
-        connection.query('SELECT * FROM views INNER JOIN `users` ON `views`.`visitor` = `users`.`username` JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE `views`.`username` = ?', [req.session.user], (err, row) => {
-            if (err) console.log(err)
-            else
-            {
-                if (row[0]) {
-                    res.render('profile_views', {user : user_info, views : row});
-                }
+
+        let sql = 
+                    'SELECT * FROM views INNER JOIN `users` ON `views`.`visitor` = `users`.`username` JOIN ' +
+                    '`user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE `views`.`username` = ?';
+
+        connection.query(sql, [session.user], (err, row) => {
+            if (err) res.status(500).send('internal server error');
+            else{
+                if (row[0])
+                    res.render('profile_views', {session, user : user_info, views : row});
                 else
-                    res.render('profile_views', {user : user_info, views : "none"});
+                    res.render('profile_views', {session, user : user_info, views : "none"});
             }
         })
     }
-    else
-    {
-        res.redirect('/login');
-    }
 })
+
 
 module.exports = router

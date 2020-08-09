@@ -15,14 +15,15 @@
           <a href="/connection_requests">requests</a>
           <a href="/search_match">search</a>
           <a href="javascript:void(0);" onclick="userSubMenu()">
-              <img id="profile_pic" src="">>
+              <img id="profile_pic" src=<%=user.profile_pic %> alt="menu">
           </a>
       </div>
 
       <div id="user_sub_menu">
           <a href="javascript:void(0);" onclick="userSubMenu()">
-              <img id="profile_pic" src="">
+              <img id="profile_pic" src=<%=user.profile_pic %> alt="menu">
           </a>
+          <a href="/profile_views">view my profile visits</a>
           <a href="/My_pictures">my pics</a>
           <a href="/settings">settings</a>
           <a href="/logout">logout</a>
@@ -60,12 +61,12 @@
                 <form action="/My_pictures/change_profile_pic" method="POST">
                   <img class="my_image"src=<%=image%>>
                   <input type="hidden" name="set_this_pic" value=<%=image%>>
-                  <button type="submit">set as profile pic</button>
+                  <button id="setpic_"type="submit">set as profile pic</button>
                 </form>
 
                 <form action="/remove_image" method="POST">
                   <input type="hidden" name="remove" value=<%=image%>>
-                  <button type="submit">delete</button>
+                  <button id="delete_" type="submit">delete</button>
                 </form>
                 
                 <% x++;

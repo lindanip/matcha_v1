@@ -6,6 +6,7 @@ var secretString = Math.floor((Math.random() * 10000) + 1);
 
 router.get('/', function(req, res) {
     if (req.session && req.session.user) {
+        let { session } = req
         connection.query('SELECT * FROM `connections` INNER JOIN `users` ON `connections`.`username` = `users`.`username` JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE `connections`.`connected_to` = ? AND `connections`.`accepted` = 0', [req.session.user], (err, row) => {
             if (err) console.log(err)
             else
@@ -21,7 +22,7 @@ router.get('/', function(req, res) {
                         'latitude' : req.session.Latitude,
                         'complete' : req.session.complete
                     }
-                    res.render('connection_requests', {connections : row, user : user_info})
+                    res.render('connection_requests', {session, connections : row, user : user_info})
                 }
                 else
                 {
@@ -35,7 +36,7 @@ router.get('/', function(req, res) {
                         'latitude' : req.session.Latitude,
                         'complete' : req.session.complete
                     }
-                    res.render('connection_requests', {connections : "none", user : user_info})
+                    res.render('connection_requests', {session, connections : "none", user : user_info})
                 }
             }
         })

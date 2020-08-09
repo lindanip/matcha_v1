@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>chats</title>
-  <script src="/socket.io/socket.io.js"></script>
+  
   <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
   <link rel="stylesheet" type="text/css" href="/stylesheets/chats.css">
 </head>
@@ -55,10 +55,10 @@
                 <button class="view-chats">view chats</button>
               </form>
             </div>
-        <% i-- }}
+        <% i++ }}
         if (contact11 == 'found'){
           let i = 0;
-          while (contact[i]){
+          while (contact1[i]){
             let username = contact1[i].username;
             %>
             <div class="contact">
@@ -69,7 +69,7 @@
                 <button class="view-chats">view chats</button>
               </form>
             </div>
-        <% i-- }}
+        <% i++ }}
       }%>
       </div>
   </main>
