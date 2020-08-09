@@ -95,37 +95,60 @@ app.use('/messages', messages)
 
 
 io.on('connection', (socket) => {
-    console.log("user has connected");
-    
-    socket.on("loginMsg", (msg) => {
-        socket.emit('id', socket.id);
-    });
-    socket.on("chatMsg",  (msg) => {
-        var from = msg.me;
-        var to = msg.them;
-        var theMsg = msg.msg;
-        var state = '0';
+
+    socket.on("loginReq", (params) => {
+        let sql = 'SELECT * FROM socketid WHERE username = ?';
         
-        var query = 'INSERT INTO `messages` (`sentby`, `sentto`, `message`, `msg_state`) VALUES (?, ?, ?, ?)';
-        connection.query(query, [from, to, theMsg, state], (err) => {
-            if (err) console.log("database error");
+        connection.query(sql, [params.me], (err, socketIdRow) => {
+            if (err) io.emit('error', 'internal server error');
+            else if (socketIdRow[0])
+            {
+                sql = 'UPDATE socketid SET soc_id = ? WHERE username = ?';
+
+                connection.query(sql, [socket.id, params.me], (err) => {
+                    if (err) {
+                        console.log('server error')
+                        console.log(err);
+                        io.emit('error', 'interal server error');
+                    }
+                });
+            }else
+            {
+                sql = 'INSERT INTO socketid (username, soc_id) VALUES (?, ?)';
+                
+                connection.query(sql, [params.me, socket.id], (err) => {
+                    if (err) io.emit('error', 'interal server error');
+                });
+            }
+            sql = 'SELECT * FROM socketid WHERE username = ?';
+        
+            connection.query(sql, [params.them], (err, themStatusRow) => {
+                if (err) io.emit('error', 'internal server error');
+                io.emit('loginRes', { themStatus: themStatusRow[0] ? 'online' : 'offline' });
+                io.to(themStatusRow[0].soc_id).emit('userJoined', 'nwa');
+                //tell them that they are online more code need to be here
+            });
+        });
+    });
+
+    socket.on("chatMsg",  (msgParams) => {
+        let { me, them, msg } = msgParams;
+        let state = '0';
+        
+        let query = 'INSERT INTO `messages` (`sentby`, `sentto`, `message`, `msg_state`) VALUES (?, ?, ?, ?)';
+        connection.query(query, [me, them, msg, state], (err) => {
+            if (err) console.log(err);
             else console.log('message inserted');
         });
-        console.log(socket.id);
-        // io.to(`${ros[0].soc_id}`.emit('msgBack', theMsg));
-        //query = 'SELECT * FROM socketid WHERE username = ?';
-        // connection.query(query, [to], (err, rows) => {
-        //     if (err) console.log("database error");
-        //     else if (rows[0] && rows[0]['username']) {
-        //         try{
-        //             io.to(`${ros[0].soc_id}`.emit('msgBack', theMsg));
-        //             io.emit('back', 'hoping');
-        //         }catch (err){
-        //             console.log('this has happend');
-        //             io.emit('back', 'back');
-        //         }
-        //     }
-        // });
+
+        sql = 'SELECT * FROM socketid WHERE username = ?';
+        connection.query(sql, [them], (err, themStatusRow) => {
+            if (err) console.log('dtabase error');
+            else
+            {
+                io.to(themStatusRow[0].soc_id).emit('resMsg', msgParams);
+            }
+        });
     });
     // we have to do for the disconnecting on the page close and on the log out
 });

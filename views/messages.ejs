@@ -10,7 +10,7 @@
   <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
   <link rel="stylesheet" type="text/css" href="/stylesheets/messages.css">
 </head>
-<body>
+<body onload="login()">
   <nav>
     <div id="main_menu">
         <a href="/">home</a>
@@ -71,6 +71,7 @@
     <div id="msg-area">
         <input type="text" name="them" id="them" value="<%= themName%>" style="display: none;">
         <input type="text" name="me" id="me" value="<%= meName%>" style="display: none;">
+        <input type="text" name="socket_id" id="socketId" value="" style="display: none;">
         <input type="text" name="msg" id="msg">
         <button  onclick="sendBtn()" >send</button>
     </div>
