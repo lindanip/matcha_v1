@@ -1,22 +1,70 @@
-.main {
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.6);
-    color: black;
-    border: 8px solid gold;
-    border-radius: 15px 15px;
-    margin-top: 210px;
-    width: 60%;
-    left: 20%;
-    /* height: 670px; */
-    /* top: 50%;
-    
-    /* transform: translate(-50%,-13%); */
+body{ 
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-image: url('/images/server-2160321_1920.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+nav{
+    max-width: 70%;
+    min-width: 300px;
+    height: 10vh;
+    margin: 5vh auto;
+    display: flex;
+    justify-content: space-evenly;
+}
+nav a{
+    text-decoration: none;
+    color: rgb(228, 228, 228);
+    height: 65%;
+    width: 15%;
+    text-align: center;
+}
+nav a:hover{  border-bottom: 2px solid gold;}
+
+main{
+    max-width: 70%;
+    min-width: 300px;
+    min-height: 40vh;
+    margin: 5vh auto;
+    text-align: center;
+}
+h1{ color: white; font-size: 40px;}
+
+
+.block_div {
+    background-color: rgb(255, 255, 255, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    border: 5px solid gold;
+}
+.block_div img{ width: 100px; border: 5px solid red;}
+.block_div span{ width: 100%;}
+#_reason{ width: 100%;}
+.block_div button{ 
     padding: 20px;
-    position: absolute;
-    color: white;
+ }
+ ._info{
+     padding: 10px 0px;
+     border-top: 1px solid gold;
+     border-bottom: 10px solid ;
+     font-size: 20px;
+     color: white;
+ }
+
+footer{
+    margin-top: 30vh;
+    height: 10vh;
+    background-color: black;
+    width: 100%;
     text-align: center;
 }
 
-.block_div {
-    border: 10px solid white;
-}
+footer{ padding: 20px;}
+
+

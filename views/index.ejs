@@ -33,7 +33,7 @@
   </nav>
   <main>
     <!-- <span>!!!project under construction!!!<br> the connections part is just a placehoder information used here form the suggestions object, even the images here are from the logged in user, this is bcoz they require the internet to load and i work offline, you may see thi image occurance in 2 or 3 more pages, user admin has not yet been touched, the styyling will also be tampered with later on, the search by age i think its not working im not sure cozz on the setupjs the value of pre entered users is set to 30 or more or less, but ill check the age when i wake up at 3pm, oh yea yea i knw also the routing in settings, but that was just test to see if i can spit the code but will be fixed,<br> please report futher bugs</span> -->
-    <% if (session.complete == 0) { %>
+    <% if (session.complete != 1) { %>
       <div class="not_complete">
         <span id="not_complete_heading">incomplete profile</span>
         <p>most features will be locked<br>

@@ -25,4 +25,9 @@ function sendBtn(){
 
 socket.on('resMsg', (msg) => {
     console.log(msg);
+    let themMessage =   `<div class="message-them"> <p>${msg.them}</p>`+
+                    `<p>${msg.msg}</p><p>use javascript for time</p>`+
+                    `</div>`;
+
+    document.getElementById('messages').innerHTML += themMessage;
 });

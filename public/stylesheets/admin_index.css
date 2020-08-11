@@ -1,35 +1,45 @@
-.main {
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.6);
-    color: black;
-    border: 8px solid gold;
-    border-radius: 15px 15px;
-    margin-top: 210px;
-    width: 90%;
-    /* height: 670px; */
-    /* top: 50%;
-    left: 50%; */
-    /* transform: translate(-50%,-13%); */
-    padding: 20px;
-    position: absolute;
-    color: white;
+body{ 
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-image: url('/images/server-2160321_1920.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+nav{
+    max-width: 70%;
+    min-width: 300px;
+    height: 10vh;
+    margin: 10vh auto;
+    display: flex;
+    justify-content: space-evenly;
+}
+nav a{
+    text-decoration: none;
+    color: rgb(228, 228, 228);
+    height: 65%;
+    width: 15%;
+    text-align: center;
+}
+nav a:hover{  border-bottom: 2px solid gold;}
+
+main{
+    max-width: 70%;
+    min-width: 300px;
+    height: 40vh;
+    margin: 10vh auto;
+    text-align: center;
+}
+h1{ color: white; font-size: 45px;}
+footer{
+    margin-top: 30vh;
+    height: 10vh;
+    background-color: black;
+    width: 100%;
     text-align: center;
 }
 
-.btn_allUsers {
-    height: 30px;
-    width: 300px;
-    font-size: 20px;
-    text-align: center;
-    border-radius: 10px 10px;
-    border: 3px solid gold;
-}
-
-.btn_blockRequests {
-    height: 30px;
-    width: 300px;
-    font-size: 20px;
-    text-align: center;
-    border-radius: 10px 10px;
-    border: 3px solid gold;
-}
+footer{ padding: 20px;}

@@ -43,9 +43,7 @@ main{
     margin: auto;
     width: 300px;
     padding: 0px 10px;
-    height: 80vh;
-    overflow-y: scroll;
-    background-color: black;
+    min-height: 80vh;
     text-align: center;
 }
 footer{

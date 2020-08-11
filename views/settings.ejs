@@ -14,14 +14,15 @@
             <a href="/connection_requests">requests</a>
             <a href="/search_match">search</a>
             <a href="javascript:void(0);" onclick="userSubMenu()">
-                <img id="profile_pic" src=<%=session.profile_pic %>>
+                <img id="profile_pic" src=<%=session.profile_pic %> alt="sub menu">
             </a>
         </div>
 
         <div id="user_sub_menu">
             <a href="javascript:void(0);" onclick="userSubMenu()">
-                <img id="profile_pic" src=<%=session.profile_pic %>>
+                <img id="profile_pic" src=<%=session.profile_pic %> alt="sub menu">
             </a>
+            <a href="/My_pictures">proflie views</a>
             <a href="/My_pictures">my pics</a>
             <a href="/settings">settings</a>
             <a href="/logout">logout</a>
@@ -39,7 +40,7 @@
                 <span id="msg"><%=msg%></span>
             <% } %>
         <button class="toggle" id="personal_btn" onclick="togglePersonalForm()">personal details</button>
-        <form style="display: none;" class="info_class" id="personal_form" method="POST" action="/settings/personal">
+        <form style="display: none;" class="info_class" id="personal_form" method="POST" action="/settings">
             
 
             <label for="username">enter Username</label>
@@ -58,7 +59,7 @@
         </form>
 
         <button class="toggle" id="password_btn" onclick="togglePasswordForm()">change password</button>
-        <form style="display: none;" id="password_form" method="POST" action="/settings/password">
+        <form style="display: none;" id="password_form" method="POST" action="/settings">
 
             <span class="inner_h">Change your password</span>
             
@@ -72,7 +73,7 @@
         </form>
         
         <button class="toggle" id="hobbies_btn" onclick="toggleHobbiesForm()">change hobbies</button>
-        <form style="display: none;" id="hobbies_form" method="POST" action="/settings/hobbies">
+        <form style="display: none;" id="hobbies_form" method="POST" action="/settings">
             <span class="inner_h">Change your password</span>
             
             <label for="hobby1">Choose 1st Hobby</label>
@@ -95,13 +96,13 @@
 
         <button class="toggle" id="loaction_btn" onclick="toggleLocationForm()">location</button>
         <div style="display: none;" id="location_form">
-            <form method="POST" action="/settings/location">
+            <form method="POST" action="/settings">
                 <button type="submit">update location</button>
             </form>
         </div>
         
         <button class="toggle" id="additional_btn" onclick="toggleAdditionalForm()">additional info</button>
-        <form style="display: none;" id="additional_form" class="additional_bio" method="POST" action="/settings/orientation">
+        <form style="display: none;" id="additional_form" class="additional_bio" method="POST" action="/settings">
             <div class="div_gender">
                 <label for="gender">Enter gender(first letter uppercase)</label>
                 <input type="text" name="Gender" required>
@@ -134,6 +135,9 @@
     <footer>
         <a href="#">matcha dating app</a>
     </footer>
+    
+    <script src="javascripts/nav.js"></script>
     <script src="javascripts/settings.js"></script>
+
 </body>
 </html>

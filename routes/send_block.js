@@ -12,13 +12,21 @@ router.use(session({
 }));
 
 router.post('/', (req, res) => {
-    if (!req.body.reason)
+    if (!req.session.user)
+        res.redirect('/login');
+    else if (!req.body.reason)
         res.redirect('/match_full_info')
-    if (req.body.reason) {
-        connection.query('INSERT INTO blocks  (`username`, `block_who`,`reason`,`accepted`) VALUES (?, ?, ?, 0)', [req.session.user, req.body.blocked_user, req.body.reason], (err) => {
+    else if (req.body.reason) {
+        console.log('---------send_block');
+        console.log(req.body);
+        let sql = 'INSERT INTO blocks  (`username`, `block_who`,`reason`,`accepted`) VALUES (?, ?, ?, 0)';
+
+        connection.query(sql, [req.session.user, req.body.blocked_user, req.body.reason], (err) => {
             if (err) console.log(err)
             else res.redirect('/');
         });  
-    }   
+    }else {
+        res.redirect('/login');
+    }
 });
 module.exports = router;

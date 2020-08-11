@@ -30,7 +30,7 @@
     </nav>
     <main>
         <%
-        if (session.complete == 0){%>
+        if (session.complete != 1){%>
                 <div class="not_complete">
                     <span id="not_complete_heading">incomplete profile</span>
                     <p>most features will be locked<br>
@@ -58,7 +58,7 @@
             <% if (blocked){ %>
                 <span class="user_blocked">this user is blocked</span>
             <% } else{ %>
-                <form action="/block_user" method="GET">
+                <form action="/block_user" method="POST">
                     <input type="hidden" name="match_username" value=<%=match_info.match_username%>>
                     <button class="connection_status_btn" type="submit">request to block user</button>
                 </form>
