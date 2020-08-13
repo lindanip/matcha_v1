@@ -7,7 +7,12 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/search_match.css">
 </head>
-<body>
+<body onload="login()">
+    <input type="hidden" value=<%=user.username %> id='me'>
+    <span id="notification-toggle">
+      <a href="javacript:void(0)" onclick="displayNotifications()">notifications</a>
+    </span>
+    <div id="notification-bar"></div>
     <nav>
         <div id="main_menu">
             <a href="/">home</a>
@@ -15,12 +20,12 @@
             <a href="/connection_requests">requests</a>
             <a href="/search_match">search</a>
             <a href="javascript:void(0);" onclick="userSubMenu()">
-                <img id="profile_pic" src="" alt="sub_menu">
+                <img id="profile_pic" src=<%=user.profile_pic%>  alt="sub_menu">
             </a>
         </div>
         <div id="user_sub_menu">
             <a href="javascript:void(0);" onclick="userSubMenu()">
-                <img id="profile_pic" src="" alt="sub_menu">
+                <img id="profile_pic" src=<%=user.profile_pic%> alt="sub_menu">
             </a>
             <a href="/profile_views">profile views</a>
             <a href="/My_pictures">my pics</a>
@@ -91,13 +96,14 @@
                     <span class="match_age">age: <%=match_age%></span>
                     <span class="match_orientation">sexual preference: <%=match_orientation%></span>
                     <span class="label_bio">biography: <%=match_bio%></span>
-                    <ul class="match_hobbies">
-                        <li class="hobby"><%=match_hobby1%></li>
-                        <li class="hobby"><%=match_hobby2%></li>
-                        <li class="hobby"><%=match_hobby3%></li>
-                        <li class="hobby"><%=match_hobby4%></li>
-                        <li class="hobby"><%=match_hobby5%></li>
-                    </ul>
+                    <hr>
+                    <span class="label_bio">interests</span>
+                    <hr>
+                    <span class="label_bio">
+                        <%=match_hobby1%>, <%=match_hobby2%>, <%=match_hobby3%>
+                        , <%=match_hobby4%>, <%=match_hobby5%>
+                    </span>
+                    <hr>
                     <span class="match_distance">distance from me {no yet working}</span>
                 </div> 
 
@@ -118,7 +124,7 @@
                     <input type="hidden" name="match_hobby5" value=<%=match_hobby5%>>
                     <input type="hidden" name="match_last_seen" value=<%=match_last_seen%>>
                     <input type="hidden" name="match_distance" value=<%=match_distance%>>
-                    <button type="submit" id="profile_choose">View Profile</button>
+                    <button type="submit" id="view_btn">View Profile</button>
                 </form>
             </div>
 
@@ -130,6 +136,8 @@
       <footer>
           <a href="#">matcha dating web application</a>
       </footer>
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="javascripts/notification.js"></script>
       <script src="javascripts/nav.js"></script>
 </body>
 </html>

@@ -5,8 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/settings.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
 </head>
-<body>
+<body onload="login()">
+    <input type="hidden" value=<%=session.user %> id='me'>
+    <span id="notification-toggle">
+      <a href="javacript:void(0)" onclick="displayNotifications()">notifications</a>
+    </span>
+    <div id="notification-bar"></div>
     <nav>
         <div id="main_menu">
             <a href="/">home</a>
@@ -104,26 +110,30 @@
         <button class="toggle" id="additional_btn" onclick="toggleAdditionalForm()">additional info</button>
         <form style="display: none;" id="additional_form" class="additional_bio" method="POST" action="/settings">
             <div class="div_gender">
-                <label for="gender">Enter gender(first letter uppercase)</label>
+                <label for="gender">enter your gender</label>
                 <input type="text" name="Gender" required>
             </div>
             <span>sexaul preference</span>
             <ul class="orientation_list">
                 <li>
                     <label for="male">male</label><br>
-                    <input type="radio" name="Orientation" value="female" required>
+                    <input type="radio" name="Orientation" value="male" required>
                 </li>
                 <li>
                     <label for="female">female</label><br>
-                    <input type="radio" name="Orientation" value="lesbian" required>    
+                    <input type="radio" name="Orientation" value="female" required>    
                 </li>
                 <li>
                     <label for="lesbian">lesbian</label><br>
-                    <input type="radio" name="Orientation" value="gay" required>
+                    <input type="radio" name="Orientation" value="lesbian" required>
                 </li>
                 <li>
                     <label for="gay">gay</label>
                     <input type="radio" name="Orientation" value="gay" required>
+                </li>
+                <li>
+                    <label for="bisexual">bisexual</label>
+                    <input type="radio" name="Orientation" value="bisexual" required>
                 </li>
             </ul>
             <label for="Bio">Tell us a little about yourself</label>
@@ -135,7 +145,8 @@
     <footer>
         <a href="#">matcha dating app</a>
     </footer>
-    
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="javascripts/notification.js"></script>
     <script src="javascripts/nav.js"></script>
     <script src="javascripts/settings.js"></script>
 

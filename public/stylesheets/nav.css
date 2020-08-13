@@ -1,6 +1,23 @@
 #profile_pic{
     width: 30px;
 }
+
+#notification-bar{
+    margin: auto;
+    display: grid;
+    width: 300px;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+}
+#notification-toggle{ display: none; text-align: center;}
+#notification-bar .not_info{
+    border: 1px solid black;
+    padding: 2px;
+    margin: 2px;
+}
+.not_info span{ display: block; }
+.not_info span:nth-child(1){ background-color: grey;  border-bottom: 1px solid green; }
+
 nav{
     margin: auto;
     display: flex;

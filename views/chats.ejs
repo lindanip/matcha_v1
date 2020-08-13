@@ -8,7 +8,12 @@
   <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
   <link rel="stylesheet" type="text/css" href="/stylesheets/chats.css">
 </head>
-<body>
+<body onload="login()">
+  <input type="hidden" value=<%=session.user %> id='me'>
+  <span id="notification-toggle">
+    <a href="javacript:void(0)" onclick="displayNotifications()">notifications</a>
+  </span>
+  <div id="notification-bar"></div>
   <nav>
     <div id="main_menu">
         <a href="/">home</a>
@@ -76,6 +81,8 @@
   <footer>
     <a href="#">matcha dating app</a>
   </footer>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="javascripts/notification.js"></script>
   <script src="javascripts/nav.js"></script>
 </body>
 </html>

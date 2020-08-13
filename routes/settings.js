@@ -229,44 +229,49 @@ router.post('/', (req, res) => {
         let { session } = req;
         let gender = req.body.Gender;
         gender = gender.toLowerCase();
-
-        let sql = 'UPDATE users SET Gender = ?, Orientation = ?, Bio = ? WHERE username = ?';
         
-        connection.query(sql, [req.body.Gender, req.body.Orientation, req.body.Bio, req.session.user], (err) => {
-            if (err) res.status(500).send('internal server error, please try again later');
-            else
-            {
-                connection.query('SELECT * FROM users WHERE username = ? ', [session.user], (err, userInfoRow) => {
-                    if (err) res.status(500).send('internal server error, please try again later');
-                    else{
-                        // %% new check { user after sql query } %% 
+        if (!gender || (gender != 'male' && gender != 'female'))
+            res.render('settings', { session, error: 'invalid gender', msg: 'none' }); 
+        else
+        {
+            let sql = 'UPDATE users SET Gender = ?, Orientation = ?, Bio = ? WHERE username = ?';
+            
+            connection.query(sql, [gender, req.body.Orientation, req.body.Bio, req.session.user], (err) => {
+                if (err) res.status(500).send('internal server error, please try again later');
+                else
+                {
+                    connection.query('SELECT * FROM users WHERE username = ? ', [session.user], (err, userInfoRow) => {
+                        if (err) res.status(500).send('internal server error, please try again later');
+                        else{
+                            // %% new check { user after sql query } %% 
 
-                        if (userInfoRow[0].Complete == '-2' )
-                        {
-                            connection.query('UPDATE users SET Complete = 1 WHERE username = ?', [req.session.user], (err) => {
-                                if (err) res.status(500).send('internal server error, please try again later');
-                                else{
-                                    req.session.complete = 1;
-                                    res.render('settings', {session, error: 'none', msg: 'profile successfully completed, you can now get full access to matcha '})
-                                }
-                            });            
-                        }else if (userInfoRow[0].Complete == '0')
-                        {
-                            connection.query('UPDATE users SET Complete = -1 WHERE username = ?', [req.session.user], (err) => {
-                                if (err) res.status(500).send('internal server error, please try again later');
-                                else{
-                                    req.session.complete = -1;
-                                    res.render('settings', {session, error: 'none', msg: 'update complete, please complete hobbies form to get full access to matcha'})
-                                }
-                            });
-                        }else if (userInfoRow[0].Complete == '-1')
-                            res.render('settings', {session, error: 'none', msg: 'update complete, please complete hobbies form to get full access to matcha'})
-                        else
-                            res.render('settings', {session, error: 'none', msg: 'additional information successfully updated'})
-                    }
-                });
-            }
-        })
+                            if (userInfoRow[0].Complete == '-2' )
+                            {
+                                connection.query('UPDATE users SET Complete = 1 WHERE username = ?', [req.session.user], (err) => {
+                                    if (err) res.status(500).send('internal server error, please try again later');
+                                    else{
+                                        req.session.complete = 1;
+                                        res.render('settings', {session, error: 'none', msg: 'profile successfully completed, you can now get full access to matcha '})
+                                    }
+                                });            
+                            }else if (userInfoRow[0].Complete == '0')
+                            {
+                                connection.query('UPDATE users SET Complete = -1 WHERE username = ?', [req.session.user], (err) => {
+                                    if (err) res.status(500).send('internal server error, please try again later');
+                                    else{
+                                        req.session.complete = -1;
+                                        res.render('settings', {session, error: 'none', msg: 'update complete, please complete hobbies form to get full access to matcha'})
+                                    }
+                                });
+                            }else if (userInfoRow[0].Complete == '-1')
+                                res.render('settings', {session, error: 'none', msg: 'update complete, please complete hobbies form to get full access to matcha'})
+                            else
+                                res.render('settings', {session, error: 'none', msg: 'additional information successfully updated'})
+                        }
+                    });
+                }
+            })
+        }
     }
     else if (req.body && req.body.Latitude && req.body.Longitude) {
             if (!req.session.user)

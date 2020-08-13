@@ -16,7 +16,6 @@ router.get('/', (req, res) => {
         res.redirect('/login');
     else
     {
-        //check if the user has completed the his additional information
         let { session } = req;
         let connections = 'none';
         let suggestions = 'This varible yes its not used but, but part for the returned object. please check res.render';
@@ -49,14 +48,20 @@ router.get('/', (req, res) => {
                             if (err) res.status(500).send('internal server error');
                             else
                             {
-                                if (connectionsRows2[0]){
-                                    let i = 0;
-                                    while(connectionsRows2[i]){
-                                        if (connectionsRows2[i])
-                                            connections.push(connectionsRows2[i])
-                                        i++;
+                                if (connectionsRows2[0])
+                                {
+                                    if (connections == 'none')
+                                        connections = connectionsRows2
+                                    else{
+                                        let i = 0;
+                                        while(connectionsRows2[i]){
+                                            if (connectionsRows2[i])
+                                                connections.push(connectionsRows2[i])
+                                            i++;
+                                        }
                                     }
                                 }
+
                                 let { Hobby1, Hobby2, Hobby3, Hobby4, Hobby5 } = myHobbies; 
 
                                 sql = 
@@ -102,8 +107,6 @@ router.get('/', (req, res) => {
                                                             if (err) res.status(400).send('internal server error');
                                                             else{
                                                                if (suggNotByFiltersRows[0]){
-                                                                    console.log('the end');
-                                                                    console.log(suggNotByFiltersRows);
                                                                     res.render('index', {session, connections,
                                                                                 suggestions: suggNotByFiltersRows});
                                                                         

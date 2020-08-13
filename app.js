@@ -94,34 +94,52 @@ app.use('/chats', chats);
 app.use('/messages', messages)
 
 
-io.on('connection', (socket) => {
-
-    socket.on("loginReq", (params) => {
+io.on('connection', (socket) =>
+{
+    socket.on('notLoginReq', (params) =>
+    {
         let sql = 'SELECT * FROM socketid WHERE username = ?';
-        
-        connection.query(sql, [params.me], (err, socketIdRow) => {
+        connection.query(sql, [params.me], (err, socketIdRow) =>
+        {
             if (err) io.emit('error', 'internal server error');
             else if (socketIdRow[0])
             {
                 sql = 'UPDATE socketid SET soc_id = ? WHERE username = ?';
-
                 connection.query(sql, [socket.id, params.me], (err) => {
-                    if (err) {
-                        console.log('server error')
-                        console.log(err);
-                        io.emit('error', 'interal server error');
-                    }
+                    if (err) io.emit('error', 'interal server error');
                 });
             }else
             {
                 sql = 'INSERT INTO socketid (username, soc_id) VALUES (?, ?)';
-                
                 connection.query(sql, [params.me, socket.id], (err) => {
                     if (err) io.emit('error', 'interal server error');
                 });
             }
+            io.to(socket.id).emit('notLoginRes', params.me);
+        });
+    });
+
+    socket.on("loginReq", (params) =>
+    {
+        let sql = 'SELECT * FROM socketid WHERE username = ?';    
+        connection.query(sql, [params.me], (err, socketIdRow) =>
+        {
+            if (err) io.emit('error', 'internal server error');
+            else if (socketIdRow[0])
+            {
+                sql = 'UPDATE socketid SET soc_id = ? WHERE username = ?';
+                connection.query(sql, [socket.id, params.me], (err) => {
+                    if (err) io.emit('error', 'interal server error');
+                });
+            }else
+            {
+                sql = 'INSERT INTO socketid (username, soc_id) VALUES (?, ?)';
+                connection.query(sql, [params.me, socket.id], (err) => {
+                    if (err) io.emit('error', 'interal server error');
+                });
+            }
+
             sql = 'SELECT * FROM socketid WHERE username = ?';
-        
             connection.query(sql, [params.them], (err, themStatusRow) => {
                 if (err) io.emit('error', 'internal server error');
                 io.emit('loginRes', { themStatus: themStatusRow[0] ? 'online' : 'offline' });
@@ -147,10 +165,17 @@ io.on('connection', (socket) => {
             else
             {
                 io.to(themStatusRow[0].soc_id).emit('resMsg', msgParams);
+                io.to(themStatusRow[0].soc_id).emit('notMsg', msgParams);
             }
         });
     });
     // we have to do for the disconnecting on the page close and on the log out
+    socket.on("disconnect", () => {
+        let sql = 'DELETE FROM socketid WHERE soc_id = ?';
+        connection.query(sql, socket.id, (err) => {
+            if (err) console.log(err);
+        });        
+    });
 });
 
 server.listen(port, () => console.log(`listening on port ${port}`));

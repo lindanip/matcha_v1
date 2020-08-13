@@ -7,7 +7,12 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/match_full_info.css">
 </head>
-<body>
+<body onload="login()">
+    <input type="hidden" value=<%=session.user %> id='me'>
+    <span id="notification-toggle">
+      <a href="javacript:void(0)" onclick="displayNotifications()">notifications</a>
+    </span>
+    <div id="notification-bar"></div>
     <nav>
         <div id="main_menu">
             <a href="/">home</a>
@@ -42,22 +47,26 @@
         <% } else{ %>
             <h1>potential match profile</h1>
             <img src=<%=match_info.match_profilepic%>>
-            <% if (connected == 0 && match_info.match_profilepic != 0){ %>
-                <form action="/add_connection" method="POST">
-                    <input type="hidden" name="match_username" value=<%=match_info.match_username%>>
-                    <button class="connection_status_btn" type="submit">send connection request</button>
-                </form>
-            <% }
-            else if (connected == 1) { %>
-                <form action="/delete_connection" method="POST">
-                    <input type="hidden" name="match_username" value=<%=match_info.match_username%>>
-                    <button class="connection_status_btn" type="submit">remove connection</button>
-                </form>
-            <% } %>
             
-            <% if (blocked){ %>
+            <% if (blocked == 1){ %>
                 <span class="user_blocked">this user is blocked</span>
+            <% } else if (blocked == '-1') { %>
+                <span class="user_blocked">account has been temporarily disabled</span>
             <% } else{ %>
+                <% if (connected == -1) { %>
+                    <span class="connect_to_chat"> connection request sent </span>
+                <% } else if (connected == 0 && match_info.match_profilepic != 0){ %>
+                    <form action="/add_connection" method="POST">
+                        <input type="hidden" name="match_username" value=<%=match_info.match_username%>>
+                        <button class="connection_status_btn" type="submit">send connection request</button>
+                    </form>
+                <% }
+                if (connected == 1 || connected == -1) { %>
+                    <form action="/delete_connection" method="POST">
+                        <input type="hidden" name="match_username" value=<%=match_info.match_username%>>
+                        <button class="connection_status_btn" type="submit">remove connection</button>
+                    </form>
+                <% } %>
                 <form action="/block_user" method="POST">
                     <input type="hidden" name="match_username" value=<%=match_info.match_username%>>
                     <button class="connection_status_btn" type="submit">request to block user</button>
@@ -67,7 +76,7 @@
                     <button class="connection_status_btn" type="submit" disabled>pictures</button>
                 </form>
                 <%
-                if (connected){ %>
+                if (connected == 1 || connected == -1){ %>
                     <form action="/chat" method="POST">
                         <input type="hidden" name="match_username" value=<%=match_info.match_username%>>
                         <button class="connection_status_btn" type="submit" disabled>go to chats</button>
@@ -103,6 +112,8 @@
     <footer>
         <a href="#">matcha dating web application</a>
     </footer>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="javascripts/notification.js"></script>
     <script src="javascripts/nav.js"></script>
 </body>
 </html>

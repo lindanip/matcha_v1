@@ -33,13 +33,15 @@ router.get('/', (req, res) => {
             }
         });
 
-        sql = 'SELECT * FROM connections WHERE username = ? AND connected_to = ? AND accepted = 1';
+        sql = 'SELECT * FROM connections WHERE username = ? AND connected_to = ?';
         connection.query(sql, [username, match_username], (err, row) => {
             if (err) res.status(500).send('internal server error');
             else{
-                let connected, isliked;
+                let connected = 0,
+                    isliked;
                 
-                connected = row[0] ? 1 : 0;
+                if (row[0])
+                    connected = (row[0].accepted == '0') ? -1 : 1;
                 
                 sql = 'SELECT * FROM likes WHERE username = ? AND theLiked = ?';
                 connection.query(sql, [username, match_username], (err, row) => {
@@ -51,7 +53,11 @@ router.get('/', (req, res) => {
                 connection.query(sql, [username, match_username], (err, row) => {
                     if (err) res.status(500).send('internal server error');
                     else {
-                        let blocked = row[0] ? 1 : 0;
+                        let blocked = 0;
+                        
+                        if (row[0])
+                            blocked = (row[0].accepted == '0') ? -1 : 1;
+                        
                         res.render('match_full_info', { session, match_info, isliked, connected, blocked });
                     }
                 });
