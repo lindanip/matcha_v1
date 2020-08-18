@@ -4,15 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
+    
     <link rel="stylesheet" type="text/css" href="/stylesheets/settings.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
+
 </head>
 <body onload="login()">
     <input type="hidden" value=<%=session.user %> id='me'>
+    
     <span id="notification-toggle">
       <a href="javacript:void(0)" onclick="displayNotifications()">notifications</a>
     </span>
     <div id="notification-bar"></div>
+    
     <nav>
         <div id="main_menu">
             <a href="/">home</a>
@@ -34,21 +38,18 @@
             <a href="/logout">logout</a>
         </div>
     </nav>
+    
     <main>
-        <% 
-                if (error != 'none'){
-            %>
-                <span id="error"><%=error%></span>
-            <% } %>
-            <% 
-                if (msg != 'none'){
-            %>
-                <span id="msg"><%=msg%></span>
-            <% } %>
+        <% if (error != 'none'){ %>
+            <span id="error"><%=error%></span>
+        <% } %>
+        <% if (msg != 'none'){ %>
+            <span id="msg"><%=msg%></span>
+        <% } %>
+
         <button class="toggle" id="personal_btn" onclick="togglePersonalForm()">personal details</button>
         <form style="display: none;" class="info_class" id="personal_form" method="POST" action="/settings">
             
-
             <label for="username">enter Username</label>
             <input type="text" name="username" value=<%=session.user %> required>
         
@@ -70,10 +71,14 @@
             <span class="inner_h">Change your password</span>
             
             <label for="password">Enter password</label>
-            <input type="password"  name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}">
+            <input type="password"  name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}"
+            title="Must contain at least one number and
+             one uppercase and lowercase letter, and at least 8 or more">
 
             <label for="vPassword">Confirm Password</label>
-            <input type="password" name="vPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}">
+            <input type="password" name="vPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}"
+            title="Must contain at least one number and
+             one uppercase and lowercase letter, and at least 8 or more">
             
             <button type="submit">Update password</button>
         </form>
@@ -142,9 +147,11 @@
         </form>
 
     </main>
+    
     <footer>
         <a href="#">matcha dating app</a>
     </footer>
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="javascripts/notification.js"></script>
     <script src="javascripts/nav.js"></script>

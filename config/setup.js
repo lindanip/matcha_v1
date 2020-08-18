@@ -12,7 +12,7 @@ const resHandler = (err, dbName) => {
     console.log(`table ${dbName} created..`);
 };
 
-var sql = 'CREATE DATABASE IF NOT EXISTS matcha';
+let sql = 'CREATE DATABASE IF NOT EXISTS matcha';
 connection.query(sql, err => {
     if (err) console.log(err);
     console.log('database created..');
@@ -39,8 +39,9 @@ connection.query(sql, err => resHandler(err, 'Images'));
 sql = 'CREATE TABLE IF NOT EXISTS matcha.views (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL, visitor VARCHAR(255) NOT NULL)';
 connection.query(sql, err => resHandler(err, 'Views'));
 
-sql = 'CREATE TABLE IF NOT EXISTS matcha.likes (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL, theLiked VARCHAR(255) NOT NULL, like_back INT(11) DEFAULT 0)';
-connection.query(sql, err => resHandler(err, 'Likes'));
+sql = 'CREATE TABLE IF NOT EXISTS matcha.notifications (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, sentby VARCHAR(255) NOT NULL, sentto VARCHAR(255) NOT NULL, notification_message VARCHAR(255) NOT NULL, seen INT(11) DEFAULT 0)';
+connection.query(sql, err => resHandler(err, 'Notifications'));
+
 
 sql = 'CREATE TABLE IF NOT EXISTS matcha.connections (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL, connected_to VARCHAR(255) NOT NULL, accepted INT(11) DEFAULT 0)';
 connection.query(sql, err => resHandler(err, 'Connections'));
@@ -67,14 +68,24 @@ for(i = 0; i <= 20; i++)
     var age =  Math.floor((Math.random() * 82) + 18);
     var email = finalName + '.' + finalsurName + "@gmail.com";
     var pic = faker.image.avatar();
-    var city = ['Hong Kong', 'Bangkok', 'London', 'Paris', 'New York City', 'Tokyo', 'Rome', 'Miami', 'Amsterdam', 'Cape Town', 'Johannesburg', 'Las Vegas', 'Barcelona', 'Madrid', 'Cairo', 'Pretoria']
+    var city = ['Hong Kong', 'Bangkok', 'London', 'Paris', 'New York City',
+                'Tokyo', 'Rome', 'Miami', 'Amsterdam', 'Cape Town', 'Johannesburg',
+                'Las Vegas', 'Barcelona', 'Madrid', 'Cairo', 'Pretoria']
+    
     var finalCity = random_gender(city);
     var preferences = ['Female', 'Male', 'Bisexual'];
     var genders = ['Female', 'Male'];
     var finalPreference = random_gender(preferences);
     var finalGender = random_gender(genders);
+    var fameRating = Math.floor(Math.random() * 10);
 
-    sql = "INSERT INTO matcha.users (username, Firstname, Lastname, Age, Email, City, Orientation,Gender, profile_pic) VALUES ('"+ finalName +"','"+ finalName +"','"+ finalsurName +"','"+ age +"','"+ email +"','"+ finalCity +"','"+ finalPreference +"','"+ finalGender +"','"+ pic +"')";
+    sql = 
+        "INSERT INTO matcha.users (username, Firstname, Lastname, Age, Email, City,"+
+        " Orientation, Gender, profile_pic, fame_rating)" +
+        " VALUES ('"+ finalName +"','"+ finalName +"','"+ finalsurName + 
+        "','"+ age +"','"+ email +"','"+ finalCity +"','"+ finalPreference +
+        "','"+ finalGender +"','"+ pic +"', "+ fameRating +")";
+    
     connection.query(sql, err => {
         if (err) console.log(err);
     });

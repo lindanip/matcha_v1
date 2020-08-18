@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var connection = require('../config/db')
-var session = require('express-session')
-var secretString = Math.floor((Math.random() * 10000) + 1);
+const express = require('express');
+const router = express.Router();
+const connection = require('../config/db')
+const session = require('express-session')
+const secretString = Math.floor((Math.random() * 10000) + 1);
 
 router.use(session({
     secret: secretString.toString(),
@@ -24,7 +24,8 @@ router.get('/', (req, res) => {
         connection.query(sql, [username, match_username], (err, row) => {
             if (err) res.status(500).send('internal server error');
             else{
-                if (!row[0]){
+                if (!row[0])
+                {
                     sql = 'INSERT INTO views  (`username`, `visitor`) VALUES (?, ?)';
                     connection.query(sql, [match_username, username] , (err) => {
                         if (err) res.status(500).send('internal server error');
@@ -36,18 +37,31 @@ router.get('/', (req, res) => {
         sql = 'SELECT * FROM connections WHERE username = ? AND connected_to = ?';
         connection.query(sql, [username, match_username], (err, row) => {
             if (err) res.status(500).send('internal server error');
-            else{
-                let connected = 0,
-                    isliked;
+            else
+            {
+                let connected = 0;
+                let isliked;
                 
                 if (row[0])
                     connected = (row[0].accepted == '0') ? -1 : 1;
+                else
+                {
+                    sql = 'SELECT * FROM connections WHERE username = ? AND connected_to = ?';
+                    connection.query(sql, [match_username, username], (err, row) => {
+                        if (err) res.status(500).send('internal server error');
+                        else
+                            if (row[0])
+                                connected = (row[0].accepted == '0') ? -2 : 1;
+                    });   
+                }
                 
-                sql = 'SELECT * FROM likes WHERE username = ? AND theLiked = ?';
-                connection.query(sql, [username, match_username], (err, row) => {
-                    if (err) res.status(500).send('internal server error');
-                    else isliked = row[0] ? 1 : 0;  
-                });
+                //need some serious checking out because the like is no longer working
+                //did not remove because of avoid in sql error
+                // sql = 'SELECT * FROM likes WHERE username = ? AND theLiked = ?';
+                // connection.query(sql, [username, match_username], (err, row) => {
+                //     if (err) res.status(500).send('internal server error');
+                //     else isliked = row[0] ? 1 : 0;  
+                // });
 
                 sql = 'SELECT * FROM blocks WHERE username = ? AND block_who = ?';
                 connection.query(sql, [username, match_username], (err, row) => {

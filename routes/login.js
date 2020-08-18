@@ -17,7 +17,8 @@ router.get('/', (req, res) => res.render('login', {msg: "none", error: "none"}))
 router.post('/', (req, res) => {
     if (!req.body.username || !req.body.password)
         res.render('login', {msg: 'none', error: 'Please enter the form fields'});
-    else{
+    else
+    {
         const username = req.body.username;
         
         let sql = 'SELECT * FROM users WHERE username = ? LIMIT 1';
@@ -30,18 +31,21 @@ router.post('/', (req, res) => {
                 res.render('login', {msg: 'Please verify your account', error: 'none'});
             else if (!bcrypt.compareSync(req.body.password, rows[0].Password))
                 res.render('login', {msg: 'none', error: 'wrong password'});    
-            else{
+            else
+            {
                 sql = 'UPDATE users SET Online = 1, last_seen = ? WHERE username = ?';
                 connection.query(sql, [get_date(), rows[0].username], (err) => {
                     if (err)
                         res.render('login', {msg: 'none', error: 'could not connect to database, please try again'});
                 });
 
+
                 sql = 'SELECT * FROM user_filters WHERE username = ? LIMIT 1';
                 connection.query(sql, [username], (err, filters) => {
                     if (err)
                         res.render('login', {msg: 'none', error: 'could not connect to database, please try again'});
-                    else{
+                    else
+                    {
                         req.session.user = req.body.username;
                         req.session.Firstname = rows[0].Firstname;
                         req.session.Lastname = rows[0].Lastname;
@@ -53,9 +57,7 @@ router.post('/', (req, res) => {
                         req.session.city = rows[0].City;
                         req.session.profile_pic = rows[0].profile_pic;
                         req.session.complete = rows[0].Complete;
-                        // req.session.filters = {age: filters[0].Age, orientation: filters[0].Orientation,
-                        //                         hobby: filters[0].Hobby, city: 'none'}
-                    
+
                         if (rows[0].admin == 0) res.redirect('/')
                         else res.redirect('/admin_index');
                     }

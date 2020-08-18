@@ -192,7 +192,7 @@ router.post('/', (req, res) => {
                     req.session.Lastname = req.body.Lastname;
                     req.session.Email = req.body.Email;
                     
-                    res.render('settings', {session, msg: 'personal info update success'});
+                    res.render('settings', {session, msg: 'personal info update success', error: 'none'});
                 })
             }
         })
@@ -223,9 +223,8 @@ router.post('/', (req, res) => {
             });
         }
     }
-    else if (req.body && req.body.Orientation && req.body.Bio) {
-        // %% { check for sql injection here } %%
-        
+    else if (req.body && req.body.Orientation && req.body.Bio)
+    {    
         let { session } = req;
         let gender = req.body.Gender;
         gender = gender.toLowerCase();

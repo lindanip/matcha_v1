@@ -74,11 +74,11 @@
                 <form action="/accept_connection" method="POST">
                     <input type="hidden" name="match_username" value=<%=connection_username %>>
                     <input type="hidden" name="match_room_id" value=<%=connection_room_id %>>
-                    <button id="accept_"type="submit">accept connection</button>
+                    <button id=<%=connection_username %> onclick="acceptConnectionReq()" id="accept_"type="submit">accept connection</button>
                 </form>
                 <form action="/decline_connection" method="POST">
                     <input type="hidden" name="match_username" value=<%=connection_username %>>
-                    <button id="refuse_" type="submit">refuse connection</button>
+                    <button onclick="declineConnectionReq()" id="refuse_" type="submit">refuse connection</button>
                 </form>
               </div>
       <%    x++;

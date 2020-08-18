@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>match full information</title>
+
     <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/match_full_info.css">
 </head>
-<body onload="login()">
+<body onload="profileView()">
+    
     <input type="hidden" value=<%=session.user %> id='me'>
+    <input type="hidden" value=<%=match_info.match_username %> id='them'>
+
     <span id="notification-toggle">
       <a href="javacript:void(0)" onclick="displayNotifications()">notifications</a>
     </span>
     <div id="notification-bar"></div>
+    
     <nav>
         <div id="main_menu">
             <a href="/">home</a>
@@ -33,67 +38,75 @@
             <a href="/logout">logout</a>
         </div>
     </nav>
+    
     <main>
-        <%
-        if (session.complete != 1){%>
-                <div class="not_complete">
-                    <span id="not_complete_heading">incomplete profile</span>
-                    <p>most features will be locked<br>
-                    go to the settings page to complete your profile.<br>
-                    and fill in your additional information, and you will set to go.
-                    </p>
-                    <a href="/settings"> complete profile </a>
-                </div>
+        <% if (session.complete != 1){ %>
+            <div class="not_complete">
+                <span id="not_complete_heading">incomplete profile</span>
+                <p>most features will be locked<br>
+                go to the settings page to complete your profile.<br>
+                and fill in your additional information, and you will set to go.
+                </p>
+                <a href="/settings"> complete profile </a>
+            </div>
+        
         <% } else{ %>
             <h1>potential match profile</h1>
             <img src=<%=match_info.match_profilepic%>>
             
             <% if (blocked == 1){ %>
                 <span class="user_blocked">this user is blocked</span>
-            <% } else if (blocked == '-1') { %>
+            <% } else if (blocked == -1) { %>
                 <span class="user_blocked">account has been temporarily disabled</span>
             <% } else{ %>
+                
                 <% if (connected == -1) { %>
                     <span class="connect_to_chat"> connection request sent </span>
+                    
+                <% }else if (connected == -2) { %>
+                        <span class="connect_to_chat"><a href="/connection_requests">has sent you a request</a> </span>
+
                 <% } else if (connected == 0 && match_info.match_profilepic != 0){ %>
                     <form action="/add_connection" method="POST">
                         <input type="hidden" name="match_username" value=<%=match_info.match_username%>>
-                        <button class="connection_status_btn" type="submit">send connection request</button>
+                        <button onclick="sendConnectionReq()" class="connection_status_btn" type="submit">send connection request</button>
                     </form>
                 <% }
+                
                 if (connected == 1 || connected == -1) { %>
                     <form action="/delete_connection" method="POST">
                         <input type="hidden" name="match_username" value=<%=match_info.match_username%>>
-                        <button class="connection_status_btn" type="submit">remove connection</button>
+                        <button onclick="removeConnection()" class="connection_status_btn" type="submit">remove connection</button>
                     </form>
                 <% } %>
+                
                 <form action="/block_user" method="POST">
                     <input type="hidden" name="match_username" value=<%=match_info.match_username%>>
                     <button class="connection_status_btn" type="submit">request to block user</button>
                 </form>
+                
                 <form action="/match_gallary" method="GET">
                     <input type="hidden" name="match_username" value=<%=match_info.match_username%>>
                     <button class="connection_status_btn" type="submit" disabled>pictures</button>
                 </form>
-                <%
-                if (connected == 1 || connected == -1){ %>
+                
+                <% if (connected == 1 || connected == -1){ %>
                     <form action="/chat" method="POST">
                         <input type="hidden" name="match_username" value=<%=match_info.match_username%>>
                         <button class="connection_status_btn" type="submit" disabled>go to chats</button>
                     </form>
+                
                 <% } else { %>
                     <span class="connect_to_chat">  You are not connected to <%=session.match_info.match_username%> <br> Connect in order to access the chat system </span>
                 <%} %>
+                
                 <div class="match_info">
-                    <hr>
-                    <span><%=match_info.match_firstname%> <%=match_info.match_lastname%></span>
-                    <hr>
-                    <span>fame rating: <%=match_info.match_fame_rating%></span>
+                    <hr><span><%=match_info.match_firstname%> <%=match_info.match_lastname%></span>
+                    <hr><span>fame rating: <%=match_info.match_fame_rating%></span>
                     <span>age: <%=match_info.match_age%></span>
                     <span>Gender: <%=match_info.match_gender%></span>
                     <span>Sexual Preference: <%=match_info.match_orientation%></span>
-                    <hr>
-                    <span>hobbies</span>
+                    <hr><span>hobbies</span>
                     <hr>
                     <span>
                         <%=match_info.match_hobby1%>, <%=match_info.match_hobby2%>, <%=match_info.match_hobby3%>
