@@ -108,76 +108,42 @@
         <div id="suggestions">
           <h2>suggestions</h2>
           
-
-
-
-
-
-
-
-
-
-
-
+<!-- this is the start if the filter form all filters for this page are below -->
 
           <form id="_filterForm" method="POST" action="/">
             
             <div class="filters">
-                <div id="_filterByAgeDiv"></div>
-                <input id="_ageInputInfo" type="hidden" name="ageInputInfo" value="none">
-                <a href="javascript:void(0);" onclick="addAgeDiv()" id="_removeAgeFilterBtn"> remove age filter</a>
+                <span>Filter by age</span>
+                <label style="display: block;" for="minAge">min age</label>
+                <input type="number" name="minAge" min="18" max="129">
+                <label style="display: block;" for="maxAge">max age</label>
+                <input type="number" name="maxAge" min="19" max="130">
             </div>
             
-            
             <div class="filters">
-              <div id="_filterByFameDiv">
-                <span>Top rated</span>
-                <input type="checkbox" name="byFameCheckbox" id="_byFameCheckbox">
-              </div>
+              <span>Top rated</span>
+              <input type="checkbox" name="fameCheckbox" id="_byFameCheckbox">
             </div>
 
             <div class="filters">
-              <!-- <div id="_filterByHobbyDiv">
-                <span>filter by hobby</span>
-                <input class="filter_inputs" type="text" name="hobbyFilter1" value="None">
-                <input class="filter_inputs" type="text" name="hobbyFilter2" value="None">
-                <input class="filter_inputs" type="text" name="hobbyFilter3" value="None">
-                <input class="filter_inputs" type="text" name="hobbyFilter4" value="None">
-                <input class="filter_inputs" type="text" name="hobbyFilter5" value="None">
-              </div> -->
-              <input type="hidden" name="hobbyInputInfo" value="none">
-              <a href="javascript:void(0);" onclick="connections()" id="_addFilterBtn">add hobbies</a>
+              <span>filter by hobby</span>
+              <input  type="text" name="hobbyFilter1" value="none">
+              <input  type="text" name="hobbyFilter2" value="none">
+              <input  type="text" name="hobbyFilter3" value="none">
+              <input  type="text" name="hobbyFilter4" value="none">
+              <input  type="text" name="hobbyFilter5" value="none">
             </div>
 
             <div class="filters">
-              <div id="_filterByLocationDiv"></div>
-              <input id="_locationInputInfo" type="hidden" name="locationInputInfo" value="0">
-              <a href="javascript:void(0);" onclick="addLocationDiv()" id="_removeLocationBtn">filter by location</a>
+              <span>filter by location</span>
+              <input id="_locationInputInfo" type="text" name="locationFilter" value='none'>
             </div>
 
             <button type="submit">apply filters</button>
         </form>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        <!-- start of the suggestions , below the filter form on the this page or dom  -->
             <% if (suggestions == 'none') {%>
                   <span>DEAD END! you are now all alone in the darkness this app has no users</span>
             <% } else {
@@ -231,5 +197,56 @@
   <script src="javascripts/notification.js"></script>
   <script src="javascripts/nav.js"></script>
   <script src="javascripts/index.js"></script>
+
+<!-- this is the end of this html document part below is to be planned for  -->
+
+
+
+
+<!-- 
+          <form id="_filterForm" method="POST" action="/">
+            
+            <div class="filters">
+                <div id="_filterByAgeDiv"></div>
+                <input id="_ageInputInfo" type="hidden" name="ageInputInfo" value="none">
+                <a href="javascript:void(0);" onclick="addAgeDiv()" id="_removeAgeFilterBtn"> remove age filter</a>
+            </div>
+            
+            
+            <div class="filters">
+              <div id="_filterByFameDiv">
+                <span>Top rated</span>
+                <input type="checkbox" name="byFameCheckbox" id="_byFameCheckbox">
+              </div>
+            </div>
+
+            <div class="filters">
+              <a href="javascript:void(0);" onclick="addHobbyDiv()" id="_addFilterBtn">add hobbies</a>
+              <div id="_filterByHobbyDiv"></div>
+              <div id="_filterByHobbyDiv">
+                <span>filter by hobby</span>
+                <input  type="text" name="hobbyFilter1" value="None">
+                <input  type="text" name="hobbyFilter2" value="None">
+                <input  type="text" name="hobbyFilter3" value="None">
+                <input  type="text" name="hobbyFilter4" value="None">
+                <input  type="text" name="hobbyFilter5" value="None">
+              </div>
+              <input type="hidden" name="hobbyInputInfo" value="none">
+              
+            </div>
+
+            <div class="filters">
+              <div id="_filterByLocationDiv"></div>
+              <input id="_locationInputInfo" type="hidden" name="locationInputInfo" value="0">
+              <a href="javascript:void(0);" onclick="addLocationDiv()" id="_removeLocationBtn">filter by location</a>
+            </div>
+
+            <button type="submit">apply filters</button>
+        </form> -->
+
+
+
+
+
 </body>
 </html>
