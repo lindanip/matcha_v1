@@ -73,3 +73,18 @@ h1{ font-size: 25px; }
     color: white;
     background-color: rgba(255, 217, 0, 0.39);
 }
+
+
+
+
+/* style for the filter tags */
+#filter_form{
+    border: 8px solid red;
+    margin: 5px 0px;
+    padding: 5px;   
+}
+.filters{
+    border: 1px solid black;
+    margin: 10px 0px;
+    padding: 10px;
+}

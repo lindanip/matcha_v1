@@ -24,6 +24,13 @@ app.use(session({
     saveUninitialized: false
 }));
 
+
+//new route to fetch_req
+
+const return_cities = require('./routes/fetch_req/return_cities');
+
+//
+
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const registerRouter = require('./routes/register');
@@ -60,6 +67,13 @@ app.use('/Uploads', express.static(path.join(__dirname, 'Uploads')));
 app.use('/home/Uploads', express.static(path.join(__dirname, '/home/Uploads')));
 app.use('/search/Uploads', express.static(path.join(__dirname, '/search/Uploads')));
 app.use('/index_images', express.static(path.join(__dirname, 'index_images')));
+
+
+//for testing
+app.use('/fetch_req/return_cities', return_cities);
+//end testing
+
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

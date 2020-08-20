@@ -108,6 +108,76 @@
         <div id="suggestions">
           <h2>suggestions</h2>
           
+
+
+
+
+
+
+
+
+
+
+
+
+          <form id="_filterForm" method="POST" action="/">
+            
+            <div class="filters">
+                <div id="_filterByAgeDiv"></div>
+                <input id="_ageInputInfo" type="hidden" name="ageInputInfo" value="none">
+                <a href="javascript:void(0);" onclick="addAgeDiv()" id="_removeAgeFilterBtn"> remove age filter</a>
+            </div>
+            
+            
+            <div class="filters">
+              <div id="_filterByFameDiv">
+                <span>Top rated</span>
+                <input type="checkbox" name="byFameCheckbox" id="_byFameCheckbox">
+              </div>
+            </div>
+
+            <div class="filters">
+              <!-- <div id="_filterByHobbyDiv">
+                <span>filter by hobby</span>
+                <input class="filter_inputs" type="text" name="hobbyFilter1" value="None">
+                <input class="filter_inputs" type="text" name="hobbyFilter2" value="None">
+                <input class="filter_inputs" type="text" name="hobbyFilter3" value="None">
+                <input class="filter_inputs" type="text" name="hobbyFilter4" value="None">
+                <input class="filter_inputs" type="text" name="hobbyFilter5" value="None">
+              </div> -->
+              <input type="hidden" name="hobbyInputInfo" value="none">
+              <a href="javascript:void(0);" onclick="connections()" id="_addFilterBtn">add hobbies</a>
+            </div>
+
+            <div class="filters">
+              <div id="_filterByLocationDiv"></div>
+              <input id="_locationInputInfo" type="hidden" name="locationInputInfo" value="0">
+              <a href="javascript:void(0);" onclick="addLocationDiv()" id="_removeLocationBtn">filter by location</a>
+            </div>
+
+            <button type="submit">apply filters</button>
+        </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <% if (suggestions == 'none') {%>
                   <span>DEAD END! you are now all alone in the darkness this app has no users</span>
             <% } else {

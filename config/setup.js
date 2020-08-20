@@ -73,8 +73,8 @@ for(i = 0; i <= 20; i++)
                 'Las Vegas', 'Barcelona', 'Madrid', 'Cairo', 'Pretoria']
     
     var finalCity = random_gender(city);
-    var preferences = ['Female', 'Male', 'Bisexual'];
-    var genders = ['Female', 'Male'];
+    var preferences = ['female', 'male', 'bisexual'];
+    var genders = ['female', 'male'];
     var finalPreference = random_gender(preferences);
     var finalGender = random_gender(genders);
     var fameRating = Math.floor(Math.random() * 10);
