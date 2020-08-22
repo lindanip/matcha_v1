@@ -8,6 +8,15 @@ function togglePersonalForm(){
         personalForm.style.display = 'block';
 }
 
+function toggleAgeForm(){
+    let ageForm = document.getElementById('age_form');
+
+    if (ageForm.style.display != 'none')
+        ageForm.style.display = 'none';
+    else
+        ageForm.style.display = 'block';
+}
+
 function togglePasswordForm(){
     let personalForm = document.getElementById('password_form');
 

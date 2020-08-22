@@ -92,7 +92,7 @@
                 <img class="match_pic" src=<%=match_profilepic%>>
                 <div class="match_details">
                     <span class="match">username: <%=match_username%></span>
-                    <span class="match_rating">fame rating { not working yet}</span>
+                    <span class="match_rating">fame rating: <%=match_fame_rating%></span>
                     <span class="match_age">age: <%=match_age%></span>
                     <span class="match_orientation">sexual preference: <%=match_orientation%></span>
                     <span class="label_bio">biography: <%=match_bio%></span>
@@ -103,8 +103,6 @@
                         <%=match_hobby1%>, <%=match_hobby2%>, <%=match_hobby3%>
                         , <%=match_hobby4%>, <%=match_hobby5%>
                     </span>
-                    <hr>
-                    <span class="match_distance">distance from me {no yet working}</span>
                 </div> 
 
                 <form action="/match_full_info" method="POST">

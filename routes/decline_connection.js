@@ -19,9 +19,6 @@ router.post('/', (req, res) => {
             {
                 console.log('deleted from connections');
                 req.session.message = "User deleted from connections";
-                // connection.query('DELETE FROM connections WHERE username = ? AND connected_to = ?', [req.body.match_username, req.session.user], (err) => {
-                //     if (err) console.log(err)
-                // })
                 res.redirect('/connection_requests');
             }
         })  

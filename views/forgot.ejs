@@ -1,13 +1,26 @@
-<script src="/javascript/forgot.js"></script>
-<link type="text/css" href="../public/stylesheets/style.css">
-<br>
-<h2 id="pagetitle">Reset Page</h2>
-<div class="form">
-    <form method="POST" action="/forgot">
-        <label for="Email">Enter your email</label>
-        <input type="text" placeholder="Enter your email" name="Email" tabindex="1" required>
-        <br>
-        <button type="submit" id="btnSubmit" tabindex="2">Send reset request</button>
-    </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>forgot password</title>
 
-</div>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/login1.css">
+</head>
+<body>
+    <div class="form">
+        <h1 id="pagetitle">reset password</h1>
+        <form method="POST" action="/forgot">
+            <% if (error != 'none'){ %>
+                <span id="error"><%=error%></span>
+            <% }else if (msg != 'none'){ %>
+                <span id="msg"><%=msg%></span>
+            <% } %>
+
+            <label for="Email">enter your email</label>
+            <input type="text" name="Email" tabindex="1" required>
+            <button type="submit" tabindex="4">send reset request</button>
+        </form>
+    </div>
+</body>
+</html>

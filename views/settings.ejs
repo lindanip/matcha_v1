@@ -65,6 +65,14 @@
             <button type="submit" id="btnSubmit" tabindex="5">update details</button>
         </form>
 
+        <button class="toggle" id="age_btn" onclick="toggleAgeForm()">change age</button>
+        <form style="display: none;" id="age_form" action="/settings" method="post">
+            <label for="username">enter age</label>
+            <input type="number" name="age" min='18' max="130" required>
+            <button type="submit" id="btnSubmit" tabindex="5">update </button>
+        </form>
+
+
         <button class="toggle" id="password_btn" onclick="togglePasswordForm()">change password</button>
         <form style="display: none;" id="password_form" method="POST" action="/settings">
 
@@ -127,14 +135,6 @@
                 <li>
                     <label for="female">female</label><br>
                     <input type="radio" name="Orientation" value="female" required>    
-                </li>
-                <li>
-                    <label for="lesbian">lesbian</label><br>
-                    <input type="radio" name="Orientation" value="lesbian" required>
-                </li>
-                <li>
-                    <label for="gay">gay</label>
-                    <input type="radio" name="Orientation" value="gay" required>
                 </li>
                 <li>
                     <label for="bisexual">bisexual</label>

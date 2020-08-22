@@ -52,7 +52,7 @@
                             <span class="_info">Reason for blocking</span>       
                             <p id="_reason"><%=block_reason%></p>
                             <form action="/accept_block" method="POST">
-                                <input type="hidden" name="blocker_username" value=<%=blocker_username%>>
+                                <input type="hidden" name="blocker_username" value=<%=`${blocker_username}`%>>
                                 <input type="hidden" name="blockee_username" value=<%=blockee_username%>>
                                 <button type="submit" style="color: green;">Accept Block request</button>
                             </form>

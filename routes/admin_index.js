@@ -1,10 +1,10 @@
-var express = require('express');
-var router = express.Router();
-var connection = require('../config/db')
+const express = require('express');
+const router = express.Router();
+
 
 router.get('/', function(req, res) {
     if (req.session && req.session.user){
-        var user_info = {
+        let user_info = {
             'username' : req.session.user,
             'Email' : req.session.Email,
             'Firstname' : req.session.Firstname,

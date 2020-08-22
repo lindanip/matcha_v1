@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const connection = require('../config/db');
 const session = require('express-session');
-//const nodemailer = require('nodemailer');
 const secretString = Math.floor((Math.random() * 10000) + 1);
 
 router.use(session({

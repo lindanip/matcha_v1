@@ -1,70 +1,14 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var express = require('express')
-var router = express.Router()
-var session = require('express-session')
-var connection = require('../config/db')
-var bcrypt = require('bcryptjs')
-var geo = require('geotools')
-var ip = require('ip')
-var unirest = require('unirest');
-var ip_loc = require('ip-locator');
+const express = require('express')
+const router = express.Router()
+const session = require('express-session')
+const connection = require('../config/db')
+const bcrypt = require('bcryptjs')
+const geo = require('geotools')
+const ip = require('ip')
+const unirest = require('unirest');
+const ip_loc = require('ip-locator');
 const { NULL } = require('mysql/lib/protocol/constants/types')
-var secretString = Math.floor((Math.random() * 10000) + 1);
+const secretString = Math.floor((Math.random() * 10000) + 1);
 
 router.use(session({
     secret: secretString.toString(),
@@ -98,7 +42,19 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     if (!req.session.user)
         res.redirect('/login');
-    else if (req.body && req.body.username && req.body.Firstname && req.body.Lastname && req.body.Email) {
+    else if (req.body.age)
+    {
+        let { session } = req;
+
+        let sql = 'UPDATE users SET Age= ? WHERE username = ?';
+
+        connection.query(sql, [req.body.age, session.user], (err) => {
+            if (err) res.render('settings', {session, error: 'database error', msg: 'none'});
+        });
+        res.render('settings', {session, error: 'none', msg: 'age updated'});
+    }
+    else if (req.body && req.body.username && req.body.Firstname && req.body.Lastname && req.body.Email)
+    {
         let { session } = req;
         
         let sql = 'SELECT * FROM users WHERE username = ?';
@@ -158,12 +114,6 @@ router.post('/', (req, res) => {
                     })
 
                     sql = 'UPDATE blocks SET block_who = ? WHERE block_who = ?';
-
-                    connection.query(sql, [req.body.username, req.session.user], (err) => {
-                        if (err) console.log(err)
-                    })
-
-                    sql = 'UPDATE likes SET username = ? WHERE username = ?';
 
                     connection.query(sql, [req.body.username, req.session.user], (err) => {
                         if (err) console.log(err)

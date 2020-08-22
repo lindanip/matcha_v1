@@ -1,16 +1,12 @@
-var express = require('express')
-var router = express.Router()
-var connection = require('../config/db')
-var nodemailer = require('nodemailer')
-var session = require('express-session')
-var secretString = Math.floor((Math.random() * 10000) + 1);
+const express = require('express')
+const router = express.Router()
+const connection = require('../config/db')
+const nodemailer = require('nodemailer')
+const session = require('express-session')
+const secretString = Math.floor((Math.random() * 10000) + 1);
 
 
-router.get('/', (req, res) => {
-    res.render('forgot', {
-        title: 'Forgot Page'
-    })
-})
+router.get('/', (req, res) => res.render('forgot', { msg: 'none', error: 'none'}));
 
 router.use(session({
     secret: secretString.toString(),
@@ -18,49 +14,69 @@ router.use(session({
     saveUninitialized: false
 }));
 
+
 router.post('/', (req, res) => {
-    if (req.body.Email && req.body) {
-        connection.query('SELECT username, Email FROM users WHERE Email = ?', [req.body.Email], (err, rows) => {
-            if (err) console.log(err)
-            else if (rows[0]) {
-                var token = (Math.random() + 1).toString(36).substr(2, 15)
-                connection.query('UPDATE users SET Reset_token = ? WHERE Email = ?', [token, req.body.Email], (err) => {
-                    if (err) console.log(err)
-                })
-                var url = '<a href="' + req.protocol + '://' + req.get('host') + '/reset/' + token + '">Reset your Password</a>'
-                var transporter = nodemailer.createTransport({
+    if (!req.body.Email)
+        res.render('forgot', { msg: 'none', error: 'please enter email'});
+    else
+    {
+        let sql = 'SELECT username, Email FROM users WHERE Email = ?';
+
+        connection.query(sql, [req.body.Email], (err, rows) => 
+        {
+            if (err) console.log(err);
+            else if (!rows[0])
+                res.render('forgot', { msg: 'none', error: 'user email not found'});
+            else
+            {
+                let token = (Math.random() + 1).toString(36).substr(2, 15);
+
+                sql = 'UPDATE users SET Reset_token = ? WHERE Email = ?';
+
+                connection.query(sql, [token, req.body.Email], (err) => {
+                    if (err) console.log(err);
+                });
+                
+                // email sending process
+                let url =   `<a href="${req.protocol}://${req.get('host')}/reset/${token}">`+
+                                    `Reset your Password` +
+                            `</a>`;
+                let transporter = nodemailer.createTransport({                    
                     service: 'gmail',
                     port: 587,
                     secure: false,
-                    auth:
-                    {
+                    auth:{
                         user: 'koketsomatjeke.matcha@gmail.com',
                         pass: 'LieThatTellsTheTruth'
+                    },
+                    tls:{ rejectUnauthorized: false }
+                });
+
+                let mailOptions = {
+                    form: 'koketsomatjeke.matcha@gmail.com',
+                    to: req.body.Email,
+                    subject: 'reset password',
+                    html: `<p> Click Here to continue with your password reset request ${url} </p>`
+                };
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error)
+                        console.log(error);
+                    else
+                    {
+                        console.log('email sent');
+                        console.log(info);
                     }
                 });
-                let mailOptions = transporter.sendMail({
-                    from: 'koketsomatjeke.matcha@gmail.com', // sender address
-                    // to: req.body.Email, // list of receivers
-                    to: req.body.Email, // list of receivers
-                    subject: 'Password Reset', // Subject line
-                    html: '<p>Click Here to continue with your password reset request ' + url + '</p><br></br>then connect with the password: ' + token + ' which you can change later in your profile.'// plain text body
-                });
-                req.session.success = "Password change request accepted, please check your email"
-                console.log("Password change request accepted, please check your email")
-                res.redirect('/login')
+
+                // end of the emailing process
+
+                res.render('login', {msg: 'please check your email', error: 'none'})
             }
-            else {
-                req.session.error = "Email doesn't exist in our database"
-                console.log("Email doesn't exist in our database")
-                res.redirect('/forgot')
-            }
-        })
+        });
     }
-})
+});
 
-module.exports = router
-
-
+module.exports = router;
 
 
 
@@ -91,64 +107,86 @@ module.exports = router
 
 
 
-// var express = require('express')
-// var router = express.Router()
-// var connection = require('../config/db')
-// var nodemailer = require('nodemailer')
-// var session = require('express-session')
-// var secretString = Math.floor((Math.random() * 10000) + 1);
 
 
-// router.get('/', (req, res) => {
-//     res.render('forgot', {
-//         title: 'Forgot Page'
-//     })
-// })
 
-// router.use(session({
-//     secret: secretString.toString(),
-//     resave: false,
-//     saveUninitialized: false
-// }));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // router.post('/', (req, res) => {
 //     if (req.body.Email && req.body) {
-//         connection.query('SELECT username, Email FROM users WHERE Email = ?', [req.body.Email], (err, rows) => {
+//         connection.query('SELECT username, Email FROM users WHERE Email = ?', [req.body.Email], (err, rows) => 
+//         {
 //             if (err) console.log(err)
-//             else if (rows[0]) {
+//             else if (rows[0])
+//             {
 //                 var token = (Math.random() + 1).toString(36).substr(2, 15)
 //                 connection.query('UPDATE users SET Reset_token = ? WHERE Email = ?', [token, req.body.Email], (err) => {
 //                     if (err) console.log(err)
-//                 })
-//                 var url = '<a href="' + req.protocol + '://' + req.get('host') + '/reset/' + token + '">Reset your Password</a>'
-//                 var transporter = nodemailer.createTransport({
+//                 });
+                
+//                 // email sending process
+//                 // <
+                
+//                 let url =   `<a href="${req.protocol}://${req.get('host')}/reset/${token}">`+
+//                                     `Reset your Password` +
+//                             `</a>`;
+//                 let transporter = nodemailer.createTransport({
+                    
 //                     service: 'gmail',
 //                     port: 587,
 //                     secure: false,
 //                     auth:
 //                     {
-//                         user: 'koketsomatjeke.km@gmail.com',
-//                         pass: 'ilovedragons'
+//                         user: 'koketsomatjeke.matcha@gmail.com',
+//                         pass: 'LieThatTellsTheTruth'
+//                     },
+//                     tls:{
+//                         rejectUnauthorized: false
 //                     }
 //                 });
-//                 let mailOptions = transporter.sendMail({
-//                     from: 'koketsomatjeke.km@gmail.com', // sender address
-//                     // to: req.body.Email, // list of receivers
-//                     to: req.body.Email, // list of receivers
-//                     subject: 'Password Reset', // Subject line
-//                     html: '<p>Click Here to continue with your password reset request ' + url + '</p><br></br>then connect with the password: ' + token + ' which you can change later in your profile.'// plain text body
+
+//                 let mailOptions = {
+//                     form: 'koketsomatjeke.matcha@gmail.com',
+//                     to: req.body.Email,
+//                     subject: 'reset password',
+//                     html: `<p> Click Here to continue with your password reset request ${url} </p>`
+//                 };
+
+//                 transporter.sendMail(mailOptions, (error, info) => {
+//                     if (error)
+//                         console.log(error);
+//                     else
+//                     {
+//                         console.log('email sent');
+//                         console.log(info);
+//                     }
 //                 });
-//                 req.session.success = "Password change request accepted, please check your email"
-//                 console.log("Password change request accepted, please check your email")
+
+//                 // >
+//                 // end of the emailing process
 //                 res.redirect('/login')
 //             }
 //             else {
-//                 req.session.error = "Email doesn't exist in our database"
-//                 console.log("Email doesn't exist in our database")
 //                 res.redirect('/forgot')
 //             }
-//         })
+//         });
 //     }
 // })
 
-// module.exports = router
+// module.exports = router;

@@ -54,14 +54,6 @@ router.get('/', (req, res) => {
                                 connected = (row[0].accepted == '0') ? -2 : 1;
                     });   
                 }
-                
-                //need some serious checking out because the like is no longer working
-                //did not remove because of avoid in sql error
-                // sql = 'SELECT * FROM likes WHERE username = ? AND theLiked = ?';
-                // connection.query(sql, [username, match_username], (err, row) => {
-                //     if (err) res.status(500).send('internal server error');
-                //     else isliked = row[0] ? 1 : 0;  
-                // });
 
                 sql = 'SELECT * FROM blocks WHERE username = ? AND block_who = ?';
                 connection.query(sql, [username, match_username], (err, row) => {
@@ -90,7 +82,8 @@ router.post('/', (req, res) => {
         
         if (session.profile_pic == "Uploads/stock_profile_pic.png")
             req.session.pic = 0;
-        else req.session.pic = 1;
+        else
+            req.session.pic = 1;
 
         req.session.match_info = match_info;
         res.redirect('/match_full_info');

@@ -49,7 +49,14 @@
                 </p>
                 <a href="/settings"> complete profile </a>
             </div>
-        
+        <% } else if (session.profile_pic == "Uploads/stock_profile_pic.png"){ %>
+            <div class="not_complete">
+                <span id="not_complete_heading">incomplete profile</span>
+                <p>most features will be locked<br>
+                    please upload a picture and set it as a profile picture 
+                </p>
+                <a href="/settings"> complete profile </a>
+            </div>
         <% } else{ %>
             <h1>potential match profile</h1>
             <img src=<%=match_info.match_profilepic%>>
@@ -57,7 +64,7 @@
             <% if (blocked == 1){ %>
                 <span class="user_blocked">this user is blocked</span>
             <% } else if (blocked == -1) { %>
-                <span class="user_blocked">account has been temporarily disabled</span>
+                <span >account has been temporarily disabled</span>
             <% } else{ %>
                 
                 <% if (connected == -1) { %>
