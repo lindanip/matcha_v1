@@ -1,8 +1,7 @@
-const express = require('express')
-const router = express.Router()
-const connection = require('../config/db')
-//const bcrypt = require('bcryptjs')
-const session = require('express-session')
+const express = require('express');
+const router = express.Router();
+const connection = require('../config/db');
+const session = require('express-session');
 const secretString = Math.floor((Math.random() * 10000) + 1);
 
 router.use(session({

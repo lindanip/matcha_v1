@@ -50,16 +50,17 @@ const declineConnection = require('./routes/decline_connection');
 const connectionRequests = require('./routes/connection_requests');
 const uploadImages = require('./routes/upload_images');
 const removeImage = require('./routes/remove_image');
-var adminIndex = require('./routes/admin_index');
-var allUsers = require('./routes/all_users');
-var blockRequests = require('./routes/block_requests');
-var blockUser = require('./routes/block_user');
-var sendBlock = require('./routes/send_block');
-var acceptBlock = require('./routes/accept_block');
-var declineBlock = require('./routes/decline_block');
-var profileViews = require('./routes/profile_views');
+const adminIndex = require('./routes/admin_index');
+const allUsers = require('./routes/all_users');
+const blockRequests = require('./routes/block_requests');
+const blockUser = require('./routes/block_user');
+const sendBlock = require('./routes/send_block');
+const acceptBlock = require('./routes/accept_block');
+const declineBlock = require('./routes/decline_block');
+const profileViews = require('./routes/profile_views');
 const chats = require('./routes/chats');
 const messages = require('./routes/messages');
+const change_password = require('./routes/change_password');
 
 app.use('/Uploads', express.static(path.join(__dirname, 'Uploads')));
 app.use('/home/Uploads', express.static(path.join(__dirname, '/home/Uploads')));
@@ -101,7 +102,8 @@ app.use('/accept_block', acceptBlock);
 app.use('/decline_block', declineBlock);
 app.use('/profile_views', profileViews);
 app.use('/chats', chats);
-app.use('/messages', messages)
+app.use('/messages', messages);
+app.use('/change_password', change_password);
 
 
 io.on('connection', (socket) =>
