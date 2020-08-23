@@ -28,6 +28,7 @@ app.use(session({
 //new route to fetch_req
 
 const return_cities = require('./routes/fetch_req/return_cities');
+const fullProfile2 = require('./routes/match_full_info2');
 
 //
 
@@ -105,6 +106,8 @@ app.use('/chats', chats);
 app.use('/messages', messages);
 app.use('/change_password', change_password);
 
+app.use('/match_full_info2', fullProfile2);
+
 
 io.on('connection', (socket) =>
 {
@@ -140,10 +143,39 @@ io.on('connection', (socket) =>
         connection.query(sql, [them], (err, themStatusRow) => {
             if (err) console.log('database error');
             else
+            {
                 if (themStatusRow[0])
+                {
+                    io.to(io.socketid).emit('profileViewedOnline', {online: 'online'});
                     io.to(themStatusRow[0].soc_id).emit('notProfileView', {match_username: me});
+                    io.sockets.emit('matchOnline', {match_username: them});
+                }
+                else
+                    io.sockets.emit('matchOffline', {match_username: them});
+            }
         });
     });
+
+
+
+
+    socket.on('connectionRequestView', params => {
+        let { me, them } = params;
+
+        sql = 'SELECT * FROM socketid WHERE username = ?';
+
+        connection.query(sql, [them], (err, themStatusRow) => {
+            if (err) console.log('database error');
+            else
+                if (themStatusRow[0])
+                    io.to(themStatusRow[0].soc_id).emit('notYourRequestViewed', {match_username: me});
+                // data must be stored to the database here 
+        });
+    });
+
+
+
+
 
     //connection request notification
     socket.on('connectionReq', params => {
@@ -182,6 +214,8 @@ io.on('connection', (socket) =>
 
         sql = 'SELECT * FROM socketid WHERE username = ?';
 
+        console.log('fdghjkljvbvn    gvhbjh n  jbjhb j j nbjn j bhj n  hjbhj    hjh  n  hj n ');
+        console.log(`${me} and them ${them}`);
         connection.query(sql, [them], (err, themStatusRow) => {
             if (err) console.log('database error');
             else
@@ -225,6 +259,7 @@ io.on('connection', (socket) =>
                 });
             }
             io.to(socket.id).emit('notLoginRes', params.me);
+            io.sockets.emit('broadcast1', {username: params.me});
         });
     });
 
@@ -281,10 +316,38 @@ io.on('connection', (socket) =>
     });
 
     // disconnecting user
+    var get_date = require('get-date')
     socket.on("disconnect", () => {
-        connection.query('DELETE FROM socketid WHERE soc_id = ?', socket.id, (err) => {
-            if (err) console.log(err);
-        });        
+        let userDisconnected = 'none';
+
+        connection.query('SELECT username FROM socketid WHERE soc_id = ?', socket.id, (err, row) => {
+            if (err) console.log(err)
+            else {
+                if (row[0])
+                {
+                    console.log('disconnecttyuijojghohjuiyuuuhijk');
+                    userDisconnected = row;
+                    console.log(userDisconnected[0].username);
+                
+
+                    // console.log();
+                    connection.query('UPDATE users SET last_seen = ? WHERE username = ?', [get_date(), userDisconnected[0].username], (err) => {
+                        if (err) console.log(err)
+                    });
+
+                    connection.query('DELETE FROM socketid WHERE soc_id = ?', socket.id, (err) => {
+                        if (err) console.log(err);
+                        else
+                        {
+                            console.log(userDisconnected[0].username);
+                            io.sockets.emit('broadcast', {username: userDisconnected[0].username});
+                        }
+                    });
+            
+                }
+            }
+        });
+        
     });
 });
 

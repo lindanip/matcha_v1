@@ -1,4 +1,5 @@
 const socket = io();
+var onlineTag = 0;
 
 // send new socket id to the backend
 function login(){
@@ -10,16 +11,44 @@ function login(){
         document.getElementById('profile_pic').style.border = '3px solid green';
     });
 }
+// is the match online
+socket.on('matchOnline', (res) => 
+{
+    if (onlineTag)
+        if (res.match_username == document.getElementById('them').value)
+            document.getElementById('match_profile_pic').style.border = '5px solid green';
+});
+//is the match offline
+socket.on('matchOffline', (res) => 
+{
+    if (onlineTag)
+        if (res.match_username == document.getElementById('them').value)
+            document.getElementById('match_profile_pic').style.border = '5px solid red';
+});
 
-// send notification to user beign viewed
+// send notification to user being viewed
 async function profileView()
 {
     await socket.emit('profileView', {
         me: document.getElementById('me').value,
         them: document.getElementById('them').value
     });
+    onlineTag = 1;
     login();
 }
+
+// send notification to user that request has been opened
+async function connectionRequestView()
+{
+    await socket.emit('connectionRequestView', {
+        me: document.getElementById('me').value,
+        them: document.getElementById('them').value
+    });
+    onlineTag = 1;
+    login();
+
+}
+
 
 // send notification for connection request
 function sendConnectionReq() {
@@ -30,20 +59,21 @@ function sendConnectionReq() {
 }
 
 // send notification for accepted connetion
-function acceptConnectionReq() {
-    //console.log('the id we are looking for' + this.id);
-    socket.emit('acceptConnectionReq', {
-        me: document.getElementById('me').value,
-        them: this.id
-    });
-}
-
-// send notification for remove connection
-function declineConnectionReq() {
-    socket.emit('declineConnectionReq', {
+async function acceptRequest() {
+    await socket.emit('acceptConnectionReq', {
         me: document.getElementById('me').value,
         them: document.getElementById('them').value
     });
+    document.getElementById('_accept').click();
+}
+
+// send notification for remove connection
+async function declineRequest() {
+    await socket.emit('declineConnectionReq', {
+        me: document.getElementById('me').value,
+        them: document.getElementById('them').value
+    });
+    document.getElementById('_refuse').click();
 }
 
 // send notification for remove connection
@@ -53,9 +83,18 @@ function removeConnection() {
         them: document.getElementById('them').value
     });
 }
-
-
-
+socket.on('broadcast', (res) => 
+{
+    if (onlineTag)
+        if (res.username == document.getElementById('them').value)
+            document.getElementById('match_profile_pic').style.border = '5px solid red';
+});
+socket.on('broadcast1', (res) => 
+{   
+    if (onlineTag)
+        if (res.username == document.getElementById('them').value)
+            document.getElementById('match_profile_pic').style.border = '5px solid green';
+});
 
 
 
@@ -67,6 +106,8 @@ function removeConnection() {
 // connection request, connection accept,
 // connection decline, disconnection
 
+
+socket.on('notYourRequestViewed', (res) => addNotificationElement('is viewing your request for connection', res));
 socket.on('notProfileView', (res) => addNotificationElement('is viewing your profile', res));
 socket.on('notConnectionReq', (res) => addNotificationElement('requested to connect', res));
 socket.on('notConnectionAccept', (res) => addNotificationElement('accepted your request', res));

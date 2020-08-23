@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>connection request view</title>
+
+    <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/match_full_info.css">
+</head>
+<body onload="connectionRequestView()">
+    
+    <input id='me' type="hidden" value=<%=session.user %>>
+    <input id='them' type="hidden" value=<%=match_info.username %>>
+
+    <span id="notification-toggle">
+      <a href="javacript:void(0)" onclick="displayNotifications()">notifications</a>
+    </span>
+    <div id="notification-bar"></div>
+    
+    <nav>
+        <div id="main_menu">
+            <a href="/">home</a>
+            <a href="/chats">chats</a>
+            <a href="/connection_requests">requests</a>
+            <a href="/search_match">search</a>
+            <a href="javascript:void(0);" onclick="userSubMenu()">
+                <img id="profile_pic" src=<%=session.profile_pic %> alt="menu">
+            </a>
+        </div>
+        <div id="user_sub_menu">
+            <a href="javascript:void(0);" onclick="userSubMenu()">
+                <img id="profile_pic" src=<%=session.profile_pic %> alt="menu">
+            </a>
+            <a href="/profile_views">my profile views</a>
+            <a href="/My_pictures">my pics</a>
+            <a href="/settings">settings</a>
+            <a href="/logout">logout</a>
+        </div>
+    </nav>
+    
+    <main>
+        <% if (session.complete != 1){ %>
+    
+            <div class="not_complete">
+                <span id="not_complete_heading">incomplete profile</span>
+                <p>most features will be locked<br>
+                go to the settings page to complete your profile.<br>
+                and fill in your additional information, and you will set to go.
+                </p>
+                <a href="/settings"> complete profile </a>
+            </div>
+
+        <% } else if (session.profile_pic == "Uploads/stock_profile_pic.png"){ %>
+            
+            <div class="not_complete">
+                <span id="not_complete_heading">incomplete profile</span>
+                <p>most features will be locked<br>
+                    please upload a picture and set it as a profile picture 
+                </p>
+                <a href="/My_pictures"> complete profile </a>
+            </div>
+        
+        <% } else{ %>
+
+            <h1>connection request view</h1>
+            <img id="match_profile_pic" src=<%=match_info.profile_pic%>>
+                
+            <% if (connected == -1) { %>
+                <span class="connect_to_chat"> connection request sent </span>
+                
+            <% }else if (connected == -2) { %>
+                <span>has sent you a request accept or decline</span>
+                <form action="/accept_connection" method="POST">
+                    <input type="hidden" id="_match_username" name="match_username" value=<%=match_info.username %>>
+                    <a href="javascript:void(0);" onclick="acceptRequest()"> accept connection</a>
+                    <button hidden class="connection_status_btn" id="_accept" type="submit"></button>
+                </form>
+                <form action="/decline_connection" method="POST">
+                    <input id="_match_username" type="hidden" name="match_username" value=<%=match_info.username %>>
+                    <a href="javascript:void(0);" onclick="declineRequest()"> refuse connection</a>
+                    <button hidden class="connection_status_btn" id="_refuse" type="submit"></button>
+                </form>
+
+            <% } else if (connected == 0 && match_info.profilepic != 0){ %>
+                <form action="/add_connection" method="POST">
+                    <input type="hidden" name="match_username" value=<%=match_info.username%>>
+                    <button onclick="sendConnectionReq()" class="connection_status_btn" type="submit">send connection request</button>
+                </form>
+            <% }
+            
+            if (connected == 1 || connected == -1) { %>
+                <form action="/delete_connection" method="POST">
+                    <input type="hidden" name="match_username" value=<%=match_info.username%>>
+                    <button onclick="removeConnection()" class="connection_status_btn" type="submit">remove connection</button>
+                </form>
+            <% } %>
+            
+                <form action="/block_user" method="POST">
+                    <input type="hidden" name="match_username" value=<%=match_info.username%>>
+                    <button onclick="declineConnectionReq()" class="connection_status_btn" type="submit">request to block user</button>
+                </form>
+                
+                
+                <div class="match_info">
+                    <hr><span><%=match_info.Firstname%> <%=match_info.Lastname%></span>
+                    <hr><span>fame rating: <%=match_info.fame_rating%></span>
+                    <span>age: <%=match_info.age%></span>
+                    <span>Gender: <%=match_info.Gender%></span>
+                    <span>Sexual Preference: <%=match_info.Orientation%></span>
+                    <hr><span>hobbies</span>
+                    <hr>
+                    <span>
+                        <%=match_info.Hobby1%>, <%=match_info.Hobby2%>, <%=match_info.Hobby3%>
+                        <%=match_info.Hobby4%>, <%=match_info.Hobby5%>
+                    </span>
+                    <hr>
+                    <span>biography: <%=match_info.Bio %></span>
+                    <span>last seen: <%=match_info.last_seen %></span>
+                </div>
+
+        <%  } %>
+                    
+    </main>
+
+    <footer>
+        <a href="#">matcha dating web application</a>
+    </footer>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="javascripts/notification.js"></script>
+    <script src="javascripts/nav.js"></script>
+</body>
+</html>
