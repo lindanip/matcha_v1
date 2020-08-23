@@ -36,14 +36,14 @@ connection.query(sql, err => resHandler(err, 'SocketId'));
 sql = 'CREATE TABLE IF NOT EXISTS matcha.images (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL, image VARCHAR(1500) NOT NULL)';
 connection.query(sql, err => resHandler(err, 'Images'));
 
-sql = 'CREATE TABLE IF NOT EXISTS matcha.views (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL, visitor VARCHAR(255) NOT NULL)';
+sql = 'CREATE TABLE IF NOT EXISTS matcha.views (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL, visitor VARCHAR(255) NOT NULL, status INT(11) DEFAULT 0)';
 connection.query(sql, err => resHandler(err, 'Views'));
 
 sql = 'CREATE TABLE IF NOT EXISTS matcha.notifications (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, sentby VARCHAR(255) NOT NULL, sentto VARCHAR(255) NOT NULL, notification_message VARCHAR(255) NOT NULL, seen INT(11) DEFAULT 0)';
 connection.query(sql, err => resHandler(err, 'Notifications'));
 
 
-sql = 'CREATE TABLE IF NOT EXISTS matcha.connections (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL, connected_to VARCHAR(255) NOT NULL, accepted INT(11) DEFAULT 0)';
+sql = 'CREATE TABLE IF NOT EXISTS matcha.connections (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL, connected_to VARCHAR(255) NOT NULL, accepted INT(11) DEFAULT 0, seen INT(11) DEFAULT 0)';
 connection.query(sql, err => resHandler(err, 'Connections'));
 
 sql = 'CREATE TABLE IF NOT EXISTS matcha.blocks (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL, block_who VARCHAR(255) NOT NULL, reason VARCHAR(500) NOT NULL, accepted INT(11) DEFAULT 0)';
@@ -59,7 +59,7 @@ function random_gender(genders){
     return genders[Math.floor(Math.random() * genders.length)];
 }
 
-for(i = 0; i <= 20; i++)
+for(i = 0; i <= 100; i++)
 {
     var randomName = faker.name.firstName();
     var surName = faker.name.lastName();

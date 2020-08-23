@@ -109,22 +109,31 @@ app.use('/change_password', change_password);
 io.on('connection', (socket) =>
 {
     // user typing
-    socket.on('matchTyping', params => {
-        let { me, them } = params;
+    // socket.on('matchTyping', params => {
+    //     let { me, them } = params;
 
-        sql = 'SELECT * FROM socketid WHERE username = ?';
+    //     sql = 'SELECT * FROM socketid WHERE username = ?';
 
-        connection.query(sql, [them], (err, themStatusRow) => {
-            if (err) console.log('database error');
-            else
-                if (themStatusRow[0])
-                    io.to(themStatusRow[0].soc_id).emit('notMatchTyping', {match_username: me});
-        });
-    });
+    //     connection.query(sql, [them], (err, themStatusRow) => {
+    //         if (err) console.log('database error');
+    //         else
+    //             if (themStatusRow[0])
+    //                 io.to(themStatusRow[0].soc_id).emit('notMatchTyping', {match_username: me});
+    //     });
+    // });
 
     // profile view notification
     socket.on('profileView', params => {
         let { me, them } = params;
+
+        //sql = 'SELECT FROM views WHERE username= ? AND visitor= ?';
+        // connection.query(sql, [them, me], (err, row) => {
+        //     if (err) console.log(err);
+        //     else
+        //     {
+        //         if ()
+        //     }
+        // });
 
         sql = 'SELECT * FROM socketid WHERE username = ?';
 

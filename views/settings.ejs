@@ -51,25 +51,27 @@
         <form style="display: none;" class="info_class" id="personal_form" method="POST" action="/settings">
             
             <label for="username">enter Username</label>
-            <input type="text" name="username" value=<%=session.user %> required>
+            <input type="text" name="username" pattern="[a-zA-Z0-9]" 
+            title="username can only contain lowercase, uppercase or number"
+            required value=<%=session.user %>>
         
             <label for="Firstname">enter Firstname</label>
-            <input type="text" name="Firstname" value=<%=session.Firstname %> required>
+            <input type="text" name="Firstname" required value=<%=session.Firstname %> required>
 
             <label for="Lastname">enter Lastname</label>
-            <input ype="text" name="Lastname" value=<%=session.Lastname %> required>
+            <input ype="text" name="Lastname" required value=<%=session.Lastname %>>
 
             <label for="Email">enter Email</label>
-            <input type="email" name="Email" value=<%=session.Email %> required>
+            <input type="email" name="Email" required value=<%=session.Email %>>
 
-            <button type="submit" id="btnSubmit" tabindex="5">update details</button>
+            <button type="submit" tabindex="5">update details</button>
         </form>
 
         <button class="toggle" id="age_btn" onclick="toggleAgeForm()">change age</button>
         <form style="display: none;" id="age_form" action="/settings" method="post">
             <label for="username">enter age</label>
             <input type="number" name="age" min='18' max="130" required>
-            <button type="submit" id="btnSubmit" tabindex="5">update </button>
+            <button type="submit" tabindex="5">update </button>
         </form>
 
 

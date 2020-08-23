@@ -13,7 +13,7 @@ router.use(session({
 router.get('/:key', (req, res) => {
     if (req.params.key)
     {
-        let sql = 'SELECT users.email WHERE Reset_token = ?';
+        let sql = 'SELECT Email FROM users WHERE Reset_token = ?';
 
         connection.query(sql, [req.params.key], (err, row) => {
             if (err) console.log(err);
@@ -21,7 +21,7 @@ router.get('/:key', (req, res) => {
                 res.redirect('/login');
             else
             {
-                console.log('we are inside reset hrere rererjejkejowsic---------');
+                console.log('inside reset.js');
                 console.log(row);
                 res.render('change_password', {user_email: row[0].Email, msg: 'none', error: 'none'});
             }

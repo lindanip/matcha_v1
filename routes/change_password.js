@@ -33,7 +33,7 @@ router.post('/', (req, res) => {
         connection.query('UPDATE users SET Password = ? WHERE Email = ?',[hash, req.body.email], (err) => {
             if (err) res.render('login', {session, msg: 'none', error: 'password updated'});
             else
-                res.render('login', {session, msg: 'password updated', err: 'none'});
+                res.render('login', {session, msg: 'password updated', error: 'none'});
         });
     }
 });
