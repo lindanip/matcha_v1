@@ -111,55 +111,31 @@ app.use('/match_full_info2', fullProfile2);
 
 io.on('connection', (socket) =>
 {
-    // user typing
-    // socket.on('matchTyping', params => {
-    //     let { me, them } = params;
 
-    //     sql = 'SELECT * FROM socketid WHERE username = ?';
+// -------------------------------- notifications -------------------------------------------
 
-    //     connection.query(sql, [them], (err, themStatusRow) => {
-    //         if (err) console.log('database error');
-    //         else
-    //             if (themStatusRow[0])
-    //                 io.to(themStatusRow[0].soc_id).emit('notMatchTyping', {match_username: me});
-    //     });
-    // });
-
-    // profile view notification
-    socket.on('profileView', params => {
+    // send notification to profile being viewed
+    socket.on('profileView', params =>
+    {
         let { me, them } = params;
-
-        //sql = 'SELECT FROM views WHERE username= ? AND visitor= ?';
-        // connection.query(sql, [them, me], (err, row) => {
-        //     if (err) console.log(err);
-        //     else
-        //     {
-        //         if ()
-        //     }
-        // });
 
         sql = 'SELECT * FROM socketid WHERE username = ?';
 
         connection.query(sql, [them], (err, themStatusRow) => {
             if (err) console.log('database error');
-            else
-            {
-                if (themStatusRow[0])
-                {
-                    io.to(io.socketid).emit('profileViewedOnline', {online: 'online'});
+            else{
+                if (themStatusRow[0]){
                     io.to(themStatusRow[0].soc_id).emit('notProfileView', {match_username: me});
                     io.sockets.emit('matchOnline', {match_username: them});
-                }
-                else
+                }else
                     io.sockets.emit('matchOffline', {match_username: them});
             }
         });
     });
 
-
-
-
-    socket.on('connectionRequestView', params => {
+    // send notification that your connection request was viewed
+    socket.on('connectionRequestView', params => 
+    {
         let { me, them } = params;
 
         sql = 'SELECT * FROM socketid WHERE username = ?';
@@ -173,31 +149,27 @@ io.on('connection', (socket) =>
         });
     });
 
-
-
-
-
-    //connection request notification
-    socket.on('connectionReq', params => {
+    // send notification that you have a connection request
+    socket.on('connectionReq', params =>
+    {
         let { me, them } = params;
 
         sql = 'SELECT * FROM socketid WHERE username = ?';
 
-        console.log('sam cooke');
         connection.query(sql, [them], (err, themStatusRow) => {
             if (err) console.log('database error');
             else
                 if (themStatusRow[0])
                     io.to(themStatusRow[0].soc_id).emit('notConnectionReq', {match_username: me});
+                    // must be stored in the database here 
         });
     });
 
-    //connection accept notification
-    socket.on('acceptConnectionReq', params => {
+    // send a notification that your connection request is accepted
+    socket.on('acceptConnectionReq', params =>
+    {
         let { me, them } = params;
 
-        console.log('sdfghjklsdsadu8320099s');
-        console.log(params);
         sql = 'SELECT * FROM socketid WHERE username = ?';
 
         connection.query(sql, [them], (err, themStatusRow) => {
@@ -205,27 +177,29 @@ io.on('connection', (socket) =>
             else
                 if (themStatusRow[0])
                     io.to(themStatusRow[0].soc_id).emit('notConnectionAccept', {match_username: me});
+                    // must be stored in the database here
         });
     });
 
-    //connection decline notification
-    socket.on('declineConnectionReq', params => {
+    // send a notification that your connection request is declined
+    socket.on('declineConnectionReq', params =>
+    {
         let { me, them } = params;
 
         sql = 'SELECT * FROM socketid WHERE username = ?';
 
-        console.log('fdghjkljvbvn    gvhbjh n  jbjhb j j nbjn j bhj n  hjbhj    hjh  n  hj n ');
-        console.log(`${me} and them ${them}`);
         connection.query(sql, [them], (err, themStatusRow) => {
             if (err) console.log('database error');
             else
                 if (themStatusRow[0])
                     io.to(themStatusRow[0].soc_id).emit('notConnectionDecline', {match_username: me});
+                    // must be stored in database
         });
     });
 
-    //disconnection notification
-    socket.on('removeConnection', params => {
+    // send a notification that your connection was removed
+    socket.on('removeConnection', params =>
+    {
         let { me, them } = params;
 
         sql = 'SELECT * FROM socketid WHERE username = ?';
@@ -235,48 +209,57 @@ io.on('connection', (socket) =>
             else
                 if (themStatusRow[0])
                     io.to(themStatusRow[0].soc_id).emit('notDisconnection', {match_username: me});
+                    //must be stored in the database
         });
     });
 
-    // insert or update socket id
+// --------------------------------------- end
+
+
+// ```````````````````` create & store new sockets with matcha and tell everyone that im online```````````
+
+    // insert or update socket id in database
     socket.on('notLoginReq', (params) =>
     {
         let sql = 'SELECT * FROM socketid WHERE username = ?';
         connection.query(sql, [params.me], (err, socketIdRow) =>
         {
-            if (err) io.emit('error', 'internal server error');
+            if (err) console.log(err)
             else if (socketIdRow[0])
             {
                 sql = 'UPDATE socketid SET soc_id = ? WHERE username = ?';
-                connection.query(sql, [socket.id, params.me], (err) => {
-                    if (err) io.emit('error', 'interal server error');
-                });
-            }else
+                connection.query(sql, [socket.id, params.me], (err) => { if (err) console.log(err) });
+            }
+            else
             {
                 sql = 'INSERT INTO socketid (username, soc_id) VALUES (?, ?)';
-                connection.query(sql, [params.me, socket.id], (err) => {
-                    if (err) io.emit('error', 'interal server error');
-                });
+                connection.query(sql, [params.me, socket.id], (err) => { if (err) console.log(err) });
             }
+            
             io.to(socket.id).emit('notLoginRes', params.me);
             io.sockets.emit('broadcast1', {username: params.me});
         });
     });
 
+
+// ```````````````````````````````` end
+
+// ###################### message part
+
     // get information for the chat page
     socket.on("loginReq", (params) =>
     {
         let sql = 'SELECT * FROM socketid WHERE username = ?';    
+        
         connection.query(sql, [params.me], (err, socketIdRow) =>
         {
-            if (err) io.emit('error', 'internal server error');
+            if (err) console.log(err);
             else if (socketIdRow[0])
             {
                 sql = 'UPDATE socketid SET soc_id = ? WHERE username = ?';
-                connection.query(sql, [socket.id, params.me], (err) => {
-                    if (err) io.emit('error', 'interal server error');
-                });
-            }else
+                connection.query(sql, [socket.id, params.me], (err) => { if (err) console.log(err) });
+            }
+            else
             {
                 sql = 'INSERT INTO socketid (username, soc_id) VALUES (?, ?)';
                 connection.query(sql, [params.me, socket.id], (err) => {
@@ -284,71 +267,78 @@ io.on('connection', (socket) =>
                 });
             }
 
+            // check match status 
             sql = 'SELECT * FROM socketid WHERE username = ?';
             connection.query(sql, [params.them], (err, themStatusRow) => {
-                if (err) io.emit('error', 'internal server error');
-                io.emit('loginRes', { themStatus: themStatusRow[0] ? 'online' : 'offline' });
+                if (err) console.log(err);
+                else
+                    io.emit('loginRes', { themStatus: themStatusRow[0] ? 'online' : 'offline' });
             });
         });
     });
 
+//################################################end 
+
+
+// ``````````````````````````````` chat message are all handled here ```````````````````````````````
     // chat message event
-    socket.on("chatMsg",  (msgParams) => {
+    socket.on("chatMsg",  (msgParams) => 
+    {
         let { me, them, msg } = msgParams;
         
         let sql = 'INSERT INTO `messages` (`sentby`, `sentto`, `message`, `msg_state`) VALUES (?, ?, ?, ?)';
         
-        connection.query(sql, [me, them, msg, 0], (err) => {
-            if (err) console.log(err);
-        });
+        connection.query(sql, [me, them, msg, 0], (err) => { if (err) console.log(err); });
 
         sql = 'SELECT * FROM socketid WHERE username = ?';
 
         connection.query(sql, [them], (err, themStatusRow) => {
             if (err) console.log('dtabase error');
-            
-            if (themStatusRow[0])
+            else if (themStatusRow[0])
             {
-                io.to(themStatusRow[0].soc_id).emit('resMsg', msgParams);
-                io.to(themStatusRow[0].soc_id).emit('notMsg', msgParams);
+                io.to(themStatusRow[0].soc_id).emit('resMsg', {me: them, them: me, msg});
+                io.to(themStatusRow[0].soc_id).emit('notMsg', {me: them, them: me, msg});
             }
+            // else must tell the sender the users is some how offline
         });
     });
 
-    // disconnecting user
-    var get_date = require('get-date')
-    socket.on("disconnect", () => {
-        let userDisconnected = 'none';
+// ``````````````````````````````` end
 
-        connection.query('SELECT username FROM socketid WHERE soc_id = ?', socket.id, (err, row) => {
+// ############################### disconnection
+    
+    // disconnecting user
+    const get_date = require('get-date');
+    socket.on("disconnect", () =>
+    {
+        let userDisconnected = 'none';
+        
+        let sql = 'SELECT username FROM socketid WHERE soc_id = ?'
+
+        connection.query(sql, socket.id, (err, row) => {
             if (err) console.log(err)
-            else {
+            else
+            {
                 if (row[0])
                 {
-                    console.log('disconnecttyuijojghohjuiyuuuhijk');
                     userDisconnected = row;
-                    console.log(userDisconnected[0].username);
-                
+                    lastSeen = get_date();
+                    sql = 'UPDATE users SET last_seen = ? WHERE username = ?';
+                    
+                    connection.query(sql, [lastSeen, userDisconnected[0].username], (err) => { if (err) console.log(err) });
 
-                    // console.log();
-                    connection.query('UPDATE users SET last_seen = ? WHERE username = ?', [get_date(), userDisconnected[0].username], (err) => {
-                        if (err) console.log(err)
-                    });
+                    sql = 'DELETE FROM socketid WHERE soc_id = ?';
 
-                    connection.query('DELETE FROM socketid WHERE soc_id = ?', socket.id, (err) => {
+                    connection.query(sql, socket.id, (err) => {
                         if (err) console.log(err);
                         else
-                        {
-                            console.log(userDisconnected[0].username);
-                            io.sockets.emit('broadcast', {username: userDisconnected[0].username});
-                        }
+                            io.sockets.emit('broadcast', {username: userDisconnected[0].username, lastSeen});
                     });
-            
                 }
             }
         });
-        
     });
+// ############################### end
 });
 
 server.listen(port, () => console.log(`listening on port ${port}`));

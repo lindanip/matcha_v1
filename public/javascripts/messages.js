@@ -11,23 +11,28 @@ function login(){
     });
 }
 
-socket.on('userJoined', (msg) => {
-    console.log(msg);
-});
 function sendBtn(){
     let me = document.getElementById("me").value;
     let them = document.getElementById("them").value;
     let msg = document.getElementById("msg").value;
 
-   // console.log(`${me}  ${them} ${msg}`);
-    socket.emit('chatMsg', {id: socket.id, msg, them, me})
+
+    socket.emit('chatMsg', {id: socket.id, msg, them, me});
+
+    let themMessage =   `<div class="message-me"> <p>${me} (me)</p>`+
+                            `<p>${msg}</p>`+
+                            `<p>use javascript for time</p>`+
+                        `</div>`;
+
+    document.getElementById('messages').innerHTML += themMessage;
 }
 
-socket.on('resMsg', (msg) => {
+socket.on('resMsg', (msg) =>
+{
     console.log(msg);
     let themMessage =   `<div class="message-them"> <p>${msg.them}</p>`+
-                    `<p>${msg.msg}</p><p>use javascript for time</p>`+
-                    `</div>`;
+                            `<p>${msg.msg}</p><p>use javascript for time</p>`+
+                        `</div>`;
 
     document.getElementById('messages').innerHTML += themMessage;
 });

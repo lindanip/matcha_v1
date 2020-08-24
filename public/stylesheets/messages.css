@@ -1,31 +1,26 @@
-
+body{ margin: 0; padding: 0; border: none; }
 main{
-    width: 300px;
+    width: 318px;
     margin: auto;
     min-height: 80vh;
-    padding: 10px;
     border: 1px solid black;
+    text-align: center;
 }
-
-#messages{
-    margin: 0 2%;
-    width: 96%;
-    min-height: 70vh;
-    border: 1px solid black;
-}
+h1{ font-size: 20px; }
+#messages{ width: 98%; min-height: 70vh; margin: auto;}
 
 .message-them{
     display: grid;
-    width: 45%;
-    background-color: grey;
-    margin: 2%;
+    width: 100%;
+    background-color: rgba(255, 0, 0, 0.2);
+    margin: 2% 0%;
 }
 
 .message-me{
     display: grid;
-    width: 45%;
-    background-color: green;
-    margin: 2%;
+    width: 100%;
+    background-color: rgba(0, 255, 0, 0.2);
+    margin: 2% 0;
 }
 
 p{
@@ -34,22 +29,10 @@ p{
     border-bottom: 1px black solid;
 }
 
-#msg-area{
-    margin: 0 2%;
-    width: 96%;
-    height: 8%;
-    border: 1px solid black;
-}
-
-#msg-area input{
-
-    margin-top: 7px;
-    width: 80%;
-    height: 75%;
-}
-
+#msg-area{ width: 100%; height: 8%; border-top: 1px solid black; }
+#msg-area input{ margin: 7px auto; width: 80%; }
 #msg-area button{
-    margin-top: 7px;
-    width: 18%;
-    height: 75%;
+    margin: 7px auto;
+    width: 90%;
+    background-color: gold;
 }

@@ -1,4 +1,53 @@
+// protect again confict with ejs that if maybe an element is not there but front end wants to use it
+
 const socket = io();
+
+// i am online
+socket.on('matchOnline', (res) => {
+    if (onlineTag && document.getElementById('match_profile_pic'))
+        if (res.match_username == document.getElementById('them').value)
+            document.getElementById('match_profile_pic').style.border = '5px solid green';
+});
+// i am offline
+socket.on('matchOffline', (res) => {
+    if (onlineTag && document.getElementById('match_profile_pic'))
+        if (res.match_username == document.getElementById('them').value)
+            document.getElementById('match_profile_pic').style.border = '5px solid red';
+});
+
+// there is a user disconnected 
+socket.on('broadcast', (res) => {
+    if (onlineTag && document.getElementById('match_profile_pic'))
+        if (res.username == document.getElementById('them').value)
+            document.getElementById('match_profile_pic').style.border = '5px solid red';
+});
+
+// there is a user connected 
+socket.on('broadcast1', (res) => {   
+    if (onlineTag && document.getElementById('match_profile_pic'))
+        if (res.username == document.getElementById('them').value)
+            document.getElementById('match_profile_pic').style.border = '5px solid green';
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var onlineTag = 0;
 
 // send new socket id to the backend
@@ -8,27 +57,12 @@ function login(){
     });
 
     socket.on('notLoginRes', (msg) => {
-        document.getElementById('profile_pic').style.border = '3px solid green';
+        document.getElementById('profile_pic').style.border = '3px solid purple';
     });
 }
-// is the match online
-socket.on('matchOnline', (res) => 
-{
-    if (onlineTag)
-        if (res.match_username == document.getElementById('them').value)
-            document.getElementById('match_profile_pic').style.border = '5px solid green';
-});
-//is the match offline
-socket.on('matchOffline', (res) => 
-{
-    if (onlineTag)
-        if (res.match_username == document.getElementById('them').value)
-            document.getElementById('match_profile_pic').style.border = '5px solid red';
-});
 
 // send notification to user being viewed
-async function profileView()
-{
+async function profileView(){
     await socket.emit('profileView', {
         me: document.getElementById('me').value,
         them: document.getElementById('them').value
@@ -38,16 +72,26 @@ async function profileView()
 }
 
 // send notification to user that request has been opened
-async function connectionRequestView()
-{
+async function connectionRequestView(){
     await socket.emit('connectionRequestView', {
         me: document.getElementById('me').value,
         them: document.getElementById('them').value
     });
     onlineTag = 1;
     login();
-
 }
+
+// send user that notification (some notifictions, 
+// 1 not messages (msg: your message has been read)
+//// 2 probably not views( msg: viewer have seen that you seen them))
+//// 3 no connection req (msg: match has sent you a connection req);
+//// 4 yes connection req (msg: match has accepted your connection req);
+//// 5 yes connection req (msg: match has declined your connection req);
+//// 6 yes connection req (msg: match has disconnected you);
+
+
+
+
 
 
 // send notification for connection request
@@ -67,7 +111,7 @@ async function acceptRequest() {
     document.getElementById('_accept').click();
 }
 
-// send notification for remove connection
+// send notification for decline connection
 async function declineRequest() {
     await socket.emit('declineConnectionReq', {
         me: document.getElementById('me').value,
@@ -83,29 +127,10 @@ function removeConnection() {
         them: document.getElementById('them').value
     });
 }
-socket.on('broadcast', (res) => 
-{
-    if (onlineTag)
-        if (res.username == document.getElementById('them').value)
-            document.getElementById('match_profile_pic').style.border = '5px solid red';
-});
-socket.on('broadcast1', (res) => 
-{   
-    if (onlineTag)
-        if (res.username == document.getElementById('them').value)
-            document.getElementById('match_profile_pic').style.border = '5px solid green';
-});
-
-
-
-
-
-
 
 // recieve a notification for profile view
 // connection request, connection accept,
-// connection decline, disconnection
-
+// connection decline, disconnection, need msg
 
 socket.on('notYourRequestViewed', (res) => addNotificationElement('is viewing your request for connection', res));
 socket.on('notProfileView', (res) => addNotificationElement('is viewing your profile', res));

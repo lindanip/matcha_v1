@@ -92,11 +92,6 @@
                     <button class="connection_status_btn" type="submit">request to block user</button>
                 </form>
                 
-                <form action="/match_gallary" method="GET">
-                    <input type="hidden" name="match_username" value=<%=match_info.match_username%>>
-                    <button class="connection_status_btn" type="submit" disabled>pictures</button>
-                </form>
-                
                 <% if (connected == 1 || connected == -1){ %>
                     <form action="/chat" method="POST">
                         <input type="hidden" name="match_username" value=<%=match_info.match_username%>>

@@ -72,23 +72,8 @@
                     <%=connection_hobby1%>, <%=connection_hobby2%>, <%=connection_hobby3%>,
                     <%=connection_hobby4%>, <%=connection_hobby5%>
                 </span>
-                <form action="/match_full_info2" method="get">
-                  <input type="hidden" name=<%=connection_username %>>
-                  <input type="hidden" name=<%=connection_age %>>
-                  <button type="submit">see profile</button>
-                </form>
                 <% let url = '/match_full_info2?match_username='+ connection_username; %>
                 <a href=<%= url %>>view</a>
-
-                <form action="/accept_connection" method="POST">
-                    <input type="hidden" name="match_username" value=<%=connection_username %>>
-                    <input type="hidden" name="match_room_id" value=<%=connection_room_id %>>
-                    <button id=<%=connection_username %> onclick="acceptConnectionReq()" id="accept_"type="submit">accept connection</button>
-                </form>
-                <form action="/decline_connection" method="POST">
-                    <input type="hidden" name="match_username" value=<%=connection_username %>>
-                    <button onclick="declineConnectionReq()" id="refuse_" type="submit">refuse connection</button>
-                </form>
               </div>
       <%    x++;
           }
