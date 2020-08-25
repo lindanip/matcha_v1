@@ -10,22 +10,27 @@
     <div class="form">
         <h1 id="pagetitle">Register</h1>
         <form method="POST" action="/register" autocomplete="off">
-            <% if (error != 'non'){ %>
+            <% if (error != 'none'){ %>
                 <span id="error"><%=error%></span>
             <% } %>
 
             <label for="username">Enter Username</label>
-            <input type="text" name="username" required
-             title="username can only contain
-            lowercase">
+
+            <input type="text" name="username" pattern="[a-zA-Z0-9]{1,25}"
+            required title="username can only contain alphabets, numbers and must not be longer than 25 characters">
 
             <label for="firstname">Enter Firstname</label>
-            <input type="text" name="firstname" required>
+
+            <input type="text" name="firstname" pattern="[a-zA-Z0-9]{1,25}"
+            required title="firstname can only contain alphabets, numbers and must not be longer than 25 characters">
             
             <label for="lastname">Enter Lastname</label>
-            <input type="text" name="lastname" required>
+
+            <input type="text" name="lastname" pattern="[a-zA-Z0-9]{1,25}" 
+            required title="lastname can only contain alphabets, numbers and must not be longer than 25 characters">
 
             <label for="age">Enter Age</label>
+
             <input type="number" name="age" min="18" max="130" required
             title="you cant be younger than 18">
 
@@ -47,7 +52,7 @@
             title="Must contain at least one number and
              one uppercase and lowercase letter, and at least 8 or more">
 
-            <button type="submit">Login</button>
+            <button type="submit">register</button>
         </form>
         
         <a href="/forgot" tabindex="4" id="forgot_link">Forgot Password?</a>

@@ -1,12 +1,12 @@
-var connection = require('../config/db');
+const connection = require('../config/db');
 //var bodyParser = require('body-parser');
 //var multer = require('multer');
 //var Objects = require('../objects');
 //var uploads = multer({dest: "Uploads"});
 const express = require('express');
-var session = require('express-session');
-var router = express.Router();
-var secretString = Math.floor((Math.random() * 10000) + 1);
+const session = require('express-session');
+const router = express.Router();
+const secretString = Math.floor((Math.random() * 10000) + 1);
 
 router.use(session({
     secret: secretString.toString(),
@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
     if (!req.session && !req.session.user)
         res.redirect('/login');
     else
-        res.render('messages', {msg: "i wonder why"});
+        res.redirect('/chats');
 });
 
 router.post('/', (req, res) => {
@@ -56,4 +56,4 @@ router.post('/', (req, res) => {
     }
 })
 
-module.exports = router
+module.exports = router;

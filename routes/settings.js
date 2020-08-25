@@ -56,96 +56,119 @@ router.post('/', (req, res) => {
     else if (req.body && req.body.username && req.body.Firstname && req.body.Lastname && req.body.Email)
     {
         let { session } = req;
-        
-        let sql = 'SELECT * FROM users WHERE username = ?';
-        
-        connection.query(sql, [req.body.username], (err, rows, result) => {
-            if (err) console.log(err)
-            else if (rows[0] && rows[0]['username'])
-                res.render('settings', {session, msg:"username already exists", error: 'none'});
-            else
-            {
-                let { Firstname, Lastname, Email, user: username } = req.session;
-                
-                sql = 'UPDATE users SET username = ?, Firstname = ?, Lastname = ?, Email = ? WHERE username = ?';
-                
-                connection.query(sql, [req.body.username, req.body.Firstname, req.body.Lastname, req.body.Email, req.session.user], (err) => {
-                    if (err) console.log(err)
 
-                    sql = 'UPDATE user_hobbies SET username = ? WHERE username = ?';
+        if (req.body.username.search(/\s/) == 0)
+            res.render('settings', {session, error: 'Username should not have spaces'});
+        // else if (req.body.username.search(/\w/) == 0)
+        //     res.render('settings', {session, msg: 'none', error: 'Username should has to be a word and have no special characters'});
+        else if (req.body.username.length > 25)
+            res.render('settings', {session, msg: 'none', error: 'Username should has to be less than 25 charcters'});
 
-                    connection.query(sql, [req.body.username, req.session.user], (err) => {
-                        if (err) console.log(err)
-                    })
-                    sql = 'UPDATE user_filters SET username = ? WHERE username = ?';
+        else if (req.body.Firstname.search(/\s/) == 0)
+            res.render('settings', {session, msg: 'none', error: 'Firstname should not have spaces'});
+        // else if (req.body.Firstname.search(/\w/) == 0)
+        //     res.render('settings', {session, msg: 'none', error: 'Firstname should has to be a word and have no special characters'});
+        else if (req.body.Firstname.length > 25)
+            res.render('settings', {session, msg: 'none', error: 'Firstname should has to be less than 25 charcters'});
 
-                    connection.query(sql, [req.body.username, req.session.user], (err) => {
-                        if (err) console.log(err)
-                    })
+        else if (req.body.Lastname.search(/\s/) == 0)
+            res.render('settings', {session, msg: 'none', error: 'lastname should not have spaces'});
+        // else if (req.body.Lastname.search(/\w/) == 0)
+        //     res.render('settings', {session, msg: 'none', error: 'lastname should has to be a word and have no special characters'});
+        else if (req.body.Lastname.length > 25)
+            res.render('settings', {session, msg: 'none', error: 'Lastname should has to be less than 25 charcters'});
+        else
+        {   
+            let sql = 'SELECT * FROM users WHERE username = ?';
+            
+            connection.query(sql, [req.body.username], (err, rows, result) => {
+                if (err) console.log(err)
+                else if (rows[0] && rows[0]['username'])
+                    res.render('settings', {session, msg:"username already exists", error: 'none'});
+                else
+                {
+                    let { Firstname, Lastname, Email, user: username } = req.session;
                     
-                    sql = 'UPDATE user_hobbies SET username = ? WHERE username = ?';
-
-                    connection.query(sql, [req.body.username, req.session.user], (err) => {
-                        if (err) console.log(err)
-                    })
-
-                    sql = 'UPDATE images SET username = ? WHERE username = ?';
-
-                    connection.query(sql, [req.body.username, req.session.user], (err) => {
-                        if (err) console.log(err)
-                    })
-
-                    sql =  'UPDATE connections SET username = ? WHERE username = ?';
-
-                    connection.query(sql, [req.body.username, req.session.user], (err) => {
-                        if (err) console.log(err)
-                    })
+                    sql = 'UPDATE users SET username = ?, Firstname = ?, Lastname = ?, Email = ? WHERE username = ?';
                     
-                    sql = 'UPDATE connections SET connected_to = ? WHERE connected_to = ?';
-
-                    connection.query(sql, [req.body.username, req.session.user], (err) => {
+                    connection.query(sql, [req.body.username, req.body.Firstname, req.body.Lastname, req.body.Email, req.session.user], (err) => {
                         if (err) console.log(err)
+
+                        sql = 'UPDATE user_hobbies SET username = ? WHERE username = ?';
+
+                        connection.query(sql, [req.body.username, req.session.user], (err) => {
+                            if (err) console.log(err)
+                        })
+                        sql = 'UPDATE user_filters SET username = ? WHERE username = ?';
+
+                        connection.query(sql, [req.body.username, req.session.user], (err) => {
+                            if (err) console.log(err)
+                        })
+                        
+                        sql = 'UPDATE user_hobbies SET username = ? WHERE username = ?';
+
+                        connection.query(sql, [req.body.username, req.session.user], (err) => {
+                            if (err) console.log(err)
+                        })
+
+                        sql = 'UPDATE images SET username = ? WHERE username = ?';
+
+                        connection.query(sql, [req.body.username, req.session.user], (err) => {
+                            if (err) console.log(err)
+                        })
+
+                        sql =  'UPDATE connections SET username = ? WHERE username = ?';
+
+                        connection.query(sql, [req.body.username, req.session.user], (err) => {
+                            if (err) console.log(err)
+                        })
+                        
+                        sql = 'UPDATE connections SET connected_to = ? WHERE connected_to = ?';
+
+                        connection.query(sql, [req.body.username, req.session.user], (err) => {
+                            if (err) console.log(err)
+                        })
+
+                        sql = 'UPDATE blocks SET username = ? WHERE username = ?';
+
+                        connection.query(sql, [req.body.username, req.session.user], (err) => {
+                            if (err) console.log(err)
+                        })
+
+                        sql = 'UPDATE blocks SET block_who = ? WHERE block_who = ?';
+
+                        connection.query(sql, [req.body.username, req.session.user], (err) => {
+                            if (err) console.log(err)
+                        })
+
+                        sql = 'UPDATE views SET visitor = ? WHERE visitor = ?';
+
+                        connection.query(sql, [req.body.username, req.session.user], (err) => {
+                            if (err) console.log(err)
+                        })
+
+                        sql = 'UPDATE views SET username = ? WHERE username = ?';
+
+                        connection.query(sql, [req.body.username, req.session.user], (err) => {
+                            if (err) console.log(err)
+                        })
+
+                        sql = 'UPDATE socketid SET username = ? WHERE username = ?';
+
+                        connection.query(sql, [req.body.username, req.session.user], (err) => {
+                            if (err) console.log(err)
+                        })
+
+                        req.session.user = req.body.username;
+                        req.session.Firstname = req.body.Firstname;
+                        req.session.Lastname = req.body.Lastname;
+                        req.session.Email = req.body.Email;
+                        
+                        res.render('settings', {session, msg: 'personal info update success', error: 'none'});
                     })
-
-                    sql = 'UPDATE blocks SET username = ? WHERE username = ?';
-
-                    connection.query(sql, [req.body.username, req.session.user], (err) => {
-                        if (err) console.log(err)
-                    })
-
-                    sql = 'UPDATE blocks SET block_who = ? WHERE block_who = ?';
-
-                    connection.query(sql, [req.body.username, req.session.user], (err) => {
-                        if (err) console.log(err)
-                    })
-
-                    sql = 'UPDATE views SET visitor = ? WHERE visitor = ?';
-
-                    connection.query(sql, [req.body.username, req.session.user], (err) => {
-                        if (err) console.log(err)
-                    })
-
-                    sql = 'UPDATE views SET username = ? WHERE username = ?';
-
-                    connection.query(sql, [req.body.username, req.session.user], (err) => {
-                        if (err) console.log(err)
-                    })
-
-                    sql = 'UPDATE socketid SET username = ? WHERE username = ?';
-
-                    connection.query(sql, [req.body.username, req.session.user], (err) => {
-                        if (err) console.log(err)
-                    })
-
-                    req.session.user = req.body.username;
-                    req.session.Firstname = req.body.Firstname;
-                    req.session.Lastname = req.body.Lastname;
-                    req.session.Email = req.body.Email;
-                    
-                    res.render('settings', {session, msg: 'personal info update success', error: 'none'});
-                })
-            }
-        })
+                }
+            })
+        }
     }
     else if (req.body && req.body.password && req.body.vPassword) {
         let { session } = req;

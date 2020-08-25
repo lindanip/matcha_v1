@@ -9,12 +9,34 @@ const unirest = require('unirest');
 const ip_loc = require('ip-locator');
 
 
-router.get('/', (req, res) => res.render('register', {error: 'non'}));
+router.get('/', (req, res) => res.render('register', {error: 'none'}));
 
 router.post('/', (req, res) => {
     if (!req.body.username || !req.body.firstname || !req.body.lastname || !req.body.age 
         || !req.body.email || !req.body.password || !req.body.vPassword)
        res.render('register', {error: 'Please complete form fields'});
+    
+    else if (req.body.username.search(/\s/) == 0)
+        res.render('register', {error: 'Username should not have spaces'});
+    // else if (req.body.username.search(/\w/) == 0)
+    //     res.render('register', {error: 'Username should has to be a word and have no special characters'});
+    else if (req.body.username.length > 25)
+        res.render('register', {error: 'Username should has to be less than 25 charcters'});
+
+    else if (req.body.firstname.search(/\s/) == 0)
+        res.render('register', {error: 'Firstname should not have spaces'});
+    // else if (req.body.firstname.search(/\w/) == 0)
+    //     res.render('register', {error: 'Firstname should has to be a word and have no special characters'});
+    else if (req.body.firstname.length > 25)
+        res.render('register', {error: 'Firstname should has to be less than 25 charcters'});
+
+    else if (req.body.lastname.search(/\s/) == 0)
+        res.render('register', {error: 'lastname should not have spaces'});
+    // else if (req.body.lastname.search(/\w/) == 0)
+    //     res.render('register', {error: 'lastname should has to be a word and have no special characters'});
+    else if (req.body.lastname.length > 25)
+        res.render('register', {error: 'Lastname should has to be less than 25 charcters'});
+    
     else if (req.body.password != req.body.vPassword)
         res.render('register', {error: 'Passwords do not match'});
     else if (req.body.password.length < 8)

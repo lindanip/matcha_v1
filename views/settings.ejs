@@ -51,15 +51,19 @@
         <form style="display: none;" class="info_class" id="personal_form" method="POST" action="/settings">
             
             <label for="username">enter Username</label>
-            <input type="text" name="username" pattern="[a-zA-Z0-9]" 
-            title="username can only contain lowercase, uppercase or number"
-            required value=<%=session.user %>>
+            <input type="text" name="username" pattern="[a-zA-Z0-9]{1,25}"
+            required title="username can only contain alphabets, numbers and must not be longer than 25 characters" 
+            value=<%=session.user %>>
         
             <label for="Firstname">enter Firstname</label>
-            <input type="text" name="Firstname" required value=<%=session.Firstname %> required>
+            <input type="text" name="Firstname" pattern="[a-zA-Z0-9]{1,25}"
+            required title="Firstname can only contain alphabets, numbers and must not be longer than 25 characters"
+            value=<%=session.Firstname %>>
 
             <label for="Lastname">enter Lastname</label>
-            <input ype="text" name="Lastname" required value=<%=session.Lastname %>>
+            <input ype="text" name="Lastname" pattern="[a-zA-Z0-9]{1,25}"
+            required title="Lastname can only contain alphabets, numbers and must not be longer than 25 characters"
+            value=<%=session.Lastname %>>
 
             <label for="Email">enter Email</label>
             <input type="email" name="Email" required value=<%=session.Email %>>

@@ -29,6 +29,7 @@ app.use(session({
 
 const return_cities = require('./routes/fetch_req/return_cities');
 const fullProfile2 = require('./routes/match_full_info2');
+const my_notifications = require('./routes/my_notifications');
 
 //
 
@@ -107,10 +108,11 @@ app.use('/messages', messages);
 app.use('/change_password', change_password);
 
 app.use('/match_full_info2', fullProfile2);
-
+app.use('/my_notifications', my_notifications);
 
 io.on('connection', (socket) =>
 {
+    let sql;
 
 // -------------------------------- notifications -------------------------------------------
 
@@ -126,9 +128,9 @@ io.on('connection', (socket) =>
             else{
                 if (themStatusRow[0]){
                     io.to(themStatusRow[0].soc_id).emit('notProfileView', {match_username: me});
-                    io.sockets.emit('matchOnline', {match_username: them});
+                    io.to(socket.id).emit('matchOnline', {match_username: them});
                 }else
-                    io.sockets.emit('matchOffline', {match_username: them});
+                    io.to(socket.id).emit('matchOffline', {match_username: them});
             }
         });
     });
@@ -143,8 +145,11 @@ io.on('connection', (socket) =>
         connection.query(sql, [them], (err, themStatusRow) => {
             if (err) console.log('database error');
             else
-                if (themStatusRow[0])
+                if (themStatusRow[0]){
                     io.to(themStatusRow[0].soc_id).emit('notYourRequestViewed', {match_username: me});
+                    io.to(socket.id).emit('matchOnline', {match_username: them});
+                }else
+                    io.to(socket.id).emit('matchOffline', {match_username: them});
                 // data must be stored to the database here 
         });
     });
@@ -246,6 +251,32 @@ io.on('connection', (socket) =>
 
 // ###################### message part
 
+    // send a notification that message has been seen
+    socket.on('chatMsgSeen', params =>
+    {
+        let { me, them, msg } = params;
+        console.log(params)
+
+        // a select from the messages database so that is doesnt show viewing when there is no message
+        // i think this may need to be done for more functions
+
+        sql = 'UPDATE messages SET msg_state = 1 WHERE sentto = ?';
+
+        connection.query(sql, [me], err => { if (err) console.log(err) });
+
+        sql = 'SELECT * FROM socketid WHERE username = ?';
+
+        connection.query(sql, [them], (err, themStatusRow) => {
+            if (err) console.log(err);
+            else
+                if (themStatusRow[0])
+                {
+                    io.to(themStatusRow[0].soc_id).emit('yourChatMsgSeen', {match_username: me});
+                    io.to(themStatusRow[0].soc_id).emit('notChatMsgSeen', {match_username: me, msg});
+                }
+        });
+    });
+
     // get information for the chat page
     socket.on("loginReq", (params) =>
     {
@@ -271,9 +302,23 @@ io.on('connection', (socket) =>
             sql = 'SELECT * FROM socketid WHERE username = ?';
             connection.query(sql, [params.them], (err, themStatusRow) => {
                 if (err) console.log(err);
+                else if (!themStatusRow[0])
+                    io.to(socket.id).emit('loginRes', { themStatus: 'offline'});
                 else
-                    io.emit('loginRes', { themStatus: themStatusRow[0] ? 'online' : 'offline' });
+                {
+                    io.to(themStatusRow[0].soc_id).emit('notChatMsgSeen', {match_username: params.me});
+                    io.to(socket.id).emit('loginRes', {them: params.them, themStatus: 'online'});
+                    io.to(themStatusRow[0].soc_id).emit('yourChatMsgSeen', {match_username: params.me});
+                    // for notification for read io.to(themStatusRow[0].soc_id).emit('yourChatMsgSeen', {match_username: me});
+                }
             });
+
+            sql = 'UPDATE messages SET msg_state = 1 WHERE sentto = ?';
+
+            connection.query(sql, [params.me], err => { if (err) console.log(err) });
+            io.sockets.emit('broadcast1', {username: params.me});
+            
+
         });
     });
 
@@ -340,5 +385,19 @@ io.on('connection', (socket) =>
     });
 // ############################### end
 });
+
+let cleared = 0;
+
+if (cleared == 0)
+     
+
+    connection.query('DELETE  FROM socketid', (err) => {
+        if (err) console.log(err);
+        else
+        {
+            cleared = 1;
+            console.log('sockets db cleared');
+        }
+    });
 
 server.listen(port, () => console.log(`listening on port ${port}`));

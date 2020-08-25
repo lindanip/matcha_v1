@@ -4,31 +4,46 @@ const socket = io();
 
 // i am online
 socket.on('matchOnline', (res) => {
-    if (onlineTag && document.getElementById('match_profile_pic'))
-        if (res.match_username == document.getElementById('them').value)
-            document.getElementById('match_profile_pic').style.border = '5px solid green';
+    if (onlineTag && document.getElementById('_match_status'))
+        if (res.match_username == document.getElementById('them').value){
+            const match_status = document.getElementById('_match_status');
+            
+            match_status.innerText = `${res.match_username} is online`;
+            match_status.style.color = 'green';
+        }
 });
 // i am offline
 socket.on('matchOffline', (res) => {
-    if (onlineTag && document.getElementById('match_profile_pic'))
-        if (res.match_username == document.getElementById('them').value)
-            document.getElementById('match_profile_pic').style.border = '5px solid red';
+    if (onlineTag && document.getElementById('_match_status'))
+        if (res.match_username == document.getElementById('them').value){
+            const match_status = document.getElementById('_match_status');
+            
+            match_status.innerText = `${res.match_username} is offline`;
+            match_status.style.color = 'red';
+        }
 });
 
 // there is a user disconnected 
 socket.on('broadcast', (res) => {
-    if (onlineTag && document.getElementById('match_profile_pic'))
-        if (res.username == document.getElementById('them').value)
-            document.getElementById('match_profile_pic').style.border = '5px solid red';
+    if (onlineTag && document.getElementById('_match_status'))
+        if (res.username == document.getElementById('them').value){
+            const match_status = document.getElementById('_match_status');
+
+            match_status.innerText = `${res.username} is offline`;
+            match_status.style.color = 'red';
+        }
 });
 
 // there is a user connected 
 socket.on('broadcast1', (res) => {   
-    if (onlineTag && document.getElementById('match_profile_pic'))
-        if (res.username == document.getElementById('them').value)
-            document.getElementById('match_profile_pic').style.border = '5px solid green';
-});
+    if (onlineTag && document.getElementById('_match_status'))
+        if (res.username == document.getElementById('them').value){
+            const match_status = document.getElementById('_match_status');
 
+            match_status.innerText = `${res.username} is online`;
+            match_status.style.color = 'green';
+        }
+});
 
 
 
@@ -132,15 +147,19 @@ function removeConnection() {
 // connection request, connection accept,
 // connection decline, disconnection, need msg
 
+
 socket.on('notYourRequestViewed', (res) => addNotificationElement('is viewing your request for connection', res));
 socket.on('notProfileView', (res) => addNotificationElement('is viewing your profile', res));
 socket.on('notConnectionReq', (res) => addNotificationElement('requested to connect', res));
 socket.on('notConnectionAccept', (res) => addNotificationElement('accepted your request', res));
 socket.on('notConnectionDecline', (res) => addNotificationElement('declined your request', res));
 socket.on('notDisconnection', (res) => addNotificationElement('is disconnected from your profile', res));
+socket.on('notChatMsgSeen', (res) => { addNotificationElement('has view your message', res) });
+
+
 
 let addNotificationElement = (msg, res) => {
-
+    console.log(msg);
     //display notification bar
     notificationBar = document.getElementById('notification-bar');
     notificationBar.style.display = 'block';
@@ -203,172 +222,6 @@ socket.on('notMsg', (res) =>
         document.getElementById('notification-toggle').style.display = 'block';
     }, 2000);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// recieve a notification from chat messages
-socket.on('notMsg', (res) => 
-{
-    //display notification bar
-    notificationBar = document.getElementById('notification-bar');
-    notificationBar.style.display = 'block';
-
-    //create notification div
-    let notInfo = document.createElement('div');
-    notInfo.className = 'not_info';
-
-    //create notification username
-    let notInfoUser = document.createElement('span');
-    notInfoUser.id = 'not_info_user';
-    
-    //create username text
-    let msgUsernameText = document.createTextNode(res.me);
-    notInfoUser.appendChild(msgUsernameText);
-
-    //create notification message
-    let notInfoMsg = document.createElement('span');
-    notInfoMsg.id = 'not_info_msg';
-
-    //create message text
-    let msgText = document.createTextNode(res.msg);
-    notInfoMsg.appendChild(msgText);
-
-    //append two spans to notification div
-    notInfo.appendChild(notInfoUser);
-    notInfo.appendChild(notInfoMsg);
-
-    // if (notificationBar.hasChildNodes())
-    // {
-    //     document.getElementById('notification-toggle').style.display = 'block';
-    //     let notInfoAll = document.querySelectorAll('.not_info');
-    //     console.log(notInfoAll);
-    //     notInfoAll.forEach((notInfoItem) => {
-    //         console.log('wassssss');
-    //         notInfoItem.style.display = 'none';
-    //     });
-    // }
-    notificationBar.appendChild(notInfo);
-    setTimeout(() =>{
-        notInfo.style.display = 'none';
-        document.getElementById('notification-toggle').style.display = 'block';
-    }, 2000);
-});
-
-
-
-
-
-
-
-
-
 
 
 //function below needs to be fixed
