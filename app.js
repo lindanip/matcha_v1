@@ -6,12 +6,15 @@ const socket = require('socket.io');
 const path = require('path');
 const http = require('http');
 
+
+
 const port = 4000 || process.env.PORT;
 const app = express();
 const server = http.createServer(app);
 const io = socket(server);
-
 const secretString = Math.floor((Math.random() * 10000) + 1);
+
+
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({
@@ -25,14 +28,11 @@ app.use(session({
 }));
 
 
-//new route to fetch_req
 
-const return_cities = require('./routes/fetch_req/return_cities');
+//const return_cities = require('./routes/fetch_req/return_cities');
+
 const fullProfile2 = require('./routes/match_full_info2');
 const my_notifications = require('./routes/my_notifications');
-
-//
-
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const registerRouter = require('./routes/register');
@@ -64,17 +64,16 @@ const chats = require('./routes/chats');
 const messages = require('./routes/messages');
 const change_password = require('./routes/change_password');
 
+
+
 app.use('/Uploads', express.static(path.join(__dirname, 'Uploads')));
 app.use('/home/Uploads', express.static(path.join(__dirname, '/home/Uploads')));
 app.use('/search/Uploads', express.static(path.join(__dirname, '/search/Uploads')));
 app.use('/index_images', express.static(path.join(__dirname, 'index_images')));
 
 
-//for testing
-app.use('/fetch_req/return_cities', return_cities);
-//end testing
 
-
+// app.use('/fetch_req/return_cities', return_cities);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -110,11 +109,25 @@ app.use('/change_password', change_password);
 app.use('/match_full_info2', fullProfile2);
 app.use('/my_notifications', my_notifications);
 
+
+
+const addToNotificationDb = function(me, them, notification)
+{
+    var sql =  'INSERT INTO notifications (sentby, sentto, notification_message, seen)'+
+                ' VALUES (?, ?, ?, 0)';
+    connection.query(sql, [me, them, notification], (err) => {
+        if (err) console.log(err);
+    });
+}
+
+
+
 io.on('connection', (socket) =>
 {
     let sql;
 
 // -------------------------------- notifications -------------------------------------------
+
 
     // send notification to profile being viewed
     socket.on('profileView', params =>
@@ -133,6 +146,8 @@ io.on('connection', (socket) =>
                     io.to(socket.id).emit('matchOffline', {match_username: them});
             }
         });
+        
+        addToNotificationDb(me, them, 'profile view');
     });
 
     // send notification that your connection request was viewed
@@ -150,8 +165,9 @@ io.on('connection', (socket) =>
                     io.to(socket.id).emit('matchOnline', {match_username: them});
                 }else
                     io.to(socket.id).emit('matchOffline', {match_username: them});
-                // data must be stored to the database here 
         });
+
+        addToNotificationDb(me, them, 'connection request viewed');
     });
 
     // send notification that you have a connection request
@@ -166,8 +182,9 @@ io.on('connection', (socket) =>
             else
                 if (themStatusRow[0])
                     io.to(themStatusRow[0].soc_id).emit('notConnectionReq', {match_username: me});
-                    // must be stored in the database here 
         });
+
+        addToNotificationDb(me, them, 'connection request');
     });
 
     // send a notification that your connection request is accepted
@@ -182,8 +199,9 @@ io.on('connection', (socket) =>
             else
                 if (themStatusRow[0])
                     io.to(themStatusRow[0].soc_id).emit('notConnectionAccept', {match_username: me});
-                    // must be stored in the database here
         });
+
+        addToNotificationDb(me, them, 'accepted connection');
     });
 
     // send a notification that your connection request is declined
@@ -198,8 +216,9 @@ io.on('connection', (socket) =>
             else
                 if (themStatusRow[0])
                     io.to(themStatusRow[0].soc_id).emit('notConnectionDecline', {match_username: me});
-                    // must be stored in database
         });
+
+        addToNotificationDb(me, them, 'declined connection request');
     });
 
     // send a notification that your connection was removed
@@ -214,8 +233,9 @@ io.on('connection', (socket) =>
             else
                 if (themStatusRow[0])
                     io.to(themStatusRow[0].soc_id).emit('notDisconnection', {match_username: me});
-                    //must be stored in the database
         });
+
+        addToNotificationDb(me, them, 'diseconnected/ disliked');
     });
 
 // --------------------------------------- end
@@ -275,6 +295,8 @@ io.on('connection', (socket) =>
                     io.to(themStatusRow[0].soc_id).emit('notChatMsgSeen', {match_username: me, msg});
                 }
         });
+
+        //addToNoificationDb(me, them); // i dont think it is neccessary here
     });
 
     // get information for the chat page
@@ -325,7 +347,7 @@ io.on('connection', (socket) =>
 //################################################end 
 
 
-// ``````````````````````````````` chat message are all handled here ```````````````````````````````
+// ``````````````````````````````` chat messages are all handled here ```````````````````````````````
     // chat message event
     socket.on("chatMsg",  (msgParams) => 
     {
@@ -344,8 +366,9 @@ io.on('connection', (socket) =>
                 io.to(themStatusRow[0].soc_id).emit('resMsg', {me: them, them: me, msg});
                 io.to(themStatusRow[0].soc_id).emit('notMsg', {me: them, them: me, msg});
             }
-            // else must tell the sender the users is some how offline
         });
+
+        //addToNoificationDb(me, them, msg); // more detail
     });
 
 // ``````````````````````````````` end
@@ -358,7 +381,7 @@ io.on('connection', (socket) =>
     {
         let userDisconnected = 'none';
         
-        let sql = 'SELECT username FROM socketid WHERE soc_id = ?'
+        let sql = 'SELECT username FROM socketid WHERE soc_id = ?';
 
         connection.query(sql, socket.id, (err, row) => {
             if (err) console.log(err)
@@ -386,18 +409,25 @@ io.on('connection', (socket) =>
 // ############################### end
 });
 
-let cleared = 0;
 
-if (cleared == 0)
-     
 
-    connection.query('DELETE  FROM socketid', (err) => {
+//--end of section 3
+
+
+// section 4
+
+const clearSockets = function()
+{
+    connection.query('DELETE FROM socketid', (err) => {
         if (err) console.log(err);
         else
-        {
-            cleared = 1;
-            console.log('sockets db cleared');
-        }
+            console.log('sockets database cleared');
     });
+}
 
-server.listen(port, () => console.log(`listening on port ${port}`));
+server.listen(port, () => {
+    console.log(`listening on port ${port}`);
+    clearSockets();
+});
+
+//--end of section 4

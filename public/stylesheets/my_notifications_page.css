@@ -1,0 +1,22 @@
+main{
+    margin: auto;
+    width: 300px;
+    padding: 10px;
+    min-height: 80vh;
+    border: 1px solid gold;
+    text-align: center;
+}
+h1{
+    text-align: center;
+    font-size: 25px;
+}
+.notification_from{ display: flex; justify-content: space-between; padding: 5px; background-color: rgba(0, 0, 0, 0.3);}
+.notification_msg{ display: flex; justify-content: space-between; padding: 5px; background-color: rgba(0, 0, 0, 0.5);}
+
+.notification_div button{ width: 100%; height: 30px; background-color: gold;}
+.notification_div{
+    border: 1px solid black;
+    margin: 5px auto;
+}
+.seen{ border: 2px solid green; }
+.unseen{ border: 2px solid red; }

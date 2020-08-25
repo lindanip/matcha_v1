@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var connection = require('../config/db')
-var session = require('express-session')
-var secretString = Math.floor((Math.random() * 10000) + 1);
+const express = require('express');
+const router = express.Router();
+const connection = require('../config/db')
+const session = require('express-session')
+const secretString = Math.floor((Math.random() * 10000) + 1);
 
 router.use(session({
     secret: secretString.toString(),
@@ -10,34 +10,40 @@ router.use(session({
     saveUninitialized: false
 }));
 
-router.get('/', (req, res) => {
+router.get('/', (req, res) =>
+{
     if (!req.session.user)
         res.redirect('/login');
     else
     {
         let { session } = req;
 
-        connection.query('SELECT * FROM notifications WHERE sentto = ?', [session.user], (err, rows) => {
+        connection.query('SELECT * FROM notifications WHERE sentto = ? ORDER BY id DESC', [session.user], (err, rows) => {
             if (err) console.log(err);
             else if (!rows[0])
-                res.render('notifications', {session, notifications: 'none'});
-            else
-                res.send(rows);
+                res.render('my_notifications', {session, notifications: 'none'});
+            else{
+                connection.query('UPDATE notifications SET seen = 1 WHERE sentto = ?', [req.session.user], (err) => {
+                    if (err) console.log(err);
+                    else
+                        res.render('my_notifications', {session, notifications: rows});
+                });     
+            }
         });
     }
 });
 
-router.delete('/:id', (req, res) => {
-    if (!req.seesion.user)
+router.post('/', (req, res) => {
+    if (!req.session.user)
         res.redirect('/login');
     else
     {
-        connection.query('DELETE FROM notifications WHERE id = ?', [req.params.id], (err, row) => {
+        console.log('inside delete request for the that part');
+        console.log(req);
+        connection.query('DELETE FROM notifications WHERE id = ?', [req.body.id], (err) => {
             if (err) console.log(err);
-            else if (!row[0])
-                res.redirect('/my_notifactions');
             else
-                res.render('/my_notifactions');
+                res.redirect('/my_notifications');
         });
     }
 });

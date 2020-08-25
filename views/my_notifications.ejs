@@ -6,9 +6,10 @@
     <title>Document</title>
 
     <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/notifications.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/my_notifications_page.css">
 </head>
-<body onload="notoficationsLogin()">
+<body onload='login()'>
+    <!-- onload="notoficationsLogin()" -->
     <input type="hidden" value=<%=session.user %> id='me'>
 
     <span id="notification-toggle">
@@ -39,6 +40,38 @@
     </nav>
     <main>
         <h1>my notifications</h1>
+        <% if (notifications == 'none') { %>
+            <span>you have no notifications</span>
+        <% } else
+        {
+            let i = 0;
+            while (notifications[i]){
+                let { id , sentto, sentby, notification_message, seen } = notifications[i];        
+        %>
+                <% if (seen == 1){ %>
+                <div class="notification_div seen">
+                <% } else{ %>
+                <div class="notification_div unseen">
+                <% } %>
+                    <div class="notification_from">
+                        <span>form -</span>
+                        <span><%= sentby%></span>
+                    </div>
+                    <div class="notification_msg">
+                        <span>event -</span>
+                        <span><%= notification_message%></span>
+                    </div>
+                    <form action="/my_notifications" method="post">
+                        <input type="hidden" name="sentby" value=<%= sentby%>>
+                        <input type="hidden" name="sentto" value=<%= sentby%>>
+                        <input type="hidden" name="id" value=<%= id%>>
+                        <button>remove from notification</button>
+                    </form>
+                </div>
+                
+        <%      i++;
+            }
+        } %>
     </main>
 
     <footer>
@@ -46,7 +79,8 @@
     </footer>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="javascripts/notification.js"></script>
+    <!-- <script src="javascripts/notification.js"></script> -->
+    <script src="javascripts/my_notifications_page.js"></script>
     <script src="javascripts/nav.js"></script>
 </body>
 </html>
