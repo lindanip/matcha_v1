@@ -58,23 +58,23 @@ router.post('/', (req, res) => {
         let { session } = req;
 
         if (req.body.username.search(/\s/) == 0)
-            res.render('settings', {session, error: 'Username should not have spaces'});
-        // else if (req.body.username.search(/\w/) == 0)
-        //     res.render('settings', {session, msg: 'none', error: 'Username should has to be a word and have no special characters'});
+            res.render('settings', {session, msg: 'none', error: 'Username should not have spaces'});
+        else if (req.body.username.search(/([A-Za-z0-9])/) != true)
+            res.render('settings', {session, msg: 'none', error: 'Username should has to be a word and have no special characters'});
         else if (req.body.username.length > 25)
             res.render('settings', {session, msg: 'none', error: 'Username should has to be less than 25 charcters'});
 
         else if (req.body.Firstname.search(/\s/) == 0)
             res.render('settings', {session, msg: 'none', error: 'Firstname should not have spaces'});
-        // else if (req.body.Firstname.search(/\w/) == 0)
-        //     res.render('settings', {session, msg: 'none', error: 'Firstname should has to be a word and have no special characters'});
+        else if (req.body.Firstname.search(/([A-Za-z0-9])/) != true)
+            res.render('settings', {session, msg: 'none', error: 'Firstname should has to be a word and have no special characters'});
         else if (req.body.Firstname.length > 25)
             res.render('settings', {session, msg: 'none', error: 'Firstname should has to be less than 25 charcters'});
 
         else if (req.body.Lastname.search(/\s/) == 0)
             res.render('settings', {session, msg: 'none', error: 'lastname should not have spaces'});
-        // else if (req.body.Lastname.search(/\w/) == 0)
-        //     res.render('settings', {session, msg: 'none', error: 'lastname should has to be a word and have no special characters'});
+        else if (req.body.Lastname.search(/([A-Za-z0-9])/) != true)
+            res.render('settings', {session, msg: 'none', error: 'lastname should has to be a word and have no special characters'});
         else if (req.body.Lastname.length > 25)
             res.render('settings', {session, msg: 'none', error: 'Lastname should has to be less than 25 charcters'});
         else
