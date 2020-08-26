@@ -127,7 +127,16 @@ io.on('connection', (socket) =>
     let sql;
 
 // -------------------------------- notifications -------------------------------------------
+    
+    // user is in notifications page read all notifications
+    socket.on('pageNotificationsInView', params =>
+    {
+        let { me } = params;
 
+        sql = 'UPDATE notifications SET seen = 1 WHERE sentto = ?';
+
+        connection.query(sql, [me], (err) => { if (err) console.log(err); });  
+    }); 
 
     // send notification to profile being viewed
     socket.on('profileView', params =>
@@ -244,25 +253,64 @@ io.on('connection', (socket) =>
 // ```````````````````` create & store new sockets with matcha and tell everyone that im online```````````
 
     // insert or update socket id in database
+    // socket.on('notLoginReq', (params) =>
+    // {
+    //     let sql = 'SELECT * FROM socketid WHERE username = ?';
+    //     connection.query(sql, [params.me], (err, socketIdRow) =>
+    //     {
+    //         if (err) console.log(err)
+    //         else if (socketIdRow[0])
+    //         {
+    //             sql = 'UPDATE socketid SET soc_id = ? WHERE username = ?';
+    //             connection.query(sql, [socket.id, params.me], (err) => { if (err) console.log(err) });
+    //         }
+    //         else
+    //         {
+    //             sql = 'INSERT INTO socketid (username, soc_id) VALUES (?, ?)';
+    //             connection.query(sql, [params.me, socket.id], (err) => { if (err) console.log(err) });
+    //         }
+            
+    //         io.to(socket.id).emit('notLoginRes', params.me);
+    //         io.sockets.emit('broadcast1', {username: params.me});
+    //     });
+    // });
     socket.on('notLoginReq', (params) =>
     {
+        io.sockets.emit('broadcast1', {username: params.me});
+
         let sql = 'SELECT * FROM socketid WHERE username = ?';
         connection.query(sql, [params.me], (err, socketIdRow) =>
         {
             if (err) console.log(err)
-            else if (socketIdRow[0])
-            {
-                sql = 'UPDATE socketid SET soc_id = ? WHERE username = ?';
-                connection.query(sql, [socket.id, params.me], (err) => { if (err) console.log(err) });
-            }
             else
             {
-                sql = 'INSERT INTO socketid (username, soc_id) VALUES (?, ?)';
-                connection.query(sql, [params.me, socket.id], (err) => { if (err) console.log(err) });
+                if (socketIdRow[0])
+                {
+                    sql = 'UPDATE socketid SET soc_id = ? WHERE username = ?';
+                    connection.query(sql, [socket.id, params.me], (err) => { if (err) console.log(err) });
+                }
+                else
+                {
+                    sql = 'INSERT INTO socketid (username, soc_id) VALUES (?, ?)';
+                    connection.query(sql, [params.me, socket.id], (err) => { if (err) console.log(err) });
+                }
+                
+                io.to(socket.id).emit('notLoginRes', params.me);
+
+                sql = 'SELECT * FROM notifications WHERE sentto = ? AND seen = 0 ORDER BY id DESC';
+                connection.query(sql, params.me, (err, rows) => {
+                    if (err) console.log(err);
+                    else
+                        if (rows[0]) io.to(socket.id).emit('notificationsRows', rows);
+                });
+
+                sql = 'SELECT * FROM messages WHERE sentto = ? AND msg_state = 0 ORDER BY id DESC';
+                connection.query(sql, params.me, (err, rows) => {
+                    if (err) console.log(err);
+                    else
+                        if (rows[0]) io.to(socket.id).emit('messagesRows', rows);
+                });
             }
-            
-            io.to(socket.id).emit('notLoginRes', params.me);
-            io.sockets.emit('broadcast1', {username: params.me});
         });
     });
 
@@ -333,6 +381,13 @@ io.on('connection', (socket) =>
                     io.to(themStatusRow[0].soc_id).emit('yourChatMsgSeen', {match_username: params.me});
                     // for notification for read io.to(themStatusRow[0].soc_id).emit('yourChatMsgSeen', {match_username: me});
                 }
+            });
+
+            sql = 'SELECT * FROM notifications WHERE sentto = ? AND seen = 0 ORDER BY id DESC';
+            connection.query(sql, params.me, (err, rows) => {
+                if (err) console.log(err);
+                else
+                    if (rows[0]) io.to(socket.id).emit('notificationsRows', rows);
             });
 
             sql = 'UPDATE messages SET msg_state = 1 WHERE sentto = ?';

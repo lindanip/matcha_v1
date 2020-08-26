@@ -1,6 +1,8 @@
-#profile_pic{
-    width: 30px;
-}
+#profile_pic{ width: 30px; }
+
+#notification-links{ text-align: center; }
+#notification-links a{ margin: 0px 5px; }
+
 
 #notification-bar{
     margin: auto;
@@ -9,14 +11,34 @@
     padding: 5px 10px 5px 10px;
     text-align: center;
 }
-#notification-toggle{ display: none; text-align: center;}
+#message-bar{
+    margin: auto;
+    display: grid;
+    width: 300px;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+}
+
+
 #notification-bar .not_info{
     border: 1px solid black;
     padding: 2px;
     margin: 2px;
 }
 .not_info span{ display: block; }
-.not_info span:nth-child(1){ background-color: grey;  border-bottom: 1px solid green; }
+.not_info span:nth-child(1){ background-color: blue;  border-bottom: 1px solid green; }
+
+#message-bar .msg_info{
+    border: 1px solid black;
+    padding: 2px;
+    margin: 2px;
+}
+.msg_info span{ display: block; }
+.msg_info span:nth-child(1){ background-color: red;  border-bottom: 1px solid green; }
+
+
+
+
 
 nav{
     margin: auto;
@@ -35,12 +57,12 @@ nav{
 }
 
 #user_sub_menu{
-    width: 240px;
+    width: 300px;
     display: none;
     padding: 0px 10px 10px 10px;
     position: absolute;
-    background-color: rgb(0, 0, 0);
-    top: 80px;
+    background-color: rgba(0, 0, 0, 0.9);
+    top: 100px;
     z-index: 1;
     border: 1px solid rgba(255, 217, 0, 0.369);
 }

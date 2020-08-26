@@ -24,7 +24,10 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     if (!req.session.user)
         res.redirect('/login');
-    else{
+    else if (!req.body.username)
+        res.redirect('/chats');
+    else
+    {
         let { session } = req;
         const to = req.session.user;
         const from = req.body.username;

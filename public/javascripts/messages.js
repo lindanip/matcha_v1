@@ -1,6 +1,20 @@
 const socket = io();
 
 
+function displayNotifications(){
+    if (document.getElementById('notification-bar').hasChildNodes())
+    {
+        let notInfoAll = document.querySelectorAll('.not_info');
+        notInfoAll.forEach((notInfoItem) => {
+            if (notInfoItem.style.display == 'block')
+                notInfoItem.style.display = 'none';
+            else
+                notInfoItem.style.display = 'block';
+        });
+    }
+}
+
+
 function login(){
     socket.emit('loginReq', {
         me: document.getElementById('me').value,
@@ -100,48 +114,73 @@ socket.on('broadcast1', (res) =>
 
 
 
-socket.on('notYourRequestViewed', (res) => addNotificationElement('is viewing your request for connection', res));
-socket.on('notProfileView', (res) => addNotificationElement('is viewing your profile', res));
-socket.on('notConnectionReq', (res) => addNotificationElement('requested to connect', res));
-socket.on('notConnectionAccept', (res) => addNotificationElement('accepted your request', res));
-socket.on('notConnectionDecline', (res) => addNotificationElement('declined your request', res));
-socket.on('notDisconnection', (res) => addNotificationElement('is disconnected from your profile', res));
 
-let addNotificationElement = (msg, res) => {
 
-    //display notification bar
-    let notificationBar = document.getElementById('notification-bar');
-    // notificationBar.style.display = 'block';
 
-    //create notification div
+
+
+//section 5
+// add all notifications to the dom
+
+const addToNotifications = function(res){
+    const notificationBar = document.getElementById('notification-bar');
+
     let notInfo = document.createElement('div');
-    notInfo.className = 'not_info';
+    notInfo.setAttribute('class', 'not_info');
 
-    //create notification username
-    let notInfoUser = document.createElement('span');
-    notInfoUser.id = 'not_info_user';
+            //create notification username
+            let notInfoUser = document.createElement('span');
+            notInfoUser.id = 'not_info_user';
 
-    //create username text
-    let msgUsernameText = document.createTextNode(res.match_username + ' ' + msg);
-    notInfoUser.appendChild(msgUsernameText);
+            //create username text
+            let msgUsernameText = document.createTextNode(res.them);
+            notInfoUser.appendChild(msgUsernameText);
 
+            //create notification message
+            let notInfoMsg = document.createElement('span');
+            notInfoMsg.id = 'not_info_msg';
+
+            //create message text
+            let msgText = document.createTextNode(res.msg);
+            notInfoMsg.appendChild(msgText);
+
+    //append two spans to notification div and form
     notInfo.appendChild(notInfoUser);
+    notInfo.appendChild(notInfoMsg);
 
+
+    notInfo.style.display = "none";
     notificationBar.appendChild(notInfo);
-    notificationBar.style.display = 'none';
-    document.getElementById('notification-toggle').style.display = 'block';
+
+    document.getElementById('notification-link').style.color = 'gold';
 }
 
 
-function displayNotifications()
+socket.on('notificationsRows', (rows) => {
+    console.log(rows);
+    rows.forEach(row => {
+        let res = {
+            them : row.sentby,
+            msg: row.notification_message
+        } 
+
+        addToNotifications(res);
+    });
+});
+
+const preAddToNotifications = function(msg, serverRes)
 {
-    if (document.getElementById('notification-bar').hasChildNodes())
-    {
-        let notificationBar = document.getElementById('notification-bar');
+    let res = {
+        them : serverRes.match_username,
+        msg: msg
+    } 
 
-        if (notificationBar.style.display == 'block')
-            notificationBar.style.display = 'none';
-        else
-            notificationBar.style.display = 'block';
-    }
+    addToNotifications(res);
 }
+
+socket.on('notYourRequestViewed', (res) => preAddToNotifications('viewed your request for connection', res));
+socket.on('notProfileView', (res) => preAddToNotifications('viewed your profile', res));
+socket.on('notConnectionReq', (res) => preAddToNotifications('request to connect', res));
+socket.on('notConnectionAccept', (res) => preAddToNotifications('accepted your request', res));
+socket.on('notConnectionDecline', (res) => preAddToNotifications('declined your request', res));
+socket.on('notDisconnection', (res) => preAddToNotifications('disconnected from your profile', res));

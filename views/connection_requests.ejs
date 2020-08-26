@@ -8,10 +8,15 @@
 </head>
 <body onload="login()">
   <input type="hidden" value=<%=session.user %> id='me'>
-  <span id="notification-toggle">
-    <a href="javacript:void(0)" onclick="displayNotifications()">notifications</a>
-  </span>
+  
+  <div id="notification-links">
+    <a id="notification-link" href="javascript:void(0)" onclick="displayNotifications()">new notifications</a>
+    <a id="message-link" href="javascript:void(0)" onclick="displayMessages()">peep messages</a>
+    <a href="/my_notifications">notifications</a>
+  </div>
   <div id="notification-bar"></div>
+  <div id="message-bar"></div>
+
   <nav>
     <div id="main_menu">
         <a href="/">home</a>
