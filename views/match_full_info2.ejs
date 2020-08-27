@@ -67,6 +67,8 @@
         <% } else{ %>
 
             <h1>connection request view</h1>
+            <span id="_match_status"></span>
+            <hr>
             <img id="match_profile_pic" src=<%=match_info.profile_pic%>>
                 
             <% if (connected == -1) { %>
@@ -101,7 +103,7 @@
             
                 <form action="/block_user" method="POST">
                     <input type="hidden" name="match_username" value=<%=match_info.username%>>
-                    <button onclick="declineConnectionReq()" class="connection_status_btn" type="submit">request to block user</button>
+                    <button class="connection_status_btn" type="submit">request to block user</button>
                 </form>
                 
                 

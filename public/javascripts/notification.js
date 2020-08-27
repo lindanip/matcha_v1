@@ -25,7 +25,7 @@ socket.on('matchOffline', (res) => {
         if (res.match_username == document.getElementById('them').value){
             const match_status = document.getElementById('_match_status');
             
-            match_status.innerText = `${res.match_username} is offline`;
+            match_status.innerText = `${res.match_username} is offline, last seen ${res.lastSeen}`;
             match_status.style.color = 'red';
         }
 });
@@ -36,7 +36,7 @@ socket.on('broadcast', (res) => {
         if (res.username == document.getElementById('them').value){
             const match_status = document.getElementById('_match_status');
 
-            match_status.innerText = `${res.username} is offline`;
+            match_status.innerText = `${res.username} is offline, last seen ${res.lastSeen}`;
             match_status.style.color = 'red';
         }
 });
