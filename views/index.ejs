@@ -52,8 +52,18 @@
         </p>
         <a href="/settings"> complete profile </a>
       </div>
-
-    <% } else{ %>
+      
+    <% }
+    else if (session.profile_pic == "Uploads/stock_profile_pic.png") { %>
+      <div class="not_complete">
+        <span id="not_complete_heading">incomplete profile</span>
+        <p>most features will be locked<br>
+          go to the my pics page to add your profile pic.<br>
+        </p>
+        <a href="/My_pictures"> complete profile </a>
+      </div>
+    <% }    
+     else{ %>
       <div class="complete">
         <h1>welcome <%=session.user %></h1>
         <a  id="visited_btn" href="/profile_views">view my profile visits</a>
@@ -115,38 +125,7 @@
           
 <!-- this is the start if the filter form all filters for this page are below -->
 
-          <form id="_filterForm" method="POST" action="/">
-            
-            <div class="filters">
-                <span>Filter by age</span>
-                <label style="display: block;" for="minAge">min age</label>
-                <input type="number" name="minAge" min="18" max="129">
-                <label style="display: block;" for="maxAge">max age</label>
-                <input type="number" name="maxAge" min="19" max="130">
-            </div>
-            
-            <div class="filters">
-              <span>Top rated</span>
-              <input type="checkbox" name="fameCheckbox" id="_byFameCheckbox">
-            </div>
-
-            <div class="filters">
-              <span>filter by hobby</span>
-              <input  type="text" name="hobbyFilter1" value="none">
-              <input  type="text" name="hobbyFilter2" value="none">
-              <input  type="text" name="hobbyFilter3" value="none">
-              <input  type="text" name="hobbyFilter4" value="none">
-              <input  type="text" name="hobbyFilter5" value="none">
-            </div>
-
-            <div class="filters">
-              <span>filter by location</span>
-              <input id="_locationInputInfo" type="text" name="locationFilter" value='none'>
-            </div>
-
-            <button type="submit">apply filters</button>
-        </form>
-
+        
 
         <!-- start of the suggestions , below the filter form on the this page or dom  -->
             <% if (suggestions == 'none') {%>
@@ -155,10 +134,12 @@
                   let i = 0;
                   while (suggestions[i])
                   {
-                    let { username, Firstname, Lastname, Age } = suggestions[i];
-                    let { Orientation, Gender, Bio } = suggestions[i];
-                    let { Hobby1, Hobby2, Hobby3, Hobby4, Hobby5 } = suggestions[i];
-                    let { fame_rating, profile_pic, last_seen} = suggestions[i];
+                    if (suggestions[i].username != "Re-appearing" && suggestions[i].username != "Already-connected")
+                    {
+                      let { username, Firstname, Lastname, Age } = suggestions[i];
+                      let { Orientation, Gender, Bio } = suggestions[i];
+                      let { Hobby1, Hobby2, Hobby3, Hobby4, Hobby5 } = suggestions[i];
+                      let { fame_rating, profile_pic, last_seen} = suggestions[i];
             %>  
             <div class="suggestion">
                     <img src=<%=profile_pic %> alt="suggestion profile picture">
@@ -187,7 +168,7 @@
                       <button type="submit">view profile</button>
                     </form> 
             </div>
-            <%      i++;
+            <%     }i++;
                   }
               }
             %>

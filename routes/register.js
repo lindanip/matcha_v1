@@ -18,22 +18,22 @@ router.post('/', (req, res) => {
     
     else if (req.body.username.search(/\s/) == 0)
         res.render('register', {error: 'Username should not have spaces'});
-    // else if (req.body.username.search(/([A-Za-z0-9])/) != true)
-    //     res.render('register', {error: 'Username should has to be a word and have no special characters'});
+    else if (req.body.username.search(/([A-Za-z0-9])/) != 0)
+        res.render('register', {error: 'Username should has to be a word and have no special characters'});
     else if (req.body.username.length > 25)
         res.render('register', {error: 'Username should has to be less than 25 charcters'});
 
     else if (req.body.firstname.search(/\s/) == 0)
         res.render('register', {error: 'Firstname should not have spaces'});
-    // else if (req.body.firstname.search(/([A-Za-z0-9])/) != true)
-    //     res.render('register', {error: 'Firstname should has to be a word and have no special characters'});
+    else if (req.body.firstname.search(/([A-Za-z0-9])/) != 0)
+        res.render('register', {error: 'Firstname should has to be a word and have no special characters'});
     else if (req.body.firstname.length > 25)
         res.render('register', {error: 'Firstname should has to be less than 25 charcters'});
 
     else if (req.body.lastname.search(/\s/) == 0)
         res.render('register', {error: 'lastname should not have spaces'});
-    // else if (req.body.lastname.search(/([A-Za-z0-9])/) != true)
-    //     res.render('register', {error: 'lastname should has to be a word and have no special characters'});
+    else if (req.body.lastname.search(/([A-Za-z0-9])/) != 0)
+        res.render('register', {error: 'lastname should has to be a word and have no special characters'});
     else if (req.body.lastname.length > 25)
         res.render('register', {error: 'Lastname should has to be less than 25 charcters'});
     
@@ -82,7 +82,8 @@ router.post('/', (req, res) => {
                             res.render('register' , {msg: 'none', error: 'failed to connect to database. Please try again'});
                     });
 
-                    sql = 'INSERT INTO `user_filters` (`username`, `Age`, `Orientation`) VALUES (?, "None", "None")';
+                    sql = 'INSERT INTO `user_filters` (`username`, `Age`, `Fame_rating`, `City`, `Hobby1`, `Hobby2`) VALUES '+
+                        '(?, "None", "None", "None", "None", "None")';
                     connection.query(sql, [username], (err) => {
                         if (err)
                             res.render('register' , {msg: 'none', error: 'failed to connect to database. Please try again'});
@@ -136,39 +137,39 @@ router.post('/', (req, res) => {
                     // >
                     // end of the emailing process
 
-                    // let apiCall = unirest('GET', 'https://get.geojs.io/v1/ip');
-                    // apiCall.end((response) => {
-                    //     if (!response.body.length)
-                    //         res.render({msg: 'we need a message here'});
-                    //     else {
-                    //         ip_loc.getDomainOrIPDetails(response.body, 'json', (err, data) => {
-                    //             if (err)
-                    //                 res.render('login', {msg: 'we need a message here'});
-                    //             else{
-                    //                 sql = "UPDATE users SET Longitude = ? WHERE username = ?";
-                    //                 connection.query(sql, [data.lon, username], err => {
-                    //                     if (err)
-                    //                         res.render('login', {msg: 'we need a message here'});
-                    //                     console.log('longitude updated');
-                    //                 });
+                    let apiCall = unirest('GET', 'https://get.geojs.io/v1/ip');
+                    apiCall.end((response) => {
+                        if (!response.body.length)
+                            res.render({msg: 'we need a message here'});
+                        else {
+                            ip_loc.getDomainOrIPDetails(response.body, 'json', (err, data) => {
+                                if (err)
+                                    res.render('login', {msg: 'we need a message here'});
+                                else{
+                                    sql = "UPDATE users SET Longitude = ? WHERE username = ?";
+                                    connection.query(sql, [data.lon, username], err => {
+                                        if (err)
+                                            res.render('login', {msg: 'we need a message here'});
+                                        console.log('longitude updated');
+                                    });
                                     
-                    //                 sql = "UPDATE users SET Latitude = ? WHERE username = ?";
-                    //                 connection.query(sql, [data.lat, username], err => {
-                    //                     if (err)
-                    //                         res.render('login', {msg: 'we need a message here'});
-                    //                     console.log('latitude updated')
-                    //                 });
+                                    sql = "UPDATE users SET Latitude = ? WHERE username = ?";
+                                    connection.query(sql, [data.lat, username], err => {
+                                        if (err)
+                                            res.render('login', {msg: 'we need a message here'});
+                                        console.log('latitude updated')
+                                    });
 
-                    //                 sql = "UPDATE users SET City = ? WHERE username = ?";
-                    //                 connection.query(sql, [data.city, username], err => {
-                    //                     if (err)
-                    //                         res.render('login', {msg: 'we need a message here'});
-                    //                     console.log('city updated')
-                    //                 });
-                    //             }
-                    //         });
-                    //     }
-                    // });
+                                    sql = "UPDATE users SET City = ? WHERE username = ?";
+                                    connection.query(sql, [data.city, username], err => {
+                                        if (err)
+                                            res.render('login', {msg: 'we need a message here'});
+                                        console.log('city updated')
+                                    });
+                                }
+                            });
+                        }
+                    });
                     res.render('login' , {msg: 'check email to verify account', error: 'none'});
                 }
             }

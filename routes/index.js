@@ -16,6 +16,7 @@ router.get('/', (req, res) => {
         res.redirect('/login');
     else
     {
+        
         let { session } = req;
         let connections = 'none';
         let suggestions = 'This varible yes its not used but, but part for the returned object. please check res.render';
@@ -67,11 +68,11 @@ router.get('/', (req, res) => {
                                 let r = 0;
                                 let indx = 0;
                                 sql = 
-                                        'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`Firstname`,' +
+                                        'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`block_status`,`users`.`Firstname`,' +
                                         ' `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`,  `users`.`profile_pic`, `user_hobbies`.`Hobby1`,' +
                                         ' `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM ' +
                                         '`users` INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE ' +
-                                        ' `users`.`username` != ? AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
+                                        ' `users`.`username` != ? AND `users`.`block_status` = 0 AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
                                         '`user_hobbies`.`Hobby3` = ? OR `user_hobbies`.`Hobby4` = ? OR `user_hobbies`.`Hobby5` = ?)';
                                 
                                 connection.query(sql, [session.user, Hobby1, Hobby1, Hobby1, Hobby1, Hobby1], (err, suggByHobby1) => {
@@ -87,10 +88,10 @@ router.get('/', (req, res) => {
                                         }
                                         sql = 
                                                 'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`Firstname`,' +
-                                                ' `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`,  `users`.`profile_pic`, `user_hobbies`.`Hobby1`,' +
+                                                ' `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`,  `users`.`profile_pic`, `users`.block_status, `user_hobbies`.`Hobby1`,' +
                                                 ' `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM ' +
                                                 '`users` INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE ' +
-                                                ' `users`.`username` != ? AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
+                                                ' `users`.`username` != ? AND `users`.`block_status` = 0 AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
                                                 '`user_hobbies`.`Hobby3` = ? OR `user_hobbies`.`Hobby4` = ? OR `user_hobbies`.`Hobby5` = ?)';
 
                                         connection.query(sql, [session.user, Hobby2, Hobby2, Hobby2, Hobby2, Hobby2], (err, suggByHobby2) => {
@@ -105,11 +106,11 @@ router.get('/', (req, res) => {
                                                     r = 0;
                                                 }
                                                 sql = 
-                                                        'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`Firstname`,' +
+                                                        'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`block_status`,`users`.`Firstname`,' +
                                                         ' `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`,  `users`.`profile_pic`, `user_hobbies`.`Hobby1`,' +
                                                         ' `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM ' +
                                                         '`users` INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE ' +
-                                                        ' `users`.`username` != ? AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
+                                                        ' `users`.`username` != ? AND `users`.`block_status` = 0 AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
                                                         '`user_hobbies`.`Hobby3` = ? OR `user_hobbies`.`Hobby4` = ? OR `user_hobbies`.`Hobby5` = ?)';
 
                                                 connection.query(sql, [session.user, Hobby3, Hobby3, Hobby3, Hobby3, Hobby3], (err, suggByHobby3) => {
@@ -124,11 +125,11 @@ router.get('/', (req, res) => {
                                                             r = 0;
                                                         }
                                                         sql = 
-                                                                'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`Firstname`,' +
+                                                                'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`block_status`,`users`.`Firstname`,' +
                                                                 ' `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`,  `users`.`profile_pic`, `user_hobbies`.`Hobby1`,' +
                                                                 ' `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM ' +
                                                                 '`users` INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE ' +
-                                                                ' `users`.`username` != ? AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
+                                                                ' `users`.`username` != ? AND `users`.`block_status` = 0 AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
                                                                 '`user_hobbies`.`Hobby3` = ? OR `user_hobbies`.`Hobby4` = ? OR `user_hobbies`.`Hobby5` = ?)';
 
                                                         connection.query(sql, [session.user, Hobby4, Hobby4, Hobby4, Hobby4, Hobby4], (err, suggByHobby4) => {
@@ -143,11 +144,11 @@ router.get('/', (req, res) => {
                                                                     r = 0;
                                                                 }
                                                                 sql = 
-                                                                        'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`Firstname`,' +
+                                                                        'SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`block_status`,`users`.`Firstname`,' +
                                                                         ' `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`,  `users`.`profile_pic`, `user_hobbies`.`Hobby1`,' +
                                                                         ' `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM ' +
                                                                         '`users` INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE ' +
-                                                                        ' `users`.`username` != ? AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
+                                                                        ' `users`.`username` != ? AND `users`.`block_status` = 0 AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR ' +
                                                                         '`user_hobbies`.`Hobby3` = ? OR `user_hobbies`.`Hobby4` = ? OR `user_hobbies`.`Hobby5` = ?)';
 
                                                                 connection.query(sql, [session.user, Hobby5, Hobby5, Hobby5, Hobby5, Hobby5], (err, suggByHobby5) => {
@@ -205,152 +206,19 @@ router.get('/', (req, res) => {
 module.exports = router;
 
 
+router.post('/', (req, res) => {
+    if (!req.session.user)
+        res.redirect('/login');
+    else{
+        req.session.filters2 = {
+            age: req.body.filter1,
+            fame_rating: req.body.filter2,
+            hobby1: req.body.filter3,
+            hobby2: req.body.filter4
+        };
+        session = req.session;
+        
+        res.redirect('/index');
+    }
+});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// router.get('/', function(req, res) {
-//     if (req.session && req.session.user) { 
-//         connection.query("SELECT * FROM connections INNER JOIN `users` ON `connections`.`connected_to` = `users`.`username` JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE `connections`.`username` = ? AND `connections`.`accepted` = 1", [req.session.user], (err, row) => {
-//             if (err)
-//                 res.send("An error has occurred!");
-//             else
-//             {
-//                 if (row[0]) {
-//                             var user_info = {
-//                                 'username' : req.session.user,
-//                                 'Email' : req.session.Email,
-//                                 'Firstname' : req.session.Firstname,
-//                                 'Lastname' : req.session.Lastname,
-//                                 'profile_pic' : req.session.profile_pic,
-//                                 'longitude' : req.session.Longitude,
-//                                 'latitude' : req.session.Latitude,
-//                                 'gender' : req.session.Gender,
-//                                 'complete' : req.session.complete
-//                             }
-//                             connection.query('SELECT `user_hobbies`.`username`, `users`.`Age`, `users`.`profile_pic`,`user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `user_hobbies` INNER JOIN `users` ON `user_hobbies`.`username` = `users`.`username` WHERE `user_hobbies`.`username` = ?', [req.session.user], (err, row1) => {
-//                                 if (err) console.log(err)
-//                                 else
-//                                 {
-//                                     if (row1[0])
-//                                     {
-//                                         connection.query('SELECT `users`.`username`,`users`.`Gender`,`users`.`last_seen`,`users`.`fame_rating`,`users`.`Firstname`, `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`,  `users`.`profile_pic`, `user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `users` INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE `users`.`username` != ? AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR `user_hobbies`.`Hobby3` = ? OR `user_hobbies`.`Hobby4` = ? OR `user_hobbies`.`Hobby5` = ?) ORDER BY RAND() LIMIT 5', [req.session.user, row1[0].Hobby1, row1[0].Hobby1, row1[0].Hobby1, row1[0].Hobby1, row1[0].Hobby1], (err, result) => {
-//                                             if (err) console.log(err)
-//                                             else
-//                                             {
-//                                                 if (result[0]) {
-//                                                     res.render('index', {title: 'Express', user : user_info, connections : row, suggestions : result});
-//                                                 }
-//                                                 else { 
-//                                                     connection.query('SELECT `users`.`username`,`users`.`Firstname`, `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`,  `users`.`profile_pic`, `user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `users` INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE `users`.`City` = ? AND `users`.`username` != ? ORDER BY RAND() LIMIT 5', [req.session.city, req.session.user], (err3, result2) => {
-//                                                         if (err3) console.log(err)
-//                                                         else
-//                                                         {
-//                                                             console.log('entered other loop');
-//                                                             if (result2[0]) {
-//                                                                 res.render('index', {title: 'Express', user : user_info, connections : row, suggestions : result2});
-//                                                             }
-//                                                             else
-//                                                                 res.render('index', {title: 'Express', user : user_info, connections : row, suggestions : "none"});
-//                                                         }
-//                                                     })
-//                                                 }
-//                                             }
-                                            
-//                                         })
-//                                     }
-//                                     else
-//                                         res.render('index', {title: 'Express', user : user_info, connections : row});
-//                                 }
-//                             }) 
-//                 }
-//                 else
-//                 {
-//                     console.log("Major loop 2");
-//                     var user_info = {
-//                         'username' : req.session.user,
-//                         'Email' : req.session.Email,
-//                         'Firstname' : req.session.Firstname,
-//                         'Lastname' : req.session.Lastname,
-//                         'profile_pic' : req.session.profile_pic,
-//                         'longitude' : req.session.Longitude,
-//                         'latitude' : req.session.Latitude,
-//                         'complete' : req.session.complete
-//                     }
-//                     connection.query('SELECT `user_hobbies`.`username`, `users`.`Age`, `user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `user_hobbies` INNER JOIN `users` ON `user_hobbies`.`username` = `users`.`username` WHERE `user_hobbies`.`username` = ?', [req.session.user], (err, row1) => {
-//                         if (err) console.log(err)
-//                         else
-//                         {
-//                             if (row1[0])
-//                             {
-                                
-//                                 connection.query('SELECT `users`.`username`,`users`.`Firstname`, `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`,  `users`.`profile_pic`, `user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `users` INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE `users`.`username` != ? AND (`user_hobbies`.`Hobby1` = ? OR `user_hobbies`.`Hobby2` = ? OR `user_hobbies`.`Hobby3` = ? OR `user_hobbies`.`Hobby4` = ? OR `user_hobbies`.`Hobby5` = ?) ORDER BY RAND() LIMIT 5', [req.session.user, row1[0].Hobby1, row1[0].Hobby1, row1[0].Hobby1, row1[0].Hobby1, row1[0].Hobby1], (err, result) => {
-//                                     if (err) console.log(err)
-//                                     else
-//                                     {
-//                                         if (result[0]) {
-//                                             res.render('index', {title: 'Express', user : user_info, suggestions : result, connections : "none"});
-//                                         }
-//                                         else {
-                  
-//                                             connection.query('SELECT `users`.`username`,`users`.`Firstname`, `users`.`Lastname`, `users`.`Age`, `users`.`Orientation`,  `users`.`profile_pic`, `user_hobbies`.`Hobby1`, `user_hobbies`.`Hobby2`, `user_hobbies`.`Hobby3`, `user_hobbies`.`Hobby4`, `user_hobbies`.`Hobby5` FROM `users` INNER JOIN `user_hobbies` ON `users`.`username` = `user_hobbies`.`username` WHERE `users`.`City` = ? AND `users`.`username` != ? ORDER BY RAND() LIMIT 5', [req.session.city, req.session.user], (err3, result2) => {
-//                                                 if (err3) console.log(err)
-//                                                 else
-//                                                 {
-//                                                     console.log('entered other loop');
-//                                                     if (result2[0]) {
-//                                                         res.render('index', {title: 'Express', user : user_info, suggestions : result2, connections : "none"});
-//                                                     }
-//                                                     else
-//                                                     {
-//                                                         res.render('index', {title: 'Express', user : user_info, suggestions : "none", connections : "none"});
-//                                                     }
-//                                                 }
-//                                             })
-                                            
-//                                         }
-//                                         // res.render('index', {title: 'Express', user : user_info, connections : row});
-//                                     }
-                                    
-//                                 })
-//                             }
-//                         }
-//                     })
-//                 }
-                
-                
-//             }
-//         })
-//     }
-//     else {
-//         res.redirect('/login')
-//     }
-// });
-
-// module.exports = router;

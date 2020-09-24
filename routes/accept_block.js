@@ -16,7 +16,7 @@ router.post('/', (req, res) => {
         connection.query('UPDATE blocks SET accepted = 1 WHERE username = ? AND block_who = ?', [req.body.blocker_username, req.body.blockee_username], (err) => {
             if (err) console.log(err)
             else
-            {
+            {   connection.query('UPDATE users SET block_status = 1 WHERE username = ?', [req.body.blockee_username]);
                 console.log('Updated blocks');
                 req.session.message = "Connection succesfuly accepted";
                 res.redirect('/block_requests');

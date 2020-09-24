@@ -125,6 +125,8 @@
         <button class="toggle" id="loaction_btn" onclick="toggleLocationForm()">location</button>
         <div style="display: none;" id="location_form">
             <form method="POST" action="/settings">
+                <input type="hidden" name="Latitude" value="0">
+                <input type="hidden" name="Longitude" value="0">
                 <button type="submit">update location</button>
             </form>
         </div>
