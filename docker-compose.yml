@@ -1,0 +1,16 @@
+version: '3'
+services: 
+    app: 
+        container_name: docker-matcha
+        restart: always
+        build: .
+        ports: 
+            - '80:4000'
+        links:
+            - matchadb
+    mysql:
+        container_name: matchadb
+        image: mongo
+        ports: 
+            -  '3306:3306'
+        
